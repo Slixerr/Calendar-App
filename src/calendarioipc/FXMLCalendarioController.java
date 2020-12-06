@@ -10,7 +10,9 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 
 /**
  *
@@ -18,10 +20,24 @@ import javafx.scene.control.Label;
  */
 public class FXMLCalendarioController implements Initializable {
     
-    @FXML
     private Label label;
-    
     @FXML
+    private DatePicker day;
+    @FXML
+    private GridPane grid;
+    @FXML
+    private Label lunesCol;
+    @FXML
+    private Label martesCol;
+    @FXML
+    private Label miercoles;
+    @FXML
+    private Label juevesCol;
+    @FXML
+    private Label viernesCol;
+    @FXML
+    private Label slotSelected;
+    
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
