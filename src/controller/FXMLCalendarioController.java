@@ -15,12 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 /**
+ * FXML Controller class
  *
  * @author silvi
  */
 public class FXMLCalendarioController implements Initializable {
-    
-    private Label label;
+
     @FXML
     private DatePicker day;
     @FXML
@@ -37,15 +37,39 @@ public class FXMLCalendarioController implements Initializable {
     private Label viernesCol;
     @FXML
     private Label slotSelected;
-    
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-    
+    @FXML
+    private Label subjectLabel;
+    @FXML
+    private Label studentsLabel;
+    @FXML
+    private Label descriptionLabel;
+
+    /**
+     * Initializes the controller class.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void alumnoMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void subjectsMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void canceledMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void editMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void closeMethod(ActionEvent event) {
+    }
     
 }
