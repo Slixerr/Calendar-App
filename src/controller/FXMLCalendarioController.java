@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -43,13 +44,15 @@ public class FXMLCalendarioController implements Initializable {
     private Label studentsLabel;
     @FXML
     private Label descriptionLabel;
+    @FXML
+    private AnchorPane descriptionBox;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
 
     @FXML
