@@ -17,13 +17,13 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLCalendarioController">
+<StackPane prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLCalendarioController">
    <children>
       <GridPane gridLinesVisible="true" hgap="20.0" vgap="20.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="NEVER" />
-            <ColumnConstraints hgrow="NEVER" />
-            <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints hgrow="NEVER" maxWidth="44.0" minWidth="18.0" prefWidth="44.0" />
+            <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="0.0" prefWidth="200.0" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints vgrow="ALWAYS" />
@@ -46,12 +46,22 @@
                   <Insets top="20.0" />
                </padding>
             </VBox>
-            <VBox alignment="TOP_CENTER" spacing="40.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <VBox alignment="TOP_CENTER" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
                   <DatePicker fx:id="day" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
-                  <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefViewportHeight="500.0" prefViewportWidth="500.0" VBox.vgrow="NEVER">
+                  <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="60.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Region prefHeight="100.0" prefWidth="46.0" />
+                        <Label text="Lunes" />
+                        <Label text="Martes" />
+                        <Label text="Miércoles" />
+                        <Label text="Jueves" />
+                        <Label text="Viernes" />
+                     </children>
+                  </HBox>
+                  <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="509.0" prefViewportHeight="500.0" prefViewportWidth="500.0" prefWidth="616.0" VBox.vgrow="ALWAYS">
                      <content>
-                        <GridPane fx:id="grid" focusTraversable="true" maxWidth="1.7976931348623157E308" prefHeight="350.0">
+                        <GridPane fx:id="timeTable" focusTraversable="true" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <columnConstraints>
                               <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
                               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
@@ -61,17 +71,38 @@
                               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="-Infinity" prefHeight="30.0" vgrow="NEVER" />
-                              <RowConstraints minHeight="-Infinity" prefHeight="20.0" vgrow="NEVER" />
-                              <RowConstraints minHeight="-Infinity" prefHeight="20.0" vgrow="NEVER" />
-                              <RowConstraints minHeight="-Infinity" prefHeight="20.0" vgrow="NEVER" />
-                              <RowConstraints minHeight="-Infinity" prefHeight="20.0" vgrow="NEVER" />
-                              <RowConstraints minHeight="-Infinity" prefHeight="20.0" vgrow="NEVER" />
-                              <RowConstraints minHeight="-Infinity" prefHeight="20.0" vgrow="NEVER" />
+                              <RowConstraints prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
                            </rowConstraints>
                            <children>
-                              <Label fx:id="lunesCol" text="COLUMNA 1" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Label text="8:00 - 8:10" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                              <Label text="8:00" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -79,35 +110,54 @@
                                     <Insets right="4.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="8:10 - 8:20" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <Label text="8:30" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets right="4.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="8:20 - 8:30" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <Label text="9:00" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets right="4.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="8:30 - 8:40" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                              <Label text="9:30" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets right="4.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="8:40 - 8:50" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                              <Label text="10:00" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets right="4.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label text="8:50 - 9:00" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets right="4.0" />
-                                 </GridPane.margin>
+                              <Label layoutX="29.0" layoutY="142.0" text="10:30" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="17.0" text="11:00" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="17.0" text="11:30" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="17.0" text="12:00" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+                              <Label layoutX="27.0" layoutY="142.0" text="12:30" GridPane.halignment="RIGHT" GridPane.rowIndex="9" GridPane.valignment="CENTER" />
+                              <Label layoutX="40.0" layoutY="42.0" text="13:00" GridPane.halignment="RIGHT" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
                               </Label>
-                              <Label fx:id="martesCol" text="COLUMNA 2" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Label fx:id="miercoles" text="COLUMNA 3" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Label fx:id="juevesCol" text="COLUMNA 4" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Label fx:id="viernesCol" text="COLUMNA 5" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Label layoutX="40.0" layoutY="62.0" text="13:30" GridPane.halignment="RIGHT" GridPane.rowIndex="11" GridPane.valignment="CENTER" />
+                              <Label layoutX="40.0" layoutY="82.0" text="14:00" GridPane.halignment="RIGHT" GridPane.rowIndex="12" GridPane.valignment="CENTER" />
+                              <Label layoutX="33.0" layoutY="102.0" text="14:30" GridPane.halignment="RIGHT" GridPane.rowIndex="13" GridPane.valignment="CENTER" />
+                              <Label layoutX="27.0" layoutY="122.0" text="15:00" GridPane.halignment="RIGHT" GridPane.rowIndex="14" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="17.0" text="15:30" GridPane.halignment="RIGHT" GridPane.rowIndex="15" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="17.0" text="16:00" GridPane.halignment="RIGHT" GridPane.rowIndex="16" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="17.0" text="16:30" GridPane.halignment="RIGHT" GridPane.rowIndex="17" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="17.0" text="17:00" GridPane.halignment="RIGHT" GridPane.rowIndex="18" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="407.0" text="15:00" GridPane.halignment="RIGHT" GridPane.rowIndex="19" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="437.0" text="15:30" GridPane.halignment="RIGHT" GridPane.rowIndex="20" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="467.0" text="16:00" GridPane.halignment="RIGHT" GridPane.rowIndex="21" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="497.0" text="16:30" GridPane.halignment="RIGHT" GridPane.rowIndex="22" GridPane.valignment="CENTER" />
+                              <Label layoutX="10.0" layoutY="527.0" text="17:00" GridPane.halignment="RIGHT" GridPane.rowIndex="23" GridPane.valignment="CENTER" />
+                              <Label layoutX="81.0" layoutY="1027.0" text="17:30" GridPane.halignment="RIGHT" GridPane.rowIndex="24" GridPane.valignment="CENTER" />
+                              <Label layoutX="81.0" layoutY="1077.0" text="18:00" GridPane.halignment="RIGHT" GridPane.rowIndex="25" GridPane.valignment="CENTER" />
+                              <Label layoutX="81.0" layoutY="1127.0" text="18:30" GridPane.halignment="RIGHT" GridPane.rowIndex="26" GridPane.valignment="CENTER" />
+                              <Label layoutX="81.0" layoutY="1177.0" text="19:00" GridPane.halignment="RIGHT" GridPane.rowIndex="27" GridPane.valignment="CENTER" />
+                              <Label layoutX="81.0" layoutY="1227.0" text="19:30" GridPane.halignment="RIGHT" GridPane.rowIndex="28" GridPane.valignment="CENTER" />
                            </children>
                         </GridPane>
                      </content>
@@ -122,7 +172,7 @@
                   <Insets top="50.0" />
                </padding>
             </VBox>
-            <VBox spacing="20.0" GridPane.columnIndex="1">
+            <VBox disable="true" spacing="20.0" visible="false" GridPane.columnIndex="1">
                <children>
                   <Label text="Asignaturas" VBox.vgrow="ALWAYS">
                      <font>

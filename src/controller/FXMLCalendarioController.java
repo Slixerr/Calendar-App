@@ -25,18 +25,6 @@ public class FXMLCalendarioController implements Initializable {
     @FXML
     private DatePicker day;
     @FXML
-    private GridPane grid;
-    @FXML
-    private Label lunesCol;
-    @FXML
-    private Label martesCol;
-    @FXML
-    private Label miercoles;
-    @FXML
-    private Label juevesCol;
-    @FXML
-    private Label viernesCol;
-    @FXML
     private Label slotSelected;
     @FXML
     private Label subjectLabel;
@@ -46,6 +34,8 @@ public class FXMLCalendarioController implements Initializable {
     private Label descriptionLabel;
     @FXML
     private AnchorPane descriptionBox;
+    @FXML
+    private GridPane timeTable;
 
     /**
      * Initializes the controller class.
