@@ -214,20 +214,12 @@ public class FXMLCalendarioController implements Initializable {
             //Bounds pb2 = timeTable.getBoundsInParent();
             //System.out.println(pb.getHeight()+"  "+pb2.getHeight()/ROW_SPAN);
             //System.out.println(pb.getWidth()+"  "+timeTable.getWidth()/COL_SPAN);
-            
-            /*
-            TimeSlot hovered = timeSlotOver(event);
-            if (hovered != null) {
-                hovered.setSelected(true);
-                lastHovered = hovered;
-                timeSlotSelected.setValue(timeSlot);
-            }*/
         });
         
         timeSlot.getView().setOnMouseDragged((MouseEvent event) -> {
             TimeSlot hovered = timeSlotOver(event);
             if (hovered != null) {
-                if (hovered != lastHovered && Math.abs(hovered.getRow() - lastHovered.getRow()) < 2){//
+                if (hovered != lastHovered && allowContinue(hovered)){
                     if(Math.abs(timeSlot.getRow() - hovered.getRow()) > 
                             Math.abs(timeSlot.getRow() - lastHovered.getRow())) {
                         hovered.setSelected(!hovered.isSelected());
@@ -254,6 +246,50 @@ public class FXMLCalendarioController implements Initializable {
                 }
             }
         });
+    }
+    
+    private boolean allowContinue(TimeSlot currTS) {
+        boolean res = Math.abs(currTS.getRow() - lastHovered.getRow()) < 2;
+        if(res) return true;
+        res = fillBlanks(currTS);
+        return res;
+    }
+    
+    private boolean fillBlanks(TimeSlot timeSlot) {
+        /*
+        This method aims to reduce errors caused by moving the mouse too fast
+        If it detects a space between the last cell the mouse has hovered over
+        and the current cell, it will fill in the space (checking to see if there
+        are any booked cells within.
+        
+        There is still a bug present, movement in a single direction is now solved
+        but if the mouse moves in both directions spaces will occur.
+        Theoretically, this should never occur, (maybe there's some concurrency
+        happening which I dont know about).
+        
+        The important part is that the bug is only visual, despite there being holes
+        in the selection as soon as the mouse is released they dissapear (as the time
+        slots are correct).
+        
+        I still would like to have it solved.
+        */
+        boolean res = true;
+        TimeSlot currTS = null;
+        int i;
+        int sign = (int)Math.signum(timeSlot.getRow()-lastHovered.getRow());
+        for (i = lastHovered.getRow() + sign; res && i != timeSlot.getRow(); i+=sign) {
+            currTS = timeSlots.get(pressedCol-1).get(i-1);
+            res = !currTS.isBooked();
+            System.out.println(i+": "+res);
+            if(res) {
+                currTS.setSelected(!currTS.isSelected());
+            }
+        }
+        if(res){
+            lastHovered=timeSlots.get(pressedCol-1).get(i - sign-1);
+            timeSlotSelected.setValue(lastHovered);
+        }
+        return res;
     }
     
     private void resetTimeSlots() {
