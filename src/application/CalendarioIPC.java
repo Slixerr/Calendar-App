@@ -19,7 +19,7 @@ public class CalendarioIPC extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLCalendario.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLCalendario.fxml"));
         
         Scene scene = new Scene(root);
         

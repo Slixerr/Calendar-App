@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLCalendarioController">
+<StackPane prefWidth="900.0" stylesheets="@../resources/calendar-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLCalendarioController">
    <children>
       <GridPane gridLinesVisible="true" hgap="20.0" vgap="20.0">
          <columnConstraints>
@@ -68,18 +68,18 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Lunes" GridPane.columnIndex="1" />
-                        <Label text="Martes" GridPane.columnIndex="2" />
-                        <Label text="Miércoles" GridPane.columnIndex="3" />
-                        <Label text="Jueves" GridPane.columnIndex="4" />
-                        <Label text="Viernes" GridPane.columnIndex="5" />
+                        <Label fx:id="lunesCol" text="Lunes" GridPane.columnIndex="1" />
+                        <Label fx:id="martesCol" text="Martes" GridPane.columnIndex="2" />
+                        <Label fx:id="miercoles" text="Miércoles" GridPane.columnIndex="3" />
+                        <Label fx:id="juevesCol" text="Jueves" GridPane.columnIndex="4" />
+                        <Label fx:id="viernesCol" text="Viernes" GridPane.columnIndex="5" />
                      </children>
                   </GridPane>
                   <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="509.0" prefViewportHeight="500.0" prefViewportWidth="500.0" prefWidth="616.0" VBox.vgrow="ALWAYS">
                      <content>
                         <GridPane fx:id="timeTable" focusTraversable="true" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
                               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
                               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
                               <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
