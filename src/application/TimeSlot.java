@@ -6,7 +6,6 @@
 package application;
 
 import controller.FXMLCalendarioController;
-import static controller.FXMLCalendarioController.SLOT_LENGTH;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -16,8 +15,13 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-
+import static controller.FXMLCalendarioController.pressedCol;
+import static application.CalendarioIPC.COL_SPAN;
+import static controller.FXMLCalendarioController.TIME_COL_WIDTH;
+import javafx.scene.Parent;
 
 /**
  *
@@ -30,7 +34,7 @@ public class TimeSlot extends Position{
     protected final Pane view;
     private boolean booked;
     private final BooleanProperty selected = new SimpleBooleanProperty();
-
+    
     public final BooleanProperty selectedProperty() {
         return selected;
     }
@@ -67,7 +71,7 @@ public class TimeSlot extends Position{
     }
     
     public LocalDateTime getEnd() {
-        return start.plus(SLOT_LENGTH);
+        return start.plus(CalendarioIPC.SLOT_LENGTH);
     }
     
     public static int rowFromTime(LocalDateTime time) {

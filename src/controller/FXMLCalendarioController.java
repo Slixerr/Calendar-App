@@ -5,8 +5,10 @@
  */
 package controller;
 
+import application.CalendarioIPC;
 import application.Position;
 import application.TimeSlot;
+import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -18,15 +20,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
@@ -35,12 +43,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-/**
- * FXML Controller class
- *
- * @author silvi
- */
 public class FXMLCalendarioController implements Initializable {
 
     @FXML
@@ -88,17 +94,9 @@ public class FXMLCalendarioController implements Initializable {
     private void closeMethod(ActionEvent event) {
     }
     
-    private final LocalTime firstSlotStart = LocalTime.of(8, 0);
-    public static final Duration SLOT_LENGTH = Duration.ofMinutes(10);
-    private final LocalTime lastSlotStart = LocalTime.of(19, 50);
+    public static final int TIME_COL_WIDTH = 100; // Since the first column doesnt rezise, a special case is implemented for it
     
-    
-    // for this aproach to work ALL ROWS AND COLUMNS MUST BE THE SAME SIZE
-    public final static int ROW_SPAN = 87;//Note that the implementation on the final table will be different as the initial row will not exist
-    public final static int COL_SPAN = 5;
-    private int TIME_COL = 100;
-    
-    private int pressedCol = 0;
+    public static int pressedCol = 0;
     private TimeSlot lastHovered = null;
     private Label slotSelected;
     
@@ -107,7 +105,7 @@ public class FXMLCalendarioController implements Initializable {
     // se puede cambiar por codigo la pseudoclase activa de un nodo    
     public static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
 
-    private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSolt>>
+    private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSlot>>
 
     private ObjectProperty<LocalDateTime[]> bookingTime;
 
@@ -117,42 +115,39 @@ public class FXMLCalendarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        gridBounds = timeTable.localToScene(timeTable.getBoundsInLocal());
-        /*timeTable.boundsInLocalProperty().addListener((a,b,c) -> {
-            gridBounds = timeTable.localToScene(c);
-        });*/
-        
-        slotSelected = new Label();
-        slotSelected.setMouseTransparent(true);
-        // dejo los label de las columnas en un list<> para usarlo en un bucle
+        addDayLabels();
+        createBoundsListener();
+        createBookingListener();
+        createDayListener();
+    }
+    
+    private void addDayLabels() {
         diasSemana= new ArrayList<>();
         diasSemana.add(lunesCol);
         diasSemana.add(martesCol);
         diasSemana.add( miercoles);
         diasSemana.add(juevesCol);
         diasSemana.add( viernesCol);
-
-      
-        bookingTime = new SimpleObjectProperty<>();
-
-        //---------------------------------------------------------------------
-        //inicializa el DatePicker al dia actual
-        day.setValue(LocalDate.now());
-
-        //---------------------------------------------------------------------
-        // pinta los SlotTime en el grid
-        setTimeSlotsGrid(day.getValue());
-
-        //---------------------------------------------------------------------
-        //cambia los SlotTime al cambiar de dia
-        day.valueProperty().addListener((a, b, c) -> {
-            setTimeSlotsGrid(c);
+    }
+    
+    private void createBoundsListener() {
+        //gridBounds = timeTable.localToScene(timeTable.getBoundsInLocal());
+        timeTable.boundsInLocalProperty().addListener((a,b,c) -> {  //use 2 listeners
+            gridBounds = timeTable.localToScene(c);
         });
+        timeTable.localToSceneTransformProperty().addListener((a,b,c) -> {  //use 2 listeners
+            gridBounds = timeTable.localToScene(timeTable.getBoundsInLocal());
+        });
+    }
 
+    private void createBookingListener() {
+        bookingTime = new SimpleObjectProperty<>();
         bookingTime.addListener((a, b, c) -> {
             reorder(c);
             modifyTimeLabel(c[0], c[1]);
-            timeTable.add(slotSelected, pressedCol, TimeSlot.rowFromTime(c[0]));
+            try{
+                timeTable.add(slotSelected, pressedCol, TimeSlot.rowFromTime(c[0]));}
+            catch(Exception ignored){}
         });
     }
     
@@ -177,27 +172,32 @@ public class FXMLCalendarioController implements Initializable {
         }
     }
 
+    private void createDayListener() {
+        //inicializa el DatePicker al dia actual
+        day.setValue(LocalDate.now());
+        // pinta los SlotTime en el grid
+        setTimeSlotsGrid(day.getValue());
+        //cambia los SlotTime al cambiar de dia
+        day.valueProperty().addListener((a, b, c) -> {
+            setTimeSlotsGrid(c);
+        });
+    }
+
     private void setTimeSlotsGrid(LocalDate date) {
         //actualizamos la seleccion
         bookingTime.setValue(null);
-
-        //--------------------------------------------        
+  
         //borramos los SlotTime del grid
         ObservableList<Node> children = timeTable.getChildren();
-        for (List<TimeSlot> dias : timeSlots) {
-            for (TimeSlot timeSlot : dias) {
-                for (Node node : children) {
-
-                }
+        timeSlots.forEach(dias -> {
+            dias.forEach(timeSlot -> {
                 children.remove(timeSlot.getView());
-            }
-        }
+            });
+        });
 
         timeSlots = new ArrayList<>();
 
-        //---------------------------------------------------------------------------
         // recorremos para cada Columna y creamos para cada slot
-
         LocalDate startOfWeek = date.minusDays(date.getDayOfWeek().getValue() - 1);
         LocalDate endOfWeek = startOfWeek.plusDays(4);
         int diaIndex = 1;
@@ -205,15 +205,14 @@ public class FXMLCalendarioController implements Initializable {
             diasSemana.get(diaIndex - 1).setText(dia.getDayOfWeek()+System.lineSeparator()+dia.toString());
             List<TimeSlot> slotsDia = new ArrayList<>();
             timeSlots.add(slotsDia);
-            //----------------------------------------------------------------------------------
             // desde la hora de inicio y hasta la hora de fin creamos slotTime segun la duracion
             int slotIndex = 0;
-            for (LocalDateTime startTime = dia.atTime(firstSlotStart);
-                    !startTime.isAfter(dia.atTime(lastSlotStart));
-                    startTime = startTime.plus(SLOT_LENGTH)) {
+            for (LocalDateTime startTime = dia.atTime(CalendarioIPC.SLOTS_FIRST);
+                    !startTime.isAfter(dia.atTime(CalendarioIPC.SLOTS_LAST));
+                    startTime = startTime.plus(CalendarioIPC.SLOT_LENGTH)) {
 
                 // here is where the complexities of accesing a db should be implemented in part
-                TimeSlot timeSlot = new TimeSlot(startTime, SLOT_LENGTH, new Position(diaIndex, slotIndex), null, false);
+                TimeSlot timeSlot = new TimeSlot(startTime, CalendarioIPC.SLOT_LENGTH, new Position(diaIndex, slotIndex), null, false);
                 slotsDia.add(timeSlot);
                 registerHandlers(timeSlot);
                 
@@ -226,22 +225,30 @@ public class FXMLCalendarioController implements Initializable {
     }
 
     private void registerHandlers(TimeSlot timeSlot) {
-        timeSlot.getView().setOnMousePressed((MouseEvent event) -> {
+        
+        createOnMousePressedHandler(timeSlot);
+        
+        createOnMouseDraggedHandler(timeSlot);
+        
+        createOnMouseReleasedHandler(timeSlot);
+    }
+
+    private void createOnMousePressedHandler(TimeSlot timeSlot) {
+        timeSlot.getView().setOnMousePressed((MouseEvent event) ->{
+            if(slotSelected==null){
+                slotSelected = new Label();
+                slotSelected.setMouseTransparent(true);
+            }
             resetTimeSlots();
-            gridBounds = timeTable.localToScene(timeTable.getBoundsInLocal());
-            pressedCol = (int)((event.getSceneX()-gridBounds.getMinX()- TIME_COL)/((timeTable.getWidth()-TIME_COL)/COL_SPAN)) + 1;
+            pressedCol = (int)((event.getSceneX()-gridBounds.getMinX()- TIME_COL_WIDTH)/((timeTable.getWidth()-TIME_COL_WIDTH)/CalendarioIPC.COL_SPAN)) + 1;
             timeSlot.setSelected(true);
             lastHovered = timeSlot;
-            
-            bookingTime.setValue(new LocalDateTime[]{timeSlot.getStart(),timeSlot.getEnd()});
 
-            //Pane pane = (Pane)(event.getSource());
-            //Bounds pb = pane.localToScene(pane.getBoundsInLocal());
-            //Bounds pb2 = timeTable.getBoundsInParent();
-            //System.out.println(pb.getHeight()+"  "+pb2.getHeight()/ROW_SPAN);
-            //System.out.println(pb.getWidth()+"  "+timeTable.getWidth()/COL_SPAN);
+            bookingTime.setValue(new LocalDateTime[]{timeSlot.getStart(),timeSlot.getEnd()});
         });
-        
+    }
+
+    private void createOnMouseDraggedHandler(TimeSlot timeSlot) {
         timeSlot.getView().setOnMouseDragged((MouseEvent event) -> {
             TimeSlot hovered = timeSlotOver(event);
             if (hovered != null) {
@@ -263,12 +270,14 @@ public class FXMLCalendarioController implements Initializable {
                 
             }
         });
-        
+    }
+
+    private void createOnMouseReleasedHandler(TimeSlot timeSlot) {
         timeSlot.getView().setOnMouseReleased((MouseEvent event) -> {
             // confirmed on doubleClick
             if (event.getClickCount() > 1) {
                 Optional<ButtonType> result = confirmSelection(timeSlot);
-                if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (result == null || result.isPresent() && result.get() == ButtonType.OK) {
                     boolean order = lastHovered.getRow() > timeSlot.getRow();
                     int max = order ? lastHovered.getRow() : timeSlot.getRow();
                     int min = !order ? lastHovered.getRow() : timeSlot.getRow();
@@ -283,50 +292,59 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private boolean allowContinue(TimeSlot base, TimeSlot currTS) {
-        boolean res = Math.abs(currTS.getRow() - lastHovered.getRow()) < 2;
+        boolean res = currTS != base && Math.abs(currTS.getRow() - lastHovered.getRow()) < 2;
         if(res) return true;
         res = fillBlanks(base, currTS);
         return res;
     }
     
-    private boolean fillBlanks(TimeSlot base, TimeSlot timeSlot) {
-        /*
-        This method aims to reduce errors caused by moving the mouse too fast
-        If it detects a space between the last cell the mouse has hovered over
-        and the current cell, it will fill in the space (checking to see if there
-        are any booked cells within.
+    /*
+    This method aims to reduce errors caused by moving the mouse too fast
+    If it detects a space between the last cell the mouse has hovered over
+    and the current cell, it will fill in the space (checking to see if there
+    are any booked cells within.
+
+    There is still a bug present, movement in both directions is now solved
+    but errors occur when moving in front of the base value.
+
+    The important part is that the bug is only visual, despite there being holes
+    in the selection as soon as the mouse is released they dissapear (as the time
+    slots are correct).
+
+    I still would like to have it solved.
+    */
+    private boolean fillBlanks(TimeSlot base, TimeSlot currentSlot) {
         
-        There is still a bug present, movement in a single direction is now solved
-        but if the mouse moves in both directions spaces will occur.
-        
-        The important part is that the bug is only visual, despite there being holes
-        in the selection as soon as the mouse is released they dissapear (as the time
-        slots are correct).
-        
-        I still would like to have it solved.
-        */
-        if(Math.abs(base.getRow() - timeSlot.getRow())  <
-            Math.abs(base.getRow() - lastHovered.getRow())) {
-            lastHovered.setSelected(!lastHovered.isSelected());
-        }
         boolean res = true;
-        TimeSlot currTS = null;
         int i;
-        int sign = (int)Math.signum(timeSlot.getRow()-lastHovered.getRow());
-        for (i = lastHovered.getRow() + sign; res && i != timeSlot.getRow(); i+=sign) {
+        int sign = (int)Math.signum(currentSlot.getRow()-lastHovered.getRow());
+        
+        TimeSlot currTS = null;
+        for (i = lastHovered.getRow() + sign; res && i != currentSlot.getRow(); i+=sign) {
             currTS = timeSlots.get(pressedCol-1).get(i);
             res = !currTS.isBooked();
-            if(res) {
+            if(res && currTS != base) {
                 currTS.setSelected(!currTS.isSelected());
             }
         }
-        if(res){
-            lastHovered=timeSlots.get(pressedCol-1).get(i - sign);
+        
+        if((Math.abs(base.getRow() - currentSlot.getRow())  <
+            Math.abs(base.getRow() - lastHovered.getRow()))) {
+            // calculate the results this gives if current/last == base
+            lastHovered.setSelected(false); // error here somewhere
+        }
+        
+        lastHovered=timeSlots.get(pressedCol-1).get(i-(2*sign));
+        
+        if((Math.abs(base.getRow() - currentSlot.getRow())  <
+            Math.abs(base.getRow() - lastHovered.getRow()))) {
+            
+            lastHovered.setSelected(true);
         }
         return res;
     }
     
-    private void resetTimeSlots() {
+    public void resetTimeSlots() {
         timeSlots.forEach(currDay -> {
             currDay.forEach(slot -> {
                 slot.setSelected(false);
@@ -334,23 +352,27 @@ public class FXMLCalendarioController implements Initializable {
         });
     }
 
-    private TimeSlot timeSlotOver(MouseEvent event) { 
+    private TimeSlot timeSlotOver(MouseEvent event) { //utilizar posición
         Pane pane = (Pane)(event.getSource());//unnecessary but theres a bug in grid.getHeight() I don't understand
         Bounds paneBounds = pane.localToScene(pane.getBoundsInLocal());
-        gridBounds = timeTable.localToScene(timeTable.getBoundsInLocal());
         int row = (int)((event.getSceneY()-gridBounds.getMinY())/(paneBounds.getHeight()));
         TimeSlot slot = timeSlots.get(pressedCol-1).get(row);
         return (slot.isBooked()) ? null : slot;
     }
 
     private Optional<ButtonType> confirmSelection(TimeSlot timeSlot) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("SlotTime");
-        alerta.setHeaderText("Confirma la selecció");
-        alerta.setContentText("Has seleccionat: "
-                + timeSlot.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)) + ", "
-                + timeSlot.getTime().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
-        Optional<ButtonType> result = alerta.showAndWait();
-        return result;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLSubject.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException ignored) {}
+        Scene scene = new Scene(root);
+        Stage ventana2= new Stage();
+        ventana2.setTitle("Ventana MODAL (2)");
+        ventana2.initModality(Modality.APPLICATION_MODAL);
+        ventana2.initStyle(StageStyle.UNDECORATED);
+        ventana2.setScene(scene);
+        ventana2.showAndWait();
+        return null;
     }
 }

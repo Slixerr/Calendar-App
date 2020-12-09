@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package referencias.modelo;
 
+import referencias.modelo.Alumno;
 import java.time.Duration;
 import modelo.util.LocalDateAdapter;
 import java.time.LocalDate;
