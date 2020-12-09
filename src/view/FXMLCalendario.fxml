@@ -216,11 +216,6 @@
                         </GridPane>
                      </content>
                   </ScrollPane>
-                  <Label fx:id="slotSelected" textFill="#6811f5">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
                </children>
                <padding>
                   <Insets top="30.0" />

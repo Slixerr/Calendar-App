@@ -6,6 +6,7 @@
 package application;
 
 import controller.FXMLCalendarioController;
+import static controller.FXMLCalendarioController.SLOT_LENGTH;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -63,6 +64,14 @@ public class TimeSlot extends Position{
 
     public LocalDateTime getStart() {
         return start;
+    }
+    
+    public LocalDateTime getEnd() {
+        return start.plus(SLOT_LENGTH);
+    }
+    
+    public static int rowFromTime(LocalDateTime time) {
+        return (time.getHour()-8)*6 + (int)(time.getMinute()/10);
     }
 
     public LocalTime getTime() {
