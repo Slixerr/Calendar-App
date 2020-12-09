@@ -26,22 +26,30 @@ public class TimeSlot extends Position{
     private final LocalDateTime start;
     private final Duration duration;
     protected final Pane view;
-    private boolean booked;
     private final BooleanProperty selected = new SimpleBooleanProperty();
+    private final BooleanProperty booked = new SimpleBooleanProperty();
     
     public final BooleanProperty selectedProperty() {
         return selected;
     }
+    
+    public final BooleanProperty bookedProperty() {
+        return booked;
+    }
 
     public final boolean isSelected() {
         return selectedProperty().get();
+    }
+    
+    public final boolean isBooked() {
+        return bookedProperty().get();
     }
 
     public final void setSelected(boolean selected) {
         selectedProperty().set(selected);
     }
 
-    public TimeSlot(LocalDateTime start, Duration duration, Position gridPos, TimeSlot last, boolean booked) {
+    public TimeSlot(LocalDateTime start, Duration duration, Position gridPos, TimeSlot last) {
         super(gridPos.col, gridPos.row);
         this.start = start;
         this.duration = duration;
@@ -50,14 +58,13 @@ public class TimeSlot extends Position{
         // ---------------------------------------------------------------
         // de esta manera cambiamos la apariencia del TimeSlot cuando los seleccionamos
         selectedProperty().addListener((obs, wasSelected, isSelected) -> view.pseudoClassStateChanged(FXMLCalendarioController.SELECTED_PSEUDO_CLASS, isSelected));
-        this.booked = booked;
+        bookedProperty().addListener((obs, wasBooked, isBooked) -> view.pseudoClassStateChanged(FXMLCalendarioController.BOOKED_PSEUDO_CLASS, isBooked));
     }
 
     public void setBooked() {
         ObservableList<String> styles = view.getStyleClass();
         styles.remove("time-slot");
         styles.add("time-slot-libre");
-        booked = true;
     }
 
     public LocalDateTime getStart() {

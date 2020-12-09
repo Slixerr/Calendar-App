@@ -24,6 +24,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -39,6 +41,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -46,6 +49,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import referencias.modelo.Tutoria;
 
 public class FXMLCalendarioController implements Initializable {
 
@@ -104,6 +108,7 @@ public class FXMLCalendarioController implements Initializable {
 
     // se puede cambiar por codigo la pseudoclase activa de un nodo    
     public static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
+    public static final PseudoClass BOOKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("active");
 
     private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSlot>>
 
@@ -112,6 +117,8 @@ public class FXMLCalendarioController implements Initializable {
     private List<Label> diasSemana;
     
     private Bounds gridBounds;
+    
+    private ObservableList<Tutoria> tutorias = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -119,6 +126,23 @@ public class FXMLCalendarioController implements Initializable {
         createBoundsListener();
         createBookingListener();
         createDayListener();
+        createDataLists();
+    }
+    
+    private void createDataLists() {
+        ArrayList<Tutoria> misdatos = new ArrayList<Tutoria>();
+        tutorias = FXCollections.observableArrayList(misdatos);
+        tutorias.addListener((Change<? extends Tutoria> c) -> {
+             while (c.next()) {
+                if (c.wasUpdated()) {
+                    int start = c.getFrom() ;
+                    int end = c.getTo() ;
+                    for (int i = start ; i < end ; i++) {
+                        c.getList().get(i).
+                    }
+                }
+            }
+        });
     }
     
     private void addDayLabels() {
@@ -376,3 +400,20 @@ public class FXMLCalendarioController implements Initializable {
         return null;
     }
 }
+
+
+ class MiCelda extends ListCell<Tutoria>{
+
+    @Override
+    protected void updateItem(Tutoria item, boolean empty) {
+        super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
+        if(empty || item == null) {
+            setText("");
+        }
+        else {
+            setText(item.getNombre());
+        }
+    }
+        
+    
+    }
