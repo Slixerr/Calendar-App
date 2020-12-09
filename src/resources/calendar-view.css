@@ -13,7 +13,7 @@ and open the template in the editor.
 	-fx-background-insets: 0, 1 1 0 0 ;
 }
 
-.time-slot-libre{
+.time-slot:active{
     -fx-background-color: red, #ccccff ;
 	-fx-background-insets: 0, 1 1 0 0 ;
 }
