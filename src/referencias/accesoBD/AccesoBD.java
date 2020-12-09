@@ -48,8 +48,7 @@ public class AccesoBD {
         if (!cargado) {
             misTutorias = null;
             try {
-                String camino = path;
-                File file = new File(camino);
+                File file = new File(path);
                 JAXBContext jaxbContext = JAXBContext.newInstance(Tutorias.class);
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                 misTutorias = (Tutorias) jaxbUnmarshaller.unmarshal(file);
@@ -67,7 +66,7 @@ public class AccesoBD {
      *
      */
     public void salvar() {
-        if (misTutorias == null) {
+        if (!cargado && misTutorias == null) {
             misTutorias = new Tutorias();
             cargado = true;
         }

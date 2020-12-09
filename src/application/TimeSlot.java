@@ -15,13 +15,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import static controller.FXMLCalendarioController.pressedCol;
-import static application.CalendarioIPC.COL_SPAN;
-import static controller.FXMLCalendarioController.TIME_COL_WIDTH;
-import javafx.scene.Parent;
 
 /**
  *
