@@ -112,6 +112,8 @@ public class FXMLCalendarioController implements Initializable {
     private List<Label> diasSemana;
     
     private Bounds gridBounds;
+    
+    int counter=0;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -242,6 +244,7 @@ public class FXMLCalendarioController implements Initializable {
             resetTimeSlots();
             pressedCol = (int)((event.getSceneX()-gridBounds.getMinX()- TIME_COL_WIDTH)/((timeTable.getWidth()-TIME_COL_WIDTH)/CalendarioIPC.COL_SPAN)) + 1;
             timeSlot.setSelected(true);
+            timeSlot.blockSelected();
             lastHovered = timeSlot;
 
             bookingTime.setValue(new LocalDateTime[]{timeSlot.getStart(),timeSlot.getEnd()});
@@ -256,9 +259,9 @@ public class FXMLCalendarioController implements Initializable {
                     boolean movingDown = Math.abs(timeSlot.getRow() - hovered.getRow()) > 
                             Math.abs(timeSlot.getRow() - lastHovered.getRow());
                     if(movingDown) {
-                        hovered.setSelected(!hovered.isSelected());
+                        hovered.setSelected(true);
                     }else {
-                        lastHovered.setSelected(!lastHovered.isSelected());
+                        lastHovered.setSelected(false);
                     }
                     lastHovered = hovered;
                     if (timeSlot.getRow() < hovered.getRow()) {//check for when diff == 1 edge case
@@ -276,6 +279,7 @@ public class FXMLCalendarioController implements Initializable {
         timeSlot.getView().setOnMouseReleased((MouseEvent event) -> {
             // confirmed on doubleClick
             if (event.getClickCount() > 1) {
+                timeSlot.unBlockSelected();
                 Optional<ButtonType> result = confirmSelection(timeSlot);
                 if (result == null || result.isPresent() && result.get() == ButtonType.OK) {
                     boolean order = lastHovered.getRow() > timeSlot.getRow();
@@ -292,7 +296,7 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private boolean allowContinue(TimeSlot base, TimeSlot currTS) {
-        boolean res = currTS != base && Math.abs(currTS.getRow() - lastHovered.getRow()) < 2;
+        boolean res = Math.abs(currTS.getRow() - lastHovered.getRow()) < 2;
         if(res) return true;
         res = fillBlanks(base, currTS);
         return res;
@@ -303,15 +307,6 @@ public class FXMLCalendarioController implements Initializable {
     If it detects a space between the last cell the mouse has hovered over
     and the current cell, it will fill in the space (checking to see if there
     are any booked cells within.
-
-    There is still a bug present, movement in both directions is now solved
-    but errors occur when moving in front of the base value.
-
-    The important part is that the bug is only visual, despite there being holes
-    in the selection as soon as the mouse is released they dissapear (as the time
-    slots are correct).
-
-    I still would like to have it solved.
     */
     private boolean fillBlanks(TimeSlot base, TimeSlot currentSlot) {
         
@@ -323,24 +318,20 @@ public class FXMLCalendarioController implements Initializable {
         for (i = lastHovered.getRow() + sign; res && i != currentSlot.getRow(); i+=sign) {
             currTS = timeSlots.get(pressedCol-1).get(i);
             res = !currTS.isBooked();
-            if(res && currTS != base) {
+            if(res) {
                 currTS.setSelected(!currTS.isSelected());
             }
         }
         
         if((Math.abs(base.getRow() - currentSlot.getRow())  <
-            Math.abs(base.getRow() - lastHovered.getRow()))) {
-            // calculate the results this gives if current/last == base
-            lastHovered.setSelected(false); // error here somewhere
-        }
-        
-        lastHovered=timeSlots.get(pressedCol-1).get(i-(2*sign));
-        
-        if((Math.abs(base.getRow() - currentSlot.getRow())  <
-            Math.abs(base.getRow() - lastHovered.getRow()))) {
+            Math.abs(base.getRow() - lastHovered.getRow())) || (
+            Math.signum(base.getRow() - currentSlot.getRow()) !=
+            Math.signum(base.getRow() - lastHovered.getRow()))) {
             
-            lastHovered.setSelected(true);
+            lastHovered.setSelected(false);
         }
+        
+        lastHovered=timeSlots.get(pressedCol-1).get(i-sign);
         return res;
     }
     

@@ -27,10 +27,19 @@ public class TimeSlot extends Position{
     private final Duration duration;
     protected final Pane view;
     private boolean booked;
+    private boolean selectedBlocked = false;
     private final BooleanProperty selected = new SimpleBooleanProperty();
     
     public final BooleanProperty selectedProperty() {
         return selected;
+    }
+    
+    public final void blockSelected() {
+        selectedBlocked = true;
+    }
+    
+    public final void unBlockSelected() {
+        selectedBlocked = false;
     }
 
     public final boolean isSelected() {
@@ -38,7 +47,7 @@ public class TimeSlot extends Position{
     }
 
     public final void setSelected(boolean selected) {
-        selectedProperty().set(selected);
+        if(!selectedBlocked) selectedProperty().set(selected);
     }
 
     public TimeSlot(LocalDateTime start, Duration duration, Position gridPos, TimeSlot last, boolean booked) {
