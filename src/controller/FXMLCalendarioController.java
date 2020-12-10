@@ -413,6 +413,11 @@ public class FXMLCalendarioController implements Initializable {
         try {
             root = loader.load();
         } catch (IOException ignored) {}
+        
+        FXMLSubjectController controller = loader.getController();
+        
+        controller.startVariables(start, end);
+
         Scene scene = new Scene(root);
         Stage ventana2= new Stage();
         ventana2.setTitle("Ventana MODAL (2)");
@@ -424,6 +429,6 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     public void showSubjectWindow(DayOfWeek start, DayOfWeek end) {
-        
+
     }
 }
