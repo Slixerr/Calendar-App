@@ -12,10 +12,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import referencias.modelo.Tutoria;
 
 /**
  *
@@ -24,11 +27,11 @@ import javafx.scene.layout.Pane;
 public class TimeSlot extends Position{
     
     private final LocalDateTime start;
-    private final Duration duration;
     protected final Pane view;
     private boolean selectedBlocked = false;
     private final BooleanProperty selected = new SimpleBooleanProperty();
     private final BooleanProperty booked = new SimpleBooleanProperty();
+    private final ObjectProperty<Tutoria> tutoriaProperty = new SimpleObjectProperty<>();
     
     public final BooleanProperty selectedProperty() {
         return selected;
@@ -52,25 +55,37 @@ public class TimeSlot extends Position{
     
     public final boolean isBooked() {
         return bookedProperty().get();
+        //return tutoriaProperty().get() != null
     }
 
     public final void setSelected(boolean selected) {
         if(!selectedBlocked) selectedProperty().set(selected);
     }
 
-    public TimeSlot(LocalDateTime start, Duration duration, Position gridPos, TimeSlot last) {
+    public TimeSlot(LocalDateTime start, Position gridPos, ObservableList<Tutoria> tutorias) {
         super(gridPos.col, gridPos.row);
         this.start = start;
-        this.duration = duration;
         view = new Pane();
         view.getStyleClass().add("time-slot");
         bookedProperty().set(false);
-        // ---------------------------------------------------------------
-        // de esta manera cambiamos la apariencia del TimeSlot cuando los seleccionamos
         selectedProperty().addListener((obs, wasSelected, isSelected) -> view.pseudoClassStateChanged(FXMLCalendarioController.SELECTED_PSEUDO_CLASS, isSelected));
         bookedProperty().addListener((obs, wasBooked, isBooked) -> view.pseudoClassStateChanged(FXMLCalendarioController.BOOKED_PSEUDO_CLASS, isBooked));
+    
+        //initializeBookedBinding(tutorias);
+    }
+    
+    public void initializeBookedBinding(ObservableList<Tutoria> tutorias) {
+        tutoriaProperty.set(tutorias.stream().filter((Tutoria tutoria) -> {
+            LocalDate fecha = tutoria.getFecha();
+            LocalTime hora = tutoria.getInicio();
+            Duration duracion = tutoria.getDuracion();
+            return start.toLocalDate().equals(fecha) && 
+                    start.toLocalTime().compareTo(hora) >= 0 && 
+                    start.toLocalTime().compareTo(hora.plus(duracion)) <= 0;
+        }).findAny().orElse(null));
     }
 
+    @Deprecated
     public void setBooked() {
         /*ObservableList<String> styles = view.getStyleClass();
         styles.remove("time-slot");
@@ -100,10 +115,6 @@ public class TimeSlot extends Position{
 
     public DayOfWeek getDayOfWeek() {
         return start.getDayOfWeek();
-    }
-
-    public Duration getDuration() {
-        return duration;
     }
 
     public Node getView() {

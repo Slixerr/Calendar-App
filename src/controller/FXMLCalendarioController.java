@@ -23,7 +23,10 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
@@ -120,6 +123,8 @@ public class FXMLCalendarioController implements Initializable {
     private Bounds gridBounds;
     
     private ObservableList<Tutoria> tutorias = null;
+    
+    private final BooleanProperty descriptionShowing = new SimpleBooleanProperty();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -127,6 +132,7 @@ public class FXMLCalendarioController implements Initializable {
         createBoundsListener();
         createBookingListener();
         createDayListener();
+        createDescriptionListener();
         createDataLists();
     }
     
@@ -174,6 +180,19 @@ public class FXMLCalendarioController implements Initializable {
                 timeTable.add(slotSelected, pressedCol, TimeSlot.rowFromTime(c[0]));}
             catch(Exception ignored){}
         });
+    }
+    
+    private void createDescriptionListener() {
+        descriptionShowing.set(false);
+        descriptionShowing.addListener((a,b,c) -> {
+            if(c) activateDescriptionBindings();
+        });
+        descriptionBox.disableProperty().bind(Bindings.not(descriptionShowing));
+        descriptionBox.visibleProperty().bind(descriptionShowing);
+    }
+    
+    private void activateDescriptionBindings() {
+        
     }
     
     private void reorder(LocalDateTime t[]) {
@@ -237,7 +256,7 @@ public class FXMLCalendarioController implements Initializable {
                     startTime = startTime.plus(CalendarioIPC.SLOT_LENGTH)) {
 
                 // here is where the complexities of accesing a db should be implemented in part
-                TimeSlot timeSlot = new TimeSlot(startTime, CalendarioIPC.SLOT_LENGTH, new Position(diaIndex, slotIndex), null);
+                TimeSlot timeSlot = new TimeSlot(startTime, new Position(diaIndex, slotIndex), null);
                 slotsDia.add(timeSlot);
                 registerHandlers(timeSlot);
                 
@@ -265,8 +284,10 @@ public class FXMLCalendarioController implements Initializable {
                 slotSelected.setMouseTransparent(true);
             }
             resetTimeSlots();
-            pressedCol = (int)((event.getSceneX()-gridBounds.getMinX()- TIME_COL_WIDTH)/((timeTable.getWidth()-TIME_COL_WIDTH)/CalendarioIPC.COL_SPAN)) + 1;
-            if(!timeSlot.isBooked()){ 
+            if(!timeSlot.isBooked()){
+                descriptionShowing.set(false);
+                
+                pressedCol = (int)((event.getSceneX()-gridBounds.getMinX()- TIME_COL_WIDTH)/((timeTable.getWidth()-TIME_COL_WIDTH)/CalendarioIPC.COL_SPAN)) + 1;
                 timeSlot.setSelected(true);
                 
                 timeSlot.blockSelected();
@@ -282,9 +303,9 @@ public class FXMLCalendarioController implements Initializable {
 
     private void createOnMouseDraggedHandler(TimeSlot timeSlot) {
         timeSlot.getView().setOnMouseDragged((MouseEvent event) -> {
-            TimeSlot hovered = timeSlotOver(event);
-            if (hovered != null) {
-                if (hovered != lastHovered && allowContinue(timeSlot, hovered)){
+            if(lastHovered!=null){
+                TimeSlot hovered = timeSlotOver(timeSlot, event);
+                if (hovered != null && hovered != lastHovered && allowContinue(timeSlot, hovered)){
                     boolean movingDown = Math.abs(timeSlot.getRow() - hovered.getRow()) > 
                             Math.abs(timeSlot.getRow() - lastHovered.getRow());
                     if(movingDown) {
@@ -299,7 +320,6 @@ public class FXMLCalendarioController implements Initializable {
                         bookingTime.setValue(new LocalDateTime[]{timeSlot.getEnd(),hovered.getStart()});
                     }
                 }
-                
             }
         });
     }
@@ -308,8 +328,8 @@ public class FXMLCalendarioController implements Initializable {
         timeSlot.getView().setOnMouseReleased((MouseEvent event) -> {
             timeSlot.unBlockSelected();
             // confirmed on doubleClick
-            if (event.getClickCount() > 1) {
-                Optional<ButtonType> result = confirmSelection(timeSlot);
+            if (lastHovered != null) {
+                Optional<ButtonType> result = confirmSelection(timeSlot, lastHovered);
                 if (result == null || result.isPresent() && result.get() == ButtonType.OK) {
                     boolean order = lastHovered.getRow() > timeSlot.getRow();
                     int max = order ? lastHovered.getRow() : timeSlot.getRow();
@@ -320,10 +340,15 @@ public class FXMLCalendarioController implements Initializable {
                     slotSelected = new Label();
                     slotSelected.setMouseTransparent(true);
                 }
+                resetTimeSlots();
+                lastHovered = null;
+            } else {
+                descriptionShowing.set(true);
+                
             }
         });
     }
-    
+        
     private boolean allowContinue(TimeSlot base, TimeSlot currTS) {
         boolean res = Math.abs(currTS.getRow() - lastHovered.getRow()) < 2;
         if(res) return true;
@@ -374,7 +399,7 @@ public class FXMLCalendarioController implements Initializable {
         });
     }
 
-    private TimeSlot timeSlotOver(MouseEvent event) { //utilizar posición
+    private TimeSlot timeSlotOver(TimeSlot base, MouseEvent event) { //utilizar posición
         Pane pane = (Pane)(event.getSource());//unnecessary but theres a bug in grid.getHeight() I don't understand
         Bounds paneBounds = pane.localToScene(pane.getBoundsInLocal());
         int row = (int)((event.getSceneY()-gridBounds.getMinY())/(paneBounds.getHeight()));
@@ -382,7 +407,7 @@ public class FXMLCalendarioController implements Initializable {
         return (slot.isBooked()) ? null : slot;
     }
 
-    private Optional<ButtonType> confirmSelection(TimeSlot timeSlot) {
+    private Optional<ButtonType> confirmSelection(TimeSlot start, TimeSlot end) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLSubject.fxml"));
         Parent root = null;
         try {
@@ -392,7 +417,7 @@ public class FXMLCalendarioController implements Initializable {
         Stage ventana2= new Stage();
         ventana2.setTitle("Ventana MODAL (2)");
         ventana2.initModality(Modality.APPLICATION_MODAL);
-        ventana2.initStyle(StageStyle.UNDECORATED);
+        //ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(scene);
         ventana2.showAndWait();
         return null;
