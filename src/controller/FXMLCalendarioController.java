@@ -10,6 +10,7 @@ import application.Position;
 import application.TimeSlot;
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -396,21 +397,8 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.showAndWait();
         return null;
     }
-}
-
-
- class MiCelda extends ListCell<Tutoria>{
-
-    @Override
-    protected void updateItem(Tutoria item, boolean empty) {
-        super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
-        if(empty || item == null) {
-            setText("");
-        }
-        else {
-            //setText(item.getNombre());
-        }
-    }
-        
     
+    public void showSubjectWindow(DayOfWeek start, DayOfWeek end) {
+        
     }
+}
