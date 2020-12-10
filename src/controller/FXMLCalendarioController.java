@@ -309,7 +309,7 @@ public class FXMLCalendarioController implements Initializable {
             timeSlot.unBlockSelected();
             // confirmed on doubleClick
             if (event.getClickCount() > 1) {
-                Optional<ButtonType> result = confirmSelection(timeSlot);
+                Optional<ButtonType> result = confirmSelection(timeSlot, lastHovered);
                 if (result == null || result.isPresent() && result.get() == ButtonType.OK) {
                     boolean order = lastHovered.getRow() > timeSlot.getRow();
                     int max = order ? lastHovered.getRow() : timeSlot.getRow();
@@ -382,12 +382,17 @@ public class FXMLCalendarioController implements Initializable {
         return (slot.isBooked()) ? null : slot;
     }
 
-    private Optional<ButtonType> confirmSelection(TimeSlot timeSlot) {
+    private Optional<ButtonType> confirmSelection(TimeSlot start, TimeSlot end) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLSubject.fxml"));
         Parent root = null;
         try {
             root = loader.load();
         } catch (IOException ignored) {}
+        
+        FXMLSubjectController controller = loader.getController();
+        
+        controller.startVariables(start, end);
+
         Scene scene = new Scene(root);
         Stage ventana2= new Stage();
         ventana2.setTitle("Ventana MODAL (2)");
@@ -399,6 +404,6 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     public void showSubjectWindow(DayOfWeek start, DayOfWeek end) {
-        
+
     }
 }
