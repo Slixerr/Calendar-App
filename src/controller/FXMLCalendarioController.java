@@ -427,8 +427,4 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.showAndWait();
         return null;
     }
-    
-    public void showSubjectWindow(DayOfWeek start, DayOfWeek end) {
-
-    }
 }

@@ -10,6 +10,7 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -112,6 +113,8 @@ public class FXMLSubjectController implements Initializable {
     }
     
     public void setTimeLabel(TimeSlot start, TimeSlot end) {
+        Tutoria tutoria = null;
+        //timeLabel.textProperty().bind(Bindings.format("\s - \s", tutoria.inicioProperty(), ));
         timeLabel.setText(start.getStart().format(timeFormatter) + " - " + end.getEnd().format(timeFormatter));
     }
     

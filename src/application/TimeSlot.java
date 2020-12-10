@@ -74,7 +74,7 @@ public class TimeSlot extends Position{
         //initializeBookedBinding(tutorias);
     }
     
-    public void initializeBookedBinding(ObservableList<Tutoria> tutorias) {
+    public void instatiateTutoriaProperty(ObservableList<Tutoria> tutorias) {
         tutoriaProperty.set(tutorias.stream().filter((Tutoria tutoria) -> {
             LocalDate fecha = tutoria.getFecha();
             LocalTime hora = tutoria.getInicio();
