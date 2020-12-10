@@ -64,6 +64,7 @@ public class TimeSlot extends Position{
         this.duration = duration;
         view = new Pane();
         view.getStyleClass().add("time-slot");
+        bookedProperty().set(false);
         // ---------------------------------------------------------------
         // de esta manera cambiamos la apariencia del TimeSlot cuando los seleccionamos
         selectedProperty().addListener((obs, wasSelected, isSelected) -> view.pseudoClassStateChanged(FXMLCalendarioController.SELECTED_PSEUDO_CLASS, isSelected));
@@ -71,9 +72,10 @@ public class TimeSlot extends Position{
     }
 
     public void setBooked() {
-        ObservableList<String> styles = view.getStyleClass();
+        /*ObservableList<String> styles = view.getStyleClass();
         styles.remove("time-slot");
-        styles.add("time-slot-libre");
+        styles.add("time-slot-libre");*/
+        bookedProperty().set(true);
     }
 
     public LocalDateTime getStart() {

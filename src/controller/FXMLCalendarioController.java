@@ -265,11 +265,17 @@ public class FXMLCalendarioController implements Initializable {
             }
             resetTimeSlots();
             pressedCol = (int)((event.getSceneX()-gridBounds.getMinX()- TIME_COL_WIDTH)/((timeTable.getWidth()-TIME_COL_WIDTH)/CalendarioIPC.COL_SPAN)) + 1;
-            timeSlot.setSelected(true);
-            timeSlot.blockSelected();
-            lastHovered = timeSlot;
+            if(!timeSlot.isBooked()){ 
+                timeSlot.setSelected(true);
+                
+                timeSlot.blockSelected();
+                lastHovered = timeSlot;
 
-            bookingTime.setValue(new LocalDateTime[]{timeSlot.getStart(),timeSlot.getEnd()});
+                bookingTime.setValue(new LocalDateTime[]{timeSlot.getStart(),timeSlot.getEnd()});
+            }else{
+                timeTable.getChildren().remove(slotSelected);
+                slotSelected = null;
+            }
         });
     }
 
@@ -285,8 +291,8 @@ public class FXMLCalendarioController implements Initializable {
                     }else {
                         lastHovered.setSelected(false);
                     }
-                    lastHovered = hovered;
-                    if (timeSlot.getRow() < hovered.getRow()) {//check for when diff == 1 edge case
+                    lastHovered = hovered;//This doesnt cover some weird cases created by fillBlanks
+                    if (timeSlot.getRow() < hovered.getRow()) {
                         bookingTime.setValue(new LocalDateTime[]{timeSlot.getStart(),hovered.getEnd()});
                     }else {
                         bookingTime.setValue(new LocalDateTime[]{timeSlot.getEnd(),hovered.getStart()});
@@ -352,6 +358,8 @@ public class FXMLCalendarioController implements Initializable {
             
             lastHovered.setSelected(false);
         }
+        
+        if(!res) sign*=2;
         
         lastHovered=timeSlots.get(pressedCol-1).get(i-sign);
         return res;
