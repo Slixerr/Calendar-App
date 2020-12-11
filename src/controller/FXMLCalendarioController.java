@@ -223,7 +223,7 @@ public class FXMLCalendarioController implements Initializable {
     private void createDayListener() {
         dayPicker.setValue(LocalDate.MIN);
         dayPicker.valueProperty().addListener((a, b, c) -> {
-            descriptionShowing.set(false);
+            resetPastParameters();
             
             clearTimeTable();
             
@@ -236,6 +236,12 @@ public class FXMLCalendarioController implements Initializable {
             addLabels(week);
         });
         dayPicker.setValue(LocalDate.now());
+    }
+
+    private void resetPastParameters() {
+        descriptionShowing.set(false);
+        timeTable.getChildren().remove(slotSelected);
+        slotSelected = null;
     }
 
     private void findTutorias(Week now) {
@@ -312,7 +318,6 @@ public class FXMLCalendarioController implements Initializable {
     }
 
     private void registerHandlers(TimeSlot timeSlot) {
-        
         createOnMousePressedHandler(timeSlot);
         
         createOnMouseDraggedHandler(timeSlot);
@@ -372,7 +377,6 @@ public class FXMLCalendarioController implements Initializable {
     private void createOnMouseReleasedHandler(TimeSlot timeSlot) {
         timeSlot.getView().setOnMouseReleased((MouseEvent event) -> {
             timeSlot.unBlockSelected();
-            // confirmed on doubleClick
             if (lastHovered != null) {
                 Tutoria result = createTutoria(timeSlot, lastHovered);
                 if (result != null) {
@@ -389,8 +393,8 @@ public class FXMLCalendarioController implements Initializable {
                     
                     weekTutorias.add(result);
                     tutorias.getTutoriasConcertadas().add(result);
+                    resetTimeSlots();
                 }
-                resetTimeSlots();
                 lastHovered = null;
             } else {
                 descriptionShowing.set(true);
@@ -469,17 +473,12 @@ public class FXMLCalendarioController implements Initializable {
 
         Scene scene = new Scene(root);
         Stage ventana2= new Stage();
-        ventana2.setTitle("Ventana MODAL (2)");
+        ventana2.setTitle("Crear tutoría");
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(scene);
         ventana2.showAndWait();
         
-        /*Tutoria tut = new Tutoria();
-        tut.fechaProperty().set(start.getDate());
-        tut.inicioProperty().set(start.getTime());
-        tut.duracionProperty().set(Duration.between(start.getStart(), end.getEnd()));
-        */
         return createdTut;
     }
     
