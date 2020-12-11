@@ -31,11 +31,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
@@ -58,9 +61,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Transform;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.swing.text.View;
 import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
 import referencias.modelo.Tutoria;
@@ -70,7 +75,6 @@ public class FXMLCalendarioController implements Initializable {
 
     @FXML
     private DatePicker dayPicker;
-    
     @FXML
     private Label subjectLabel;
     @FXML
@@ -140,6 +144,10 @@ public class FXMLCalendarioController implements Initializable {
     private List<Tutoria> weekTutorias;
     
     private final BooleanProperty descriptionShowing = new SimpleBooleanProperty();
+    
+    private Node baseView = null;
+    
+    private static Scene scene;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -165,11 +173,10 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private void createBoundsListener() {
-        //gridBounds = timeTable.localToScene(timeTable.getBoundsInLocal());
-        timeTable.boundsInLocalProperty().addListener((a,b,c) -> {  //use 2 listeners
+        timeTable.boundsInLocalProperty().addListener((a,b,c) -> {
             gridBounds = timeTable.localToScene(c);
         });
-        timeTable.localToSceneTransformProperty().addListener((a,b,c) -> {  //use 2 listeners
+        timeTable.localToSceneTransformProperty().addListener((a,b,c) -> { 
             gridBounds = timeTable.localToScene(timeTable.getBoundsInLocal());
         });
     }
@@ -197,6 +204,15 @@ public class FXMLCalendarioController implements Initializable {
         descriptionLabel.textProperty().bind(tut.anotacionesProperty());
         subjectLabel.textProperty().bind(tut.asignaturaProperty());
         studentsLabel.textProperty().set(tut.getAlumnos().stream().map(Alumno::toString).collect(Collectors.joining("\n")));
+    }
+    
+    private void moveDescriptionBox(Bounds bounds) {
+        double baseX = (bounds.getMaxX()+descriptionBox.getWidth() > scene.getWidth()) ? 
+                bounds.getMinX() - descriptionBox.getWidth() : bounds.getMaxX();
+        double baseY = (bounds.getMinY()+descriptionBox.getHeight() > scene.getHeight()) ? 
+                bounds.getMaxY() - descriptionBox.getHeight() : bounds.getMinY();;
+        descriptionBox.setTranslateX(baseX-descriptionBox.getLayoutX());
+        descriptionBox.setTranslateY(baseY-descriptionBox.getLayoutY());
     }
     
     private void reorder(LocalDateTime t[]) {
@@ -346,9 +362,38 @@ public class FXMLCalendarioController implements Initializable {
                 timeTable.getChildren().remove(slotSelected);
                 slotSelected = null;
                 
-                bindDescriptionTo(timeSlot.getTutoria());
+                activateDescription(timeSlot);
             }
         });
+    }
+
+    private void activateDescription(TimeSlot timeSlot) {
+        Tutoria tutoria = timeSlot.getTutoria();
+        bindDescriptionTo(tutoria);
+        Week now = new Week(dayPicker.getValue());
+        int col = (int)(Period.between(now.getStartOfWeek(), tutoria.getFecha()).getDays());
+        int row = (int)(Duration.between(SLOTS_FIRST, tutoria.getInicio()).toMinutes()/SLOT_LENGTH.toMinutes());
+        TimeSlot base = timeSlots.get(col).get(row);
+        
+        ChangeListener<Bounds> boundsListener = (a,b,c) -> {
+            moveDescriptionBox(baseView.localToScene(c));
+        };
+        
+        ChangeListener<Transform> transformListener = (a,b,c) -> {
+            moveDescriptionBox(baseView.localToScene(baseView.getBoundsInLocal()));
+        };
+        
+        if (baseView != null) {
+            baseView.boundsInLocalProperty().removeListener(boundsListener);
+            baseView.localToParentTransformProperty().removeListener(transformListener);
+        }
+        
+        baseView = base.getView();
+        
+        moveDescriptionBox(baseView.localToScene(baseView.getBoundsInLocal()));
+        
+        baseView.boundsInLocalProperty().addListener(boundsListener);
+        baseView.localToSceneTransformProperty().addListener(transformListener);
     }
 
     private void createOnMouseDraggedHandler(TimeSlot timeSlot) {
@@ -484,5 +529,9 @@ public class FXMLCalendarioController implements Initializable {
     
     public static void setTutoria(Tutoria tut) {
         createdTut = tut;
+    }
+    
+    public static void setScene(Scene sc) {
+        scene = sc;
     }
 }

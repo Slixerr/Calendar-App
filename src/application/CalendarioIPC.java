@@ -5,6 +5,7 @@
  */
 package application;
 
+import controller.FXMLCalendarioController;
 import java.time.Duration;
 import java.time.LocalTime;
 import javafx.application.Application;
@@ -34,6 +35,8 @@ public class CalendarioIPC extends Application {
         
         stage.setScene(scene);
         stage.show();
+        
+        FXMLCalendarioController.setScene(scene);
     }
 
     /**
