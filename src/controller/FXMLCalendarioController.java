@@ -19,8 +19,10 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +62,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import referencias.accesoBD.AccesoBD;
+import referencias.modelo.Alumno;
 import referencias.modelo.Tutoria;
 import referencias.modelo.Tutorias;
 
@@ -124,7 +127,7 @@ public class FXMLCalendarioController implements Initializable {
 
     private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSlot>>
 
-    private ObjectProperty<LocalDateTime[]> bookingTime;
+    private ObjectProperty<LocalDateTime[]> bookingTime;//refactor to class
 
     private List<Label> diasSemana;
     
@@ -172,25 +175,26 @@ public class FXMLCalendarioController implements Initializable {
     private void createBookingListener() {
         bookingTime = new SimpleObjectProperty<>();
         bookingTime.addListener((a, b, c) -> {
-            reorder(c);
-            modifyTimeLabel(c[0], c[1]);
-            try{
-                timeTable.add(slotSelected, pressedCol, TimeSlot.rowFromTime(c[0]));}
-            catch(Exception ignored){}
+            if (c!= null) {
+                reorder(c);
+                modifyTimeLabel(c[0], c[1]);
+                try{
+                    timeTable.add(slotSelected, pressedCol, TimeSlot.rowFromTime(c[0]));}
+                catch(Exception ignored){}
+            }
         });
     }
     
     private void createDescriptionListener() {
         descriptionShowing.set(false);
-        descriptionShowing.addListener((a,b,c) -> {
-            if(c) activateDescriptionBindings();
-        });
         descriptionBox.disableProperty().bind(Bindings.not(descriptionShowing));
         descriptionBox.visibleProperty().bind(descriptionShowing);
     }
     
-    private void activateDescriptionBindings() {
-        
+    private void bindDescriptionTo(Tutoria tut) {
+        descriptionLabel.textProperty().bind(tut.anotacionesProperty());
+        subjectLabel.textProperty().bind(tut.asignaturaProperty());
+        studentsLabel.textProperty().set(tut.getAlumnos().stream().map(Alumno::toString).collect(Collectors.joining("\n")));
     }
     
     private void reorder(LocalDateTime t[]) {
@@ -224,6 +228,8 @@ public class FXMLCalendarioController implements Initializable {
             findTutorias(week);
             
             updateTimeTable(week);
+            
+            addLabels(week);
         });
         dayPicker.setValue(LocalDate.now());
     }
@@ -231,7 +237,8 @@ public class FXMLCalendarioController implements Initializable {
     private void findTutorias(Week now) {
         weekTutorias = tutorias.getTutoriasConcertadas().stream().filter((Tutoria tutoria) -> {
             LocalDate fecha = tutoria.getFecha();
-            return now.getStartOfWeek().isBefore(fecha) && now.getEndOfWeek().isAfter(fecha);
+            return now.getStartOfWeek().isBefore(fecha) && now.getEndOfWeek().isAfter(fecha) ||
+                    now.getStartOfWeek().isEqual(fecha) || now.getEndOfWeek().isEqual(fecha);
         }).collect(Collectors.toList());
     }
 
@@ -244,6 +251,20 @@ public class FXMLCalendarioController implements Initializable {
             diasSemana.get(dayIndex - 1).setText(day.getDayOfWeek()+System.lineSeparator()+day.toString());
             fillDaySlots(day, dayIndex);
         }
+    }
+    
+    private void addLabels(Week now) {
+        weekTutorias.forEach(tutoria -> {
+            Label l = new Label();
+            LocalDateTime start = LocalDateTime.of(tutoria.getFecha(),tutoria.getInicio());
+            LocalDateTime end = start.plus(tutoria.getDuracion());
+            l.setText(start.format(timeFormatter)+" - "+end.format(timeFormatter));
+            l.setMouseTransparent(true);
+            
+            int col = (int)(Period.between(now.getStartOfWeek(), tutoria.getFecha()).getDays())+1;
+            int row = (int)(Duration.between(SLOTS_FIRST, tutoria.getInicio()).toMinutes()/SLOT_LENGTH.toMinutes());
+            timeTable.add(l,col,row);
+        });
     }
 
     private void fillDaySlots(LocalDate day, int dayIndex) {
@@ -315,6 +336,8 @@ public class FXMLCalendarioController implements Initializable {
             }else{
                 timeTable.getChildren().remove(slotSelected);
                 slotSelected = null;
+                
+                bindDescriptionTo(timeSlot.getTutoria());
             }
         });
     }
@@ -322,7 +345,7 @@ public class FXMLCalendarioController implements Initializable {
     private void createOnMouseDraggedHandler(TimeSlot timeSlot) {
         timeSlot.getView().setOnMouseDragged((MouseEvent event) -> {
             if(lastHovered!=null){
-                TimeSlot hovered = timeSlotOver(timeSlot, event);
+                TimeSlot hovered = timeSlotOver(event);
                 if (hovered != null && hovered != lastHovered && allowContinue(timeSlot, hovered)){
                     boolean movingDown = Math.abs(timeSlot.getRow() - hovered.getRow()) > 
                             Math.abs(timeSlot.getRow() - lastHovered.getRow());
@@ -421,7 +444,7 @@ public class FXMLCalendarioController implements Initializable {
         });
     }
 
-    private TimeSlot timeSlotOver(TimeSlot base, MouseEvent event) { //utilizar posición
+    private TimeSlot timeSlotOver(MouseEvent event) { //utilizar posición
         Pane pane = (Pane)(event.getSource());//unnecessary but theres a bug in grid.getHeight() I don't understand
         Bounds paneBounds = pane.localToScene(pane.getBoundsInLocal());
         int row = (int)((event.getSceneY()-gridBounds.getMinY())/(paneBounds.getHeight()));
@@ -451,6 +474,7 @@ public class FXMLCalendarioController implements Initializable {
         //Only for testing
         Tutoria tut = new Tutoria();
         tut.fechaProperty().set(start.getDate());
+        tut.inicioProperty().set(start.getTime());
         tut.duracionProperty().set(Duration.between(start.getStart(), end.getEnd()));
         return tut;
     }

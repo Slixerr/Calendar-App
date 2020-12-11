@@ -39,6 +39,10 @@ public class TimeSlot extends Position{
         return selected;
     }
     
+    public Tutoria getTutoria() {
+        return tutoriaProperty.getValue();
+    }
+    
     public final void blockSelected() {
         selectedBlocked = true;
     }
@@ -84,7 +88,7 @@ public class TimeSlot extends Position{
             Duration duracion = tutoria.getDuracion();
             return start.toLocalDate().equals(fecha) && 
                     start.toLocalTime().compareTo(hora) >= 0 && 
-                    start.toLocalTime().compareTo(hora.plus(duracion)) <= 0;
+                    start.toLocalTime().compareTo(hora.plus(duracion)) < 0;
         }).findAny().orElse(null));
     }
 
