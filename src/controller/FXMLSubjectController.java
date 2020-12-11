@@ -89,16 +89,16 @@ public class FXMLSubjectController implements Initializable {
     }
 
     @FXML
-    private Tutoria cancelMethod(ActionEvent event) {
+    private void cancelMethod(ActionEvent event) {
+        FXMLCalendarioController.setTutoria(null);
         ((Stage) boxDescription.getScene().getWindow()).close();
-        return null;
     }
 
     @FXML
-    private Tutoria acceptMethod(ActionEvent event) {
+    private void acceptMethod(ActionEvent event) {
+        FXMLCalendarioController.setTutoria(tutoria);
         ((Stage) boxDescription.getScene().getWindow()).close();
-    
-        return tutoria;
+
     }
     
     public void setTimeLabel(TimeSlot start, TimeSlot end) {

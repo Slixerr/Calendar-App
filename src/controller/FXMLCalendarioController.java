@@ -119,6 +119,8 @@ public class FXMLCalendarioController implements Initializable {
     private TimeSlot lastHovered = null;
     private Label slotSelected;
     
+    private static Tutoria createdTut;
+    
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
 
     // se puede cambiar por codigo la pseudoclase activa de un nodo    
@@ -221,6 +223,8 @@ public class FXMLCalendarioController implements Initializable {
     private void createDayListener() {
         dayPicker.setValue(LocalDate.MIN);
         dayPicker.valueProperty().addListener((a, b, c) -> {
+            descriptionShowing.set(false);
+            
             clearTimeTable();
             
             Week week = new Week(c);
@@ -467,15 +471,19 @@ public class FXMLCalendarioController implements Initializable {
         Stage ventana2= new Stage();
         ventana2.setTitle("Ventana MODAL (2)");
         ventana2.initModality(Modality.APPLICATION_MODAL);
-        //ventana2.initStyle(StageStyle.UNDECORATED);
+        ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(scene);
         ventana2.showAndWait();
         
-        //Only for testing
-        Tutoria tut = new Tutoria();
+        /*Tutoria tut = new Tutoria();
         tut.fechaProperty().set(start.getDate());
         tut.inicioProperty().set(start.getTime());
         tut.duracionProperty().set(Duration.between(start.getStart(), end.getEnd()));
-        return tut;
+        */
+        return createdTut;
+    }
+    
+    public static void setTutoria(Tutoria tut) {
+        createdTut = tut;
     }
 }
