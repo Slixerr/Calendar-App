@@ -7,6 +7,7 @@ package controller;
 
 import application.TimeSlot;
 import java.net.URL;
+import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -23,7 +24,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
+import referencias.modelo.Asignatura;
 import referencias.modelo.Tutoria;
 
 /**
@@ -34,13 +37,12 @@ import referencias.modelo.Tutoria;
 public class FXMLSubjectController implements Initializable {
 
     @FXML
-    private ComboBox<?> comboSubject;
+    private ComboBox<Asignatura> comboSubject;
     @FXML
     private ListView<Alumno> listLV;
     @FXML
     private TextArea boxDescription;
     
-    private boolean changed = false;
     @FXML
     private Label timeLabel;
     
@@ -50,7 +52,9 @@ public class FXMLSubjectController implements Initializable {
     @FXML
     private Button addButton;
     @FXML
-    private ComboBox<?> comboStudents;
+    private ComboBox<Alumno> comboStudents;
+    
+    private Tutoria tutoria = new Tutoria();
     /**
      * Initializes the controller class.
      */
@@ -58,77 +62,63 @@ public class FXMLSubjectController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         addButton.setDisable(true);
-        addButton.disableProperty().bind(comboStudents.promptTextProperty().isEmpty());
-        
-        ArrayList<Alumno> misdatos = new ArrayList<Alumno>();
-        datos = FXCollections.observableArrayList(misdatos);
+        addButton.disableProperty().bind(comboStudents.getEditor().textProperty().isEmpty());
+        datos = tutoria.getAlumnos();
         listLV.setItems(datos);
         listLV.setCellFactory(cel -> new MiCelda());
+        
+        
+        comboSubject.setItems(AccesoBD.getInstance().getTutorias().getAsignaturas());
+        comboStudents.setItems(AccesoBD.getInstance().getTutorias().getAlumnosTutorizados());
     }
     
-    private void actualizar(ActionEvent event) {
-        changed = true;
-        ((Stage) boxDescription.getScene().getWindow()).close();
-    }
-
     private void cancelar(ActionEvent event) {
         ((Stage) boxDescription.getScene().getWindow()).close();
     }
 
-    public boolean isChanged() {
-        return changed;
-    }
-
-    public void initText(String s) {
-        boxDescription.setText(s);
-    }
-
-    public String getText() {
-        return boxDescription.getText();
-    }
-
-
     @FXML
     private void addStudent(ActionEvent event) {
-        if ((!comboStudents.getPromptText().isEmpty())
-                && (comboStudents.getPromptText().trim().length() != 0)) {
-            //datos.add(new Alumno(comboStudents.getPromptText());
-            //comboStudents.clear();
-            comboStudents.requestFocus();  //cambio del foco al textfield.
+        if ((!comboStudents.getEditor().getText().isEmpty())
+                && (comboStudents.getEditor().getText().trim().length() != 0)
+                ) {
+            datos.add(comboStudents.getValue());
+            comboStudents.getEditor().setText("");
+            comboStudents.requestFocus();
             listLV.refresh();
         }
     }
 
     @FXML
-    private void cancelMethod(ActionEvent event) {
+    private Tutoria cancelMethod(ActionEvent event) {
         ((Stage) boxDescription.getScene().getWindow()).close();
+        return null;
     }
 
     @FXML
-    private void acceptMethod(ActionEvent event) {
-        
+    private Tutoria acceptMethod(ActionEvent event) {
+        ((Stage) boxDescription.getScene().getWindow()).close();
     
-    
-    
+        return tutoria;
     }
     
     public void setTimeLabel(TimeSlot start, TimeSlot end) {
-        Tutoria tutoria = null;
         //timeLabel.textProperty().bind(Bindings.format("\s - \s", tutoria.inicioProperty(), ));
         timeLabel.setText(start.getStart().format(timeFormatter) + " - " + end.getEnd().format(timeFormatter));
     }
     
     public void startVariables(TimeSlot start, TimeSlot end) {
         setTimeLabel(start,end);
-        Tutoria tutoria = new Tutoria();
-//        tutoria.fechaProperty().bind()
-//            
-//        tutoria.anotacionesProperty().bind()
-//    
+        
+        tutoria.setFecha(start.getDate());
+        tutoria.setEstado(Tutoria.EstadoTutoria.PEDIDA);
+        tutoria.setInicio(start.getStart().toLocalTime());
+        tutoria.setDuracion(Duration.between(start.getStart(), end.getEnd()));
+        tutoria.anotacionesProperty().bind(boxDescription.textProperty());
+        tutoria.asignaturaProperty().bind(comboSubject.valueProperty());
     }
 }
 
-class MiCelda extends ListCell<Alumno>{ //código de clase
+class MiCelda extends ListCell<Alumno>{ //Código copiado de clase
 
     @Override
     protected void updateItem(Alumno item, boolean empty) {
@@ -140,6 +130,4 @@ class MiCelda extends ListCell<Alumno>{ //código de clase
             setText(item.getNombre() + " " + item.getApellidos());
         }
     }
-        
-    
     }
