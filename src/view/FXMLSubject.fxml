@@ -50,7 +50,7 @@
                   <ListView fx:id="listLV" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="100.0" VBox.vgrow="ALWAYS" />
                   <HBox prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ComboBox fx:id="comboStudents" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+                        <ComboBox fx:id="comboStudents" editable="true" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
                         <Button fx:id="addButton" mnemonicParsing="false" onAction="#addStudent" text="+" />
                      </children>
                   </HBox>
