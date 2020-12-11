@@ -221,7 +221,6 @@ public class FXMLCalendarioController implements Initializable {
             
             Week week = new Week(c);
         
-        
             findTutorias(week);
             
             updateTimeTable(week);
@@ -232,19 +231,22 @@ public class FXMLCalendarioController implements Initializable {
     private void findTutorias(Week now) {
         weekTutorias = tutorias.getTutoriasConcertadas().stream().filter((Tutoria tutoria) -> {
             LocalDate fecha = tutoria.getFecha();
-            return now.getStartOfWeek().isAfter(fecha) && now.getEndOfWeek().isBefore(fecha);
+            return now.getStartOfWeek().isBefore(fecha) && now.getEndOfWeek().isAfter(fecha);
         }).collect(Collectors.toList());
     }
 
     private void updateTimeTable(Week now) {
         int dayIndex = 1;
-        for (LocalDate day = now.getStartOfWeek(); !day.isAfter(now.getEndOfWeek()); day = day.plusDays(1), dayIndex++) {
+        for (LocalDate day = now.getStartOfWeek(); 
+                !day.isAfter(now.getEndOfWeek()); 
+                day = day.plusDays(1), dayIndex++) {
+            
             diasSemana.get(dayIndex - 1).setText(day.getDayOfWeek()+System.lineSeparator()+day.toString());
-            createDay(day, dayIndex);
+            fillDaySlots(day, dayIndex);
         }
     }
 
-    private void createDay(LocalDate day, int dayIndex) {
+    private void fillDaySlots(LocalDate day, int dayIndex) {
         List<TimeSlot> daySlots = new ArrayList<>();
         timeSlots.add(daySlots);
        
