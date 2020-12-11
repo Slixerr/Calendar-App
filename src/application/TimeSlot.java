@@ -11,6 +11,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -62,7 +64,7 @@ public class TimeSlot extends Position{
         if(!selectedBlocked) selectedProperty().set(selected);
     }
 
-    public TimeSlot(LocalDateTime start, Position gridPos, ObservableList<Tutoria> tutorias) {
+    public TimeSlot(LocalDateTime start, Position gridPos, List<Tutoria> tutorias) {
         super(gridPos.col, gridPos.row);
         this.start = start;
         view = new Pane();
@@ -71,10 +73,11 @@ public class TimeSlot extends Position{
         selectedProperty().addListener((obs, wasSelected, isSelected) -> view.pseudoClassStateChanged(FXMLCalendarioController.SELECTED_PSEUDO_CLASS, isSelected));
         bookedProperty().addListener((obs, wasBooked, isBooked) -> view.pseudoClassStateChanged(FXMLCalendarioController.BOOKED_PSEUDO_CLASS, isBooked));
     
-        //initializeBookedBinding(tutorias);
+        instatiateTutoriaProperty(tutorias);
+        bookedProperty().bind(Bindings.notEqual(tutoriaProperty,Tutoria.nullValue()));
     }
     
-    public void instatiateTutoriaProperty(ObservableList<Tutoria> tutorias) {
+    public void instatiateTutoriaProperty(List<Tutoria> tutorias) {
         tutoriaProperty.set(tutorias.stream().filter((Tutoria tutoria) -> {
             LocalDate fecha = tutoria.getFecha();
             LocalTime hora = tutoria.getInicio();
@@ -91,6 +94,10 @@ public class TimeSlot extends Position{
         styles.remove("time-slot");
         styles.add("time-slot-libre");*/
         bookedProperty().set(true);
+    }
+    
+    public void setTutoria(Tutoria tutoria) {
+        tutoriaProperty.set(tutoria);
     }
 
     public LocalDateTime getStart() {

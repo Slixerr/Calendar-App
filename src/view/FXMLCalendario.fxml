@@ -48,7 +48,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <DatePicker fx:id="day" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                  <DatePicker fx:id="dayPicker" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin></DatePicker>

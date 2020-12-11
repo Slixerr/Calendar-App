@@ -6,8 +6,12 @@
 package controller;
 
 import application.CalendarioIPC;
+import static application.CalendarioIPC.SLOTS_FIRST;
+import static application.CalendarioIPC.SLOTS_LAST;
+import static application.CalendarioIPC.SLOT_LENGTH;
 import application.Position;
 import application.TimeSlot;
+import application.Week;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -23,6 +27,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -53,12 +59,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Tutoria;
+import referencias.modelo.Tutorias;
 
 public class FXMLCalendarioController implements Initializable {
 
     @FXML
-    private DatePicker day;
+    private DatePicker dayPicker;
     
     @FXML
     private Label subjectLabel;
@@ -122,34 +130,24 @@ public class FXMLCalendarioController implements Initializable {
     
     private Bounds gridBounds;
     
-    private ObservableList<Tutoria> tutorias = null;
+    private Tutorias tutorias;
+    
+    private List<Tutoria> weekTutorias;
     
     private final BooleanProperty descriptionShowing = new SimpleBooleanProperty();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        accessTutorias();
         addDayLabels();
         createBoundsListener();
         createBookingListener();
         createDayListener();
         createDescriptionListener();
-        createDataLists();
     }
     
-    private void createDataLists() {
-        ArrayList<Tutoria> misdatos = new ArrayList<Tutoria>();
-        tutorias = FXCollections.observableArrayList(misdatos);
-        tutorias.addListener((Change<? extends Tutoria> c) -> {
-             while (c.next()) {
-                if (c.wasUpdated()) {
-                    int start = c.getFrom() ;
-                    int end = c.getTo() ;
-                    for (int i = start ; i < end ; i++) {
-                        //c.getList().get(i).
-                    }
-                }
-            }
-        });
+    public void accessTutorias() {
+        tutorias = AccesoBD.getInstance().getTutorias();
     }
     
     private void addDayLabels() {
@@ -217,55 +215,73 @@ public class FXMLCalendarioController implements Initializable {
     }
 
     private void createDayListener() {
-        //inicializa el DatePicker al dia actual
-        day.setValue(LocalDate.now());
-        // pinta los SlotTime en el grid
-        setTimeSlotsGrid(day.getValue());
-        //cambia los SlotTime al cambiar de dia
-        day.valueProperty().addListener((a, b, c) -> {
-            setTimeSlotsGrid(c);
+        dayPicker.setValue(LocalDate.MIN);
+        dayPicker.valueProperty().addListener((a, b, c) -> {
+            clearTimeTable();
+            
+            Week week = new Week(c);
+        
+        
+            findTutorias(week);
+            
+            updateTimeTable(week);
         });
+        dayPicker.setValue(LocalDate.now());
     }
 
-    private void setTimeSlotsGrid(LocalDate date) {
-        //actualizamos la seleccion
+    private void findTutorias(Week now) {
+        weekTutorias = tutorias.getTutoriasConcertadas().stream().filter((Tutoria tutoria) -> {
+            LocalDate fecha = tutoria.getFecha();
+            return now.getStartOfWeek().isAfter(fecha) && now.getEndOfWeek().isBefore(fecha);
+        }).collect(Collectors.toList());
+    }
+
+    private void updateTimeTable(Week now) {
+        int dayIndex = 1;
+        for (LocalDate day = now.getStartOfWeek(); !day.isAfter(now.getEndOfWeek()); day = day.plusDays(1), dayIndex++) {
+            diasSemana.get(dayIndex - 1).setText(day.getDayOfWeek()+System.lineSeparator()+day.toString());
+            createDay(day, dayIndex);
+        }
+    }
+
+    private void createDay(LocalDate day, int dayIndex) {
+        List<TimeSlot> daySlots = new ArrayList<>();
+        timeSlots.add(daySlots);
+       
+        int slotIndex = 0;
+        for (LocalDateTime startTime = day.atTime(SLOTS_FIRST);
+                !startTime.isAfter(day.atTime(SLOTS_LAST));
+                startTime = startTime.plus(SLOT_LENGTH), slotIndex++) {
+            
+            TimeSlot timeSlot = createTimeSlot(startTime, new Position(dayIndex, slotIndex));
+            
+            daySlots.add(timeSlot);
+            timeTable.add(timeSlot.getView(), dayIndex, slotIndex);
+        }
+    }
+
+    private TimeSlot createTimeSlot(LocalDateTime startTime, Position gridPos) {
+        TimeSlot timeSlot = new TimeSlot(startTime, gridPos, weekTutorias);
+        registerHandlers(timeSlot);
+        return timeSlot;
+    }
+
+    private void clearTimeTable() {
+        //clear booking selections
         bookingTime.setValue(null);
-  
-        //borramos los SlotTime del grid
+        
+        clearViews();
+        
+        timeSlots = new ArrayList<>();
+    }
+
+    private void clearViews() {
         ObservableList<Node> children = timeTable.getChildren();
         timeSlots.forEach(dias -> {
             dias.forEach(timeSlot -> {
                 children.remove(timeSlot.getView());
             });
         });
-
-        timeSlots = new ArrayList<>();
-
-        // recorremos para cada Columna y creamos para cada slot
-        LocalDate startOfWeek = date.minusDays(date.getDayOfWeek().getValue() - 1);
-        LocalDate endOfWeek = startOfWeek.plusDays(4);
-        int diaIndex = 1;
-        for (LocalDate dia = startOfWeek; !dia.isAfter(endOfWeek); dia = dia.plusDays(1)) {
-            diasSemana.get(diaIndex - 1).setText(dia.getDayOfWeek()+System.lineSeparator()+dia.toString());
-            List<TimeSlot> slotsDia = new ArrayList<>();
-            timeSlots.add(slotsDia);
-            // desde la hora de inicio y hasta la hora de fin creamos slotTime segun la duracion
-            int slotIndex = 0;
-            for (LocalDateTime startTime = dia.atTime(CalendarioIPC.SLOTS_FIRST);
-                    !startTime.isAfter(dia.atTime(CalendarioIPC.SLOTS_LAST));
-                    startTime = startTime.plus(CalendarioIPC.SLOT_LENGTH)) {
-
-                // here is where the complexities of accesing a db should be implemented in part
-                TimeSlot timeSlot = new TimeSlot(startTime, new Position(diaIndex, slotIndex), null);
-                slotsDia.add(timeSlot);
-                registerHandlers(timeSlot);
-                
-                timeTable.add(timeSlot.getView(), diaIndex, slotIndex);
-                slotIndex++;
-            }
-            diaIndex++;
-        }
-
     }
 
     private void registerHandlers(TimeSlot timeSlot) {
@@ -329,22 +345,26 @@ public class FXMLCalendarioController implements Initializable {
             timeSlot.unBlockSelected();
             // confirmed on doubleClick
             if (lastHovered != null) {
-                Optional<ButtonType> result = confirmSelection(timeSlot, lastHovered);
-                if (result == null || result.isPresent() && result.get() == ButtonType.OK) {
+                Tutoria result = createTutoria(timeSlot, lastHovered);
+                if (result != null) {
                     boolean order = lastHovered.getRow() > timeSlot.getRow();
                     int max = order ? lastHovered.getRow() : timeSlot.getRow();
                     int min = !order ? lastHovered.getRow() : timeSlot.getRow();
                     for (int i = min; i <= max; i++) {// not sure
-                        timeSlots.get(pressedCol-1).get(i).setBooked();
+                        TimeSlot curr = timeSlots.get(pressedCol-1).get(i);
+                        curr.setTutoria(result);
+                        curr.setSelected(false);
                     }
                     slotSelected = new Label();
                     slotSelected.setMouseTransparent(true);
+                    
+                    weekTutorias.add(result);
+                    tutorias.getTutoriasConcertadas().add(result);
                 }
                 resetTimeSlots();
                 lastHovered = null;
             } else {
                 descriptionShowing.set(true);
-                
             }
         });
     }
@@ -407,7 +427,7 @@ public class FXMLCalendarioController implements Initializable {
         return (slot.isBooked()) ? null : slot;
     }
 
-    private Optional<ButtonType> confirmSelection(TimeSlot start, TimeSlot end) {
+    private Tutoria createTutoria(TimeSlot start, TimeSlot end) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLSubject.fxml"));
         Parent root = null;
         try {
@@ -425,6 +445,11 @@ public class FXMLCalendarioController implements Initializable {
         //ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(scene);
         ventana2.showAndWait();
-        return null;
+        
+        //Only for testing
+        Tutoria tut = new Tutoria();
+        tut.fechaProperty().set(start.getDate());
+        tut.duracionProperty().set(Duration.between(start.getStart(), end.getEnd()));
+        return tut;
     }
 }

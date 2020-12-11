@@ -60,6 +60,12 @@ public class Tutoria {
     private ObjectProperty<Asignatura> asignatura = new SimpleObjectProperty<>();
 
     private final ObservableList<Alumno> alumnos = FXCollections.observableArrayList();
+    
+    public static ObjectProperty<Tutoria> nullValue() {
+        ObjectProperty<Tutoria> res = new SimpleObjectProperty<Tutoria>();
+        res.set(null);
+        return res;
+    }
 
     @XmlElement(name = "Alumno")
     public ObservableList<Alumno> getAlumnos() {
