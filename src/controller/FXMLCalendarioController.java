@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import application.CalendarioIPC;
@@ -96,40 +91,17 @@ public class FXMLCalendarioController implements Initializable {
     @FXML
     private Label viernesCol;
     
-
-    @FXML
-    private void alumnoMethod(ActionEvent event) {
-    }
-
-    @FXML
-    private void subjectsMethod(ActionEvent event) {
-    }
-
-    @FXML
-    private void canceledMethod(ActionEvent event) {
-    }
-
-    @FXML
-    private void editMethod(ActionEvent event) {
-    }
-
-    @FXML
-    private void closeMethod(ActionEvent event) {
-    }
-    
     public static final int TIME_COL_WIDTH = 100; // Since the first column doesnt rezise, a special case is implemented for it
+    public static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
+    public static final PseudoClass BOOKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("active");
     
-    public static int pressedCol = 0;
+    private int pressedCol = 0;
     private TimeSlot lastHovered = null;
     private Label slotSelected;
     
     private static Tutoria createdTut;
     
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
-
-    // se puede cambiar por codigo la pseudoclase activa de un nodo    
-    public static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
-    public static final PseudoClass BOOKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("active");
 
     private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSlot>>
 
@@ -333,7 +305,7 @@ public class FXMLCalendarioController implements Initializable {
         });
     }
 
-    private void registerHandlers(TimeSlot timeSlot) {
+    private void registerHandlers(TimeSlot timeSlot) {// cut to MouseHandlerCreator
         createOnMousePressedHandler(timeSlot);
         
         createOnMouseDraggedHandler(timeSlot);
@@ -533,5 +505,25 @@ public class FXMLCalendarioController implements Initializable {
     
     public static void setScene(Scene sc) {
         scene = sc;
+    }
+    
+    @FXML
+    private void alumnoMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void subjectsMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void canceledMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void editMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void closeMethod(ActionEvent event) {
     }
 }
