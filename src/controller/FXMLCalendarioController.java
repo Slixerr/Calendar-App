@@ -1,5 +1,7 @@
 package controller;
 
+import application.AsignaturaCell;
+import application.AlumnoCell;
 import application.CalendarioIPC;
 import static application.CalendarioIPC.SLOTS_FIRST;
 import static application.CalendarioIPC.SLOTS_LAST;
@@ -54,6 +56,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -67,6 +70,7 @@ import javafx.stage.StageStyle;
 import javax.swing.text.View;
 import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
+import referencias.modelo.Asignatura;
 import referencias.modelo.Tutoria;
 import referencias.modelo.Tutorias;
 
@@ -133,16 +137,32 @@ public class FXMLCalendarioController implements Initializable {
     private VBox asignaturasBox;
     @FXML
     private VBox alumnosBox;
+    @FXML
+    private ListView<Asignatura> asignaturasLV;
+    @FXML
+    private ListView<Alumno> alumnosLV;
+    
+    private ObservableList<Asignatura> asignaturas = null;
+    private ObservableList<Alumno> alumnos = null;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         accessDatabase();
+        generateTestParameters();
         addDayLabels();
         createSidebarListener();
         createBoundsListener();
         createBookingListener();
         createDayListener();
         createDescriptionListener();
+    }
+
+    private void generateTestParameters() {
+        tutorias.getAlumnosTutorizados().add(new Alumno("Daniel", "Santamarina Puertas", "danielsantamarinapuertas@gmail.com"));
+        tutorias.getAlumnosTutorizados().add(new Alumno("Silviu Valentin", "Manolescu", "silviu1200@gmail.com"));
+        tutorias.getAsignaturas().add(new Asignatura("1224","IPC"));
+        tutorias.getAsignaturas().add(new Asignatura("2334","TAL"));
     }
     
     public void accessDatabase() {
@@ -166,11 +186,15 @@ public class FXMLCalendarioController implements Initializable {
         alumnosBox.visibleProperty().bind(Bindings.equal(sideBoxState, ALUMNOS));
         alumnosBox.disableProperty().bind(Bindings.notEqual(sideBoxState, ALUMNOS));
         
+        bindSidePaneLists();
+        
+        
         sideBoxState.addListener((a,b,c) -> {
             switch(c.intValue()) {
                 case DISABLED:
                     break;
                 case ALUMNOS:
+                    
                     break;
                 case ASIGNATURAS:
                     break;
@@ -178,6 +202,16 @@ public class FXMLCalendarioController implements Initializable {
                     
             }
         });
+    }
+    
+    private void bindSidePaneLists() {
+        alumnos = tutorias.getAlumnosTutorizados();
+        alumnosLV.setItems(alumnos);
+        alumnosLV.setCellFactory(c -> new AlumnoCell());
+        
+        asignaturas = tutorias.getAsignaturas();
+        asignaturasLV.setItems(asignaturas);
+        asignaturasLV.setCellFactory(c -> new AsignaturaCell());
     }
     
     private void createBoundsListener() {

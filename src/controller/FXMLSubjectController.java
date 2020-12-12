@@ -5,6 +5,7 @@
  */
 package controller;
 
+import application.AlumnoCell;
 import application.TimeSlot;
 import java.net.URL;
 import java.time.Duration;
@@ -65,7 +66,7 @@ public class FXMLSubjectController implements Initializable {
         addButton.disableProperty().bind(comboStudents.getEditor().textProperty().isEmpty());
         datos = tutoria.getAlumnos();
         listLV.setItems(datos);
-        listLV.setCellFactory(cel -> new MiCelda());
+        listLV.setCellFactory(cel -> new AlumnoCell());
         
         
         comboSubject.setItems(AccesoBD.getInstance().getTutorias().getAsignaturas());
@@ -117,17 +118,3 @@ public class FXMLSubjectController implements Initializable {
         tutoria.asignaturaProperty().bind(comboSubject.valueProperty());
     }
 }
-
-class MiCelda extends ListCell<Alumno>{ //Código copiado de clase
-
-    @Override
-    protected void updateItem(Alumno item, boolean empty) {
-        super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
-        if(empty || item == null) {
-            setText("");
-        }
-        else {
-            setText(item.getNombre() + " " + item.getApellidos());
-        }
-    }
-    }
