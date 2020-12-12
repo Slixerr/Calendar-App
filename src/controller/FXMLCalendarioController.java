@@ -58,6 +58,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -159,8 +160,12 @@ public class FXMLCalendarioController implements Initializable {
     }
 
     private void generateTestParameters() {
-        tutorias.getAlumnosTutorizados().add(new Alumno("Daniel", "Santamarina Puertas", "danielsantamarinapuertas@gmail.com"));
-        tutorias.getAlumnosTutorizados().add(new Alumno("Silviu Valentin", "Manolescu", "silviu1200@gmail.com"));
+        Alumno daniel = new Alumno("Daniel", "Santamarina Puertas", "danielsantamarinapuertas@gmail.com");
+        tutorias.getAlumnosTutorizados().add(daniel);
+        daniel.setHeadShot(new Image(getClass().getResourceAsStream("/resources/daniel.jpg")));
+        Alumno silviu = new Alumno("Silviu Valentin", "Manolescu", "silviu1200@gmail.com");
+        //silviu.setHeadShot();
+        tutorias.getAlumnosTutorizados().add(silviu);
         tutorias.getAsignaturas().add(new Asignatura("1224","IPC"));
         tutorias.getAsignaturas().add(new Asignatura("2334","TAL"));
     }

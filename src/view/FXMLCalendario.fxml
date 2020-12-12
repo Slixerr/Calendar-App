@@ -54,7 +54,7 @@
                                     <Font size="22.0" />
                                  </font>
                               </Label>
-                              <ListView fx:id="asignaturasLV" prefHeight="633.0" prefWidth="245.0" VBox.vgrow="ALWAYS" />
+                              <ListView fx:id="asignaturasLV" accessibleRole="BUTTON" prefHeight="633.0" prefWidth="245.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox fx:id="alumnosBox" disable="true" spacing="20.0" visible="false">
