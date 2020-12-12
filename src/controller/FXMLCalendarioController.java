@@ -29,8 +29,10 @@ import java.util.stream.Collectors;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -52,10 +54,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.transform.Transform;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -91,6 +95,7 @@ public class FXMLCalendarioController implements Initializable {
     @FXML
     private Label viernesCol;
     
+    public static final int DISABLED=0,ALUMNOS=1,ASIGNATURAS=2;
     public static final int TIME_COL_WIDTH = 100; // Since the first column doesnt rezise, a special case is implemented for it
     public static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
     public static final PseudoClass BOOKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("active");
@@ -119,19 +124,28 @@ public class FXMLCalendarioController implements Initializable {
     
     private Node baseView = null;
     
+    private final IntegerProperty sideBoxState = new SimpleIntegerProperty();
+    
     private static Scene scene;
+    @FXML
+    private SplitPane sidePane;
+    @FXML
+    private VBox asignaturasBox;
+    @FXML
+    private VBox alumnosBox;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        accessTutorias();
+        accessDatabase();
         addDayLabels();
+        createSidebarListener();
         createBoundsListener();
         createBookingListener();
         createDayListener();
         createDescriptionListener();
     }
     
-    public void accessTutorias() {
+    public void accessDatabase() {
         tutorias = AccesoBD.getInstance().getTutorias();
     }
     
@@ -142,6 +156,28 @@ public class FXMLCalendarioController implements Initializable {
         diasSemana.add( miercoles);
         diasSemana.add(juevesCol);
         diasSemana.add( viernesCol);
+    }
+    
+    private void createSidebarListener() {
+        sideBoxState.set(DISABLED);
+        sidePane.maxWidthProperty().bind(Bindings.multiply(Bindings.min(1, sideBoxState), 250));
+        asignaturasBox.visibleProperty().bind(Bindings.equal(sideBoxState, ASIGNATURAS));
+        asignaturasBox.disableProperty().bind(Bindings.notEqual(sideBoxState, ASIGNATURAS));
+        alumnosBox.visibleProperty().bind(Bindings.equal(sideBoxState, ALUMNOS));
+        alumnosBox.disableProperty().bind(Bindings.notEqual(sideBoxState, ALUMNOS));
+        
+        sideBoxState.addListener((a,b,c) -> {
+            switch(c.intValue()) {
+                case DISABLED:
+                    break;
+                case ALUMNOS:
+                    break;
+                case ASIGNATURAS:
+                    break;
+                default:
+                    
+            }
+        });
     }
     
     private void createBoundsListener() {
@@ -499,6 +535,24 @@ public class FXMLCalendarioController implements Initializable {
         return createdTut;
     }
     
+    private void editTutoria() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLModification.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException ignored) {}
+        
+        FXMLModificationController controller = loader.getController();
+
+        Scene scene = new Scene(root);
+        Stage ventana2= new Stage();
+        ventana2.setTitle("Crear tutoría");
+        ventana2.initModality(Modality.APPLICATION_MODAL);
+        //ventana2.initStyle(StageStyle.UNDECORATED);
+        ventana2.setScene(scene);
+        ventana2.showAndWait();
+    }
+    
     public static void setTutoria(Tutoria tut) {
         createdTut = tut;
     }
@@ -509,10 +563,12 @@ public class FXMLCalendarioController implements Initializable {
     
     @FXML
     private void alumnoMethod(ActionEvent event) {
+        sideBoxState.set((sideBoxState.get() == ALUMNOS) ? DISABLED : ALUMNOS);
     }
 
     @FXML
     private void subjectsMethod(ActionEvent event) {
+        sideBoxState.set((sideBoxState.get() == ASIGNATURAS) ? DISABLED : ASIGNATURAS);
     }
 
     @FXML
@@ -521,9 +577,11 @@ public class FXMLCalendarioController implements Initializable {
 
     @FXML
     private void editMethod(ActionEvent event) {
+        editTutoria();
     }
 
     @FXML
     private void closeMethod(ActionEvent event) {
+        descriptionShowing.set(false);
     }
 }
