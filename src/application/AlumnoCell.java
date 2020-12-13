@@ -12,10 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import referencias.modelo.Alumno;
 
-/**
- *
- * @author danie
- */
+
 public class AlumnoCell extends ListCell<Alumno>{
     @Override
     protected void updateItem(Alumno item, boolean empty) {
@@ -38,9 +35,9 @@ public class AlumnoCell extends ListCell<Alumno>{
             imageView.setClip(clip);
             setGraphic(imageView);
 
-            setText((empty || item == null) ? "" : 
-                    item.getNombre() + " " + item.getApellidos()+"\n"+item.getEmail());
-        
+            setText(item.getNombre() + " " + item.getApellidos()+"\n"+item.getEmail());
+        } else {
+            setText("");
         }
     }
 }

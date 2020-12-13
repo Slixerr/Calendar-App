@@ -1,12 +1,3 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 27-mar-2020, 16:33:06
-    Author     : DSIC_jsoler
-*/
 
 .time-slot {
 	-fx-background-color: red, white ;
@@ -15,10 +6,24 @@ and open the template in the editor.
 
 .time-slot:active{
     -fx-background-color: red, #ccccff ;
-	-fx-background-insets: 0, 1 1 0 0 ;
+    -fx-background-insets: 0, 1 1 0 0 ;
 }
 
-.time-slot:selected {
-	-fx-background-color: indianred;
+.time-slot:topStack{
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-background-color: red, #ccccff ;
+    -fx-background-insets: 0, 1 1 0 0 ;
 }
 
+.time-slot:bottomStack{
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-background-color: red, #ccccff ;
+    -fx-background-insets: 0, 1 1 0 0 ;
+}
+
+
+.time-slot:selected{
+    -fx-background-color: indianred;
+}

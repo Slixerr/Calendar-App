@@ -596,6 +596,10 @@ public class FXMLCalendarioController implements Initializable {
         createdTut = tut;
     }
     
+    public static Tutoria getTutoria() {
+        return createdTut;
+    }
+    
     public static void setScene(Scene sc) {
         scene = sc;
     }
