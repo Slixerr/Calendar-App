@@ -72,4 +72,9 @@ public class Alumno {
         this.apellidos.set(apell);
         this.email.set(email);
     }
+
+    @Override
+    public String toString() {
+        return nombre.get() + " " + apellidos.get();
+    }
 }

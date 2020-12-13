@@ -46,5 +46,10 @@ public class Asignatura {
         this.descripcion.set(desc);
     }
 
+    @Override
+    public String toString() {
+        return descripcion.get();
+    }
 
+    
 }

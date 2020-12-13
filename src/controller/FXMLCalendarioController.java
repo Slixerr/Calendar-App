@@ -249,7 +249,7 @@ public class FXMLCalendarioController implements Initializable {
     
     private void bindDescriptionTo(Tutoria tut) {
         descriptionLabel.textProperty().bind(tut.anotacionesProperty());
-        subjectLabel.textProperty().bind(tut.asignaturaProperty());
+        subjectLabel.textProperty().bind(tut.asignaturaProperty().asString());
         studentsLabel.textProperty().set(tut.getAlumnos().stream().map(Alumno::toString).collect(Collectors.joining("\n")));
     }
     
