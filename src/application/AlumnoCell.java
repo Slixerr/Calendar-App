@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import referencias.modelo.Alumno;
+import referencias.modelo.Asignatura;
 
 
 public class AlumnoCell extends ListCell<Alumno>{
@@ -41,3 +42,8 @@ public class AlumnoCell extends ListCell<Alumno>{
         }
     }
 }
+
+
+
+    
+

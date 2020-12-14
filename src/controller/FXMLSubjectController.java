@@ -5,6 +5,8 @@
  */
 package controller;
 
+import application.SimpleAlumnoCell;
+import application.SimpleSubjectCell;
 import application.AlumnoCell;
 import application.TimeSlot;
 import java.net.URL;
@@ -20,6 +22,8 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -57,6 +61,7 @@ public class FXMLSubjectController implements Initializable {
     
     ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
     ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
+    FilteredList<Alumno> filteredItems = new FilteredList<Alumno>(listaAlumnos, p -> true);
     
     @FXML
     private Button addButton;
@@ -64,6 +69,8 @@ public class FXMLSubjectController implements Initializable {
     private ComboBox<Alumno> comboStudents;
     
     private Tutoria tutoria = new Tutoria();
+    @FXML
+    private Label errorLabel;
     /**
      * Initializes the controller class.
      */
@@ -75,19 +82,31 @@ public class FXMLSubjectController implements Initializable {
         
         datos = tutoria.getAlumnos();
         listLV.setItems(datos);
-        listLV.setCellFactory(cel -> new AlumnoList());
+        listLV.setCellFactory(cel -> new SimpleAlumnoCell());
         
-        comboStudents.setCellFactory(cel -> new AlumnoList()); 
-        comboSubject.setCellFactory(cel -> new SubjectList());
-        comboSubject.setButtonCell(new SubjectList());
+    
+        comboStudents.setCellFactory(cel -> new SimpleAlumnoCell()); 
+        comboSubject.setCellFactory(cel -> new SimpleSubjectCell());
+        comboSubject.setButtonCell(new SimpleSubjectCell());
         comboSubject.setItems(listaAsignaturas);
         formatoComboStudents();
 
         
         comboStudents.getEditor().textProperty().addListener((a,b,c) -> {
-            if(!comboStudents.getEditor().getText().isEmpty()) {
+            System.out.println(c);
+//            if(!comboStudents.getSelectionModel().isEmpty() && (c.length() - b.length() == 1)) {
+//                comboStudents.getSelectionModel().clearSelection();
+//                comboStudents.setValue(null);
+//            }
+
+            if(!c.isEmpty()) {
                 comboStudents.show();
+                Alumno alumno = checkMemberOf(c);
+                if(alumno != null) {
+                    comboStudents.setValue(alumno);
+                }
             }
+        
         });
         
         
@@ -101,18 +120,47 @@ public class FXMLSubjectController implements Initializable {
 
     @FXML
     private void addStudent(ActionEvent event) {
-        if ((!comboStudents.getEditor().getText().isEmpty())
-                && (comboStudents.getEditor().getText().trim().length() != 0)
-                ) {
-            datos.add(comboStudents.getValue());
+        System.out.println(comboStudents.getEditor().getText());
+        if ( datos.contains(comboStudents.getValue()) ) {
+            errorLabel.setText("No se pueden añadir alumnos repetidos.");
             comboStudents.getEditor().setText("");
             comboStudents.getSelectionModel().clearSelection();
             comboStudents.setValue(null);
             comboStudents.requestFocus();
-            listLV.refresh();
+        }
+        
+        else {
+            Alumno alumnoBuscado = checkMemberOf(comboStudents.getEditor().getText());
+            if (alumnoBuscado != null) {
+                datos.add(alumnoBuscado);
+                comboStudents.getEditor().setText("");
+                comboStudents.getSelectionModel().clearSelection();
+                comboStudents.setValue(null);
+                comboStudents.requestFocus();
+                listLV.refresh();
+            } else if ((!comboStudents.getEditor().getText().isEmpty())
+                    && (comboStudents.getEditor().getText().trim().length() != 0)) {
+                datos.add(comboStudents.getValue());
+                comboStudents.getEditor().setText("");
+                comboStudents.getSelectionModel().clearSelection();
+                comboStudents.setValue(null);
+                comboStudents.requestFocus();
+                listLV.refresh();
+            }
         }
     }
 
+    private Alumno checkMemberOf(String nombreAlumno){ //método que comprueba si texto del comboStudents es igual a algun alumno
+        Alumno res = null;
+        for(int i = 0; i <= filteredItems.size()&& res == null; i++){
+            if((filteredItems.get(i).getNombre() + " " + filteredItems.get(i).getApellidos()).toUpperCase().equals(nombreAlumno.toUpperCase())) {
+                res = filteredItems.get(i);
+            }
+                
+        }
+        return res;
+    }
+    
     @FXML
     private void cancelMethod(ActionEvent event) {
         FXMLCalendarioController.setTutoria(null);
@@ -121,10 +169,19 @@ public class FXMLSubjectController implements Initializable {
 
     @FXML
     private void acceptMethod(ActionEvent event) {
-        FXMLCalendarioController.setTutoria(tutoria);
-        ((Stage) boxDescription.getScene().getWindow()).close();
-
+        if(comboSubject.getValue() == null || datos.isEmpty()){
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Alerta de guardado");
+            alert.setHeaderText("Imposible guardar la tutoría");
+            alert.setContentText("Por favor, compruebe que: \n\t· Ha elegido el tipo de asignatura. \n\t· Introducido al menos 1 alumno.");
+            alert.showAndWait();
+        }
+        else{
+            FXMLCalendarioController.setTutoria(tutoria);
+            ((Stage) boxDescription.getScene().getWindow()).close();
+        }
     }
+    
     
     
     //METODO COPIADO DE STACK OVERFLOW https://stackoverflow.com/questions/19010619/javafx-filtered-combobox https://stackoverflow.com/questions/46988860/java-fx-editable-combobox-with-objects
@@ -141,8 +198,8 @@ public class FXMLSubjectController implements Initializable {
             }
         });
         
-        FilteredList<Alumno> filteredItems = new FilteredList<Alumno>(listaAlumnos, p -> true);
-        comboStudents.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+        
+        comboStudents.getEditor().textProperty().addListener((obs, oldValue, newValue) -> { //no funciona del todo
             final TextField editor = comboStudents.getEditor();
             final Alumno selected = comboStudents.getSelectionModel().getSelectedItem();
             
@@ -150,10 +207,8 @@ public class FXMLSubjectController implements Initializable {
                 if (selected == null || !selected.equals(editor.getText())) {
                     filteredItems.setPredicate(item -> {
                         if (((item.getNombre() + " " + item.getApellidos()).toUpperCase()).startsWith(newValue.toUpperCase())) {
-                            System.out.println("true");
                             return true;
                         } else {
-                            System.out.println("false");
                             return false;
                         }
                     });
@@ -180,32 +235,5 @@ public class FXMLSubjectController implements Initializable {
     }
 }
 
-class AlumnoList extends ListCell<Alumno>{
 
-    @Override
-    protected void updateItem(Alumno item, boolean empty) {
-        super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
-        if(empty || item == null) {
-            setText("");
-        }
-        else {
-            setText(item.getNombre() + " " + item.getApellidos());
-        }
-    }
-}
-
-    
-class SubjectList extends ListCell<Asignatura>{
-
-    @Override
-    protected void updateItem(Asignatura item, boolean empty) {
-        super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
-        if(empty || item == null) {
-            setText("");
-        }
-        else {
-            setText(item.getDescripcion());
-        }
-    }
-}
 

@@ -66,6 +66,11 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" spacing="20.0">
          <children>
+            <HBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="errorLabel" textFill="RED" />
+               </children>
+            </HBox>
             <Button mnemonicParsing="false" onAction="#cancelMethod" text="Cancelar" />
             <Button mnemonicParsing="false" onAction="#acceptMethod" text="Aceptar" />
          </children>
