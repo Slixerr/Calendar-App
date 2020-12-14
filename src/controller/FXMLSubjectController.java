@@ -40,11 +40,6 @@ import referencias.modelo.Alumno;
 import referencias.modelo.Asignatura;
 import referencias.modelo.Tutoria;
 
-/**
- * FXML Controller class
- *
- * @author silvi
- */
 public class FXMLSubjectController implements Initializable {
 
     @FXML
@@ -63,7 +58,7 @@ public class FXMLSubjectController implements Initializable {
     
     ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
     ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
-    FilteredList<String> filteredItems;
+    FilteredList<String> filteredAlumnos;
     
     @FXML
     private Button addButton;
@@ -79,7 +74,7 @@ public class FXMLSubjectController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        filteredItems = new FilteredList<String>(
+        filteredAlumnos = new FilteredList<>(
                 FXCollections.observableArrayList(
                         listaAlumnos.stream().map(Alumno::toString).collect(Collectors.toList())
                 ), p -> true);
@@ -89,18 +84,16 @@ public class FXMLSubjectController implements Initializable {
         
         datos = tutoria.getAlumnos();
         listLV.setItems(datos);
-        listLV.setCellFactory(cel -> new SimpleAlumnoCell());
+        listLV.setCellFactory(c -> new SimpleAlumnoCell());
         
-        comboSubject.setCellFactory(cel -> new SimpleSubjectCell());
+        comboSubject.setCellFactory(c -> new SimpleSubjectCell());
         comboSubject.setButtonCell(new SimpleSubjectCell());
         comboSubject.setItems(listaAsignaturas);
         formatoComboStudents();
 
         comboStudents.getEditor().textProperty().addListener((a,b,c) -> {
             comboStudents.setValue(c);
-            if(!c.isEmpty()) {
-                comboStudents.show();
-            }
+            if(!c.isEmpty()) comboStudents.show();
         });
     }
     
@@ -111,23 +104,24 @@ public class FXMLSubjectController implements Initializable {
     @FXML
     private void addStudent(ActionEvent event) {
         Alumno alumno = checkMemberOf(comboStudents.getValue());
-        if(alumno != null) {
-            if (datos.contains(alumno) ) {
-                errorLabel.setText("No se pueden añadir alumnos repetidos.");
-            } else if (!comboStudents.getValue().equals("")) {
-                // Open alumno creation here
-                datos.add(alumno);
-                listLV.refresh();
-            }
-            comboStudents.getEditor().setText("");
-            comboStudents.getSelectionModel().clearSelection();
-            comboStudents.requestFocus();
+        
+        if(alumno == null) return;
+        
+        if (datos.contains(alumno) ) {
+            errorLabel.setText("No se pueden añadir alumnos repetidos.");
+        } else if (!comboStudents.getValue().equals("")) {
+            // Open alumno creation here
+            datos.add(alumno);
+            listLV.refresh();
         }
+        comboStudents.getEditor().setText("");
+        comboStudents.getSelectionModel().clearSelection();
+        comboStudents.requestFocus();
     }
 
     private Alumno checkMemberOf(String nombreAlumno){
         return listaAlumnos.stream().filter((Alumno a) -> {
-            return a.toString().toUpperCase().equals(nombreAlumno.toUpperCase());
+            return a.toString().equalsIgnoreCase(nombreAlumno);
         }).findAny().orElse(null);
     }
     
@@ -152,27 +146,17 @@ public class FXMLSubjectController implements Initializable {
         }
     }
     
-    
-    
-    //METODO COPIADO DE STACK OVERFLOW https://stackoverflow.com/questions/19010619/javafx-filtered-combobox https://stackoverflow.com/questions/46988860/java-fx-editable-combobox-with-objects
+    /*
+    *  runlater needed as text property can't be modified inside chage handler,
+    *  as per https://bugs.openjdk.java.net/browse/JDK-8081700
+    */
     private void formatoComboStudents() {
-        comboStudents.getEditor().textProperty().addListener((a, b, c) -> { //no funciona del todo
-            final TextField editor = comboStudents.getEditor();
-            final String selected = comboStudents.getSelectionModel().getSelectedItem();
-            
+        comboStudents.getEditor().textProperty().addListener((a, b, c) -> {
             Platform.runLater(() -> {
-                if (selected == null || !selected.toString().equals(editor.getText())) {
-                    filteredItems.setPredicate(item -> {
-                        if ((item.toString().toUpperCase()).startsWith(c.toUpperCase())) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    });
-                }
+                filteredAlumnos.setPredicate(item -> item.toUpperCase().startsWith(c.toUpperCase()));
             });
         });
-        comboStudents.setItems(filteredItems);
+        comboStudents.setItems(filteredAlumnos);
     }
     
     public void setTimeLabel(TimeSlot start, TimeSlot end) {
