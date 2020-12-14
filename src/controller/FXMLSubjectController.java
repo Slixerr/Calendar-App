@@ -84,32 +84,23 @@ public class FXMLSubjectController implements Initializable {
                         listaAlumnos.stream().map(Alumno::toString).collect(Collectors.toList())
                 ), p -> true);
         
-        // TODO
-        /*addButton.setDisable(true);
-        addButton.disableProperty().bind(comboStudents.getEditor().textProperty().isEmpty());*/
+        addButton.setDisable(true);
+        addButton.disableProperty().bind(comboStudents.getEditor().textProperty().isEmpty());
         
         datos = tutoria.getAlumnos();
         listLV.setItems(datos);
         listLV.setCellFactory(cel -> new SimpleAlumnoCell());
         
-    
-        //comboStudents.setCellFactory(cel -> new SimpleAlumnoCell()); 
         comboSubject.setCellFactory(cel -> new SimpleSubjectCell());
         comboSubject.setButtonCell(new SimpleSubjectCell());
         comboSubject.setItems(listaAsignaturas);
         formatoComboStudents();
 
-        
         comboStudents.getEditor().textProperty().addListener((a,b,c) -> {
-            /*if(!comboStudents.getSelectionModel().isEmpty() && (c.length() - b.length() == 1)) {
-                comboStudents.getSelectionModel().clearSelection();
-                comboStudents.setValue(null);
-            }*/
             comboStudents.setValue(c);
             if(!c.isEmpty()) {
                 comboStudents.show();
             }
-        
         });
     }
     
@@ -125,7 +116,6 @@ public class FXMLSubjectController implements Initializable {
                 errorLabel.setText("No se pueden añadir alumnos repetidos.");
             } else if (!comboStudents.getValue().equals("")) {
                 // Open alumno creation here
-                
                 datos.add(alumno);
                 listLV.refresh();
             }
@@ -135,14 +125,10 @@ public class FXMLSubjectController implements Initializable {
         }
     }
 
-    private Alumno checkMemberOf(String nombreAlumno){ //método que comprueba si texto del comboStudents es igual a algun alumno
-        Alumno res = null;
-        for(int i = 0; i < listaAlumnos.size()&& res == null; i++){
-            if((listaAlumnos.get(i).getNombre() + " " + listaAlumnos.get(i).getApellidos()).toUpperCase().equals(nombreAlumno.toUpperCase())) {
-                res = listaAlumnos.get(i);
-            }
-        }
-        return res;
+    private Alumno checkMemberOf(String nombreAlumno){
+        return listaAlumnos.stream().filter((Alumno a) -> {
+            return a.toString().toUpperCase().equals(nombreAlumno.toUpperCase());
+        }).findAny().orElse(null);
     }
     
     @FXML
@@ -170,27 +156,14 @@ public class FXMLSubjectController implements Initializable {
     
     //METODO COPIADO DE STACK OVERFLOW https://stackoverflow.com/questions/19010619/javafx-filtered-combobox https://stackoverflow.com/questions/46988860/java-fx-editable-combobox-with-objects
     private void formatoComboStudents() {
-        /*comboStudents.setConverter(new StringConverter<Alumno>() {
-        @Override
-        public String toString(Alumno alumno) {
-            return alumno == null ? "" : alumno.getNombre() + " " + alumno.getApellidos();
-        }
-
-            @Override
-            public Alumno fromString(String string) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });*/
-        
-        
-        comboStudents.getEditor().textProperty().addListener((obs, oldValue, newValue) -> { //no funciona del todo
+        comboStudents.getEditor().textProperty().addListener((a, b, c) -> { //no funciona del todo
             final TextField editor = comboStudents.getEditor();
             final String selected = comboStudents.getSelectionModel().getSelectedItem();
             
             Platform.runLater(() -> {
                 if (selected == null || !selected.toString().equals(editor.getText())) {
                     filteredItems.setPredicate(item -> {
-                        if ((item.toString().toUpperCase()).startsWith(newValue.toUpperCase())) {
+                        if ((item.toString().toUpperCase()).startsWith(c.toUpperCase())) {
                             return true;
                         } else {
                             return false;
@@ -203,7 +176,6 @@ public class FXMLSubjectController implements Initializable {
     }
     
     public void setTimeLabel(TimeSlot start, TimeSlot end) {
-        //timeLabel.textProperty().bind(Bindings.format("\s - \s", tutoria.inicioProperty(), ));
         timeLabel.setText(start.getStart().format(timeFormatter) + " - " + end.getEnd().format(timeFormatter));
     }
     
