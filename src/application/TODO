@@ -5,6 +5,8 @@ Implementation:
     - (FXMLCalendarioController) Help button popup
     - (FXMLCalendarioController) Redo datePicker
     - (FXMLCalendarioController) Anulacion/confirmacion button
+    - (FXMLCalendarioController) Modify existing alumno/tutoria
+    - (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
 
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
@@ -14,4 +16,3 @@ Bug fixes:
 Changes and polish:
     - CSS
     - (FXMLCalendarioController) Refactor FXML creators, unnecessary code
-

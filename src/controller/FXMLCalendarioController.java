@@ -159,6 +159,7 @@ public class FXMLCalendarioController implements Initializable {
         createBookingListener();
         createDayListener();
         createDescriptionListener();
+        createAddingListener();
     }
 
     private void generateTestParameters() {
@@ -241,6 +242,10 @@ public class FXMLCalendarioController implements Initializable {
                 catch(Exception ignored){}
             }
         });
+    }
+    
+    private void createAddingListener() {
+        
     }
     
     private void createDescriptionListener() {

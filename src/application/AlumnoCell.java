@@ -38,6 +38,7 @@ public class AlumnoCell extends ListCell<Alumno>{
 
             setText(item.getNombre() + " " + item.getApellidos()+"\n"+item.getEmail());
         } else {
+            setGraphic(null);
             setText("");
         }
     }
