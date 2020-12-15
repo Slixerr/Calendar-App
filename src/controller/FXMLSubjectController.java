@@ -17,8 +17,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -55,7 +60,8 @@ public class FXMLSubjectController implements Initializable {
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
     
     private ObservableList<Alumno> datos = null;
-    
+    int lastFilteredAlumnosSize = 0;
+        
     ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
     ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
     FilteredList<String> filteredAlumnos;
@@ -68,9 +74,7 @@ public class FXMLSubjectController implements Initializable {
     private Tutoria tutoria = new Tutoria();
     @FXML
     private Label errorLabel;
-    /**
-     * Initializes the controller class.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -89,11 +93,37 @@ public class FXMLSubjectController implements Initializable {
         comboSubject.setCellFactory(c -> new SimpleSubjectCell());
         comboSubject.setButtonCell(new SimpleSubjectCell());
         comboSubject.setItems(listaAsignaturas);
-        formatoComboStudents();
+        
+        comboStudents.setItems(filteredAlumnos);
+        filteredAlumnosListeners();
+        comboStudentsListeners();
+    }
 
+    private void comboStudentsListeners() {
         comboStudents.getEditor().textProperty().addListener((a,b,c) -> {
             comboStudents.setValue(c);
-            if(!c.isEmpty()) comboStudents.show();
+        });
+        /*
+        * this piece of code exists to mitigate a bug in javafx
+        * sometimes when changing the amount of items through listeners
+        * strange things will happen to the combobox.
+        * This approach eliminates these errors at the cost of introducing
+        * a flicker when writing (caused by repeated show/hide of the box)
+        * this is reduced by only flickering when the list size changes.
+        */
+        comboStudents.getItems().addListener((Observable c) -> {
+            Platform.runLater(() -> {
+                if(filteredAlumnos.size() == 0) {
+                    comboStudents.hide();
+                }
+                else if (lastFilteredAlumnosSize == filteredAlumnos.size()){
+                    comboStudents.show();
+                } else {
+                    lastFilteredAlumnosSize = filteredAlumnos.size();
+                    comboStudents.hide();
+                    comboStudents.show();
+                }
+            });
         });
     }
     
@@ -105,12 +135,16 @@ public class FXMLSubjectController implements Initializable {
     private void addStudent(ActionEvent event) {
         Alumno alumno = checkMemberOf(comboStudents.getValue());
         
-        if(alumno == null) return;
+        if(alumno == null) {
+            String[] names = comboStudents.getValue().split(" ");
+            alumno = FXMLCalendarioController.createAlumno(names[0], String.join(names[0], names[1]));
+            List<Alumno> alumnos= AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
+            if (!alumnos.contains(alumno)) alumnos.add(alumno);
+        }
         
         if (datos.contains(alumno) ) {
             errorLabel.setText("No se pueden añadir alumnos repetidos.");
         } else if (!comboStudents.getValue().equals("")) {
-            // Open alumno creation here
             datos.add(alumno);
             listLV.refresh();
         }
@@ -150,13 +184,12 @@ public class FXMLSubjectController implements Initializable {
     *  runlater needed as text property can't be modified inside chage handler,
     *  as per https://bugs.openjdk.java.net/browse/JDK-8081700
     */
-    private void formatoComboStudents() {
+    private void filteredAlumnosListeners() {
         comboStudents.getEditor().textProperty().addListener((a, b, c) -> {
             Platform.runLater(() -> {
                 filteredAlumnos.setPredicate(item -> item.toUpperCase().startsWith(c.toUpperCase()));
             });
         });
-        comboStudents.setItems(filteredAlumnos);
     }
     
     public void setTimeLabel(TimeSlot start, TimeSlot end) {

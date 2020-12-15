@@ -16,9 +16,6 @@ import javafx.fxml.Initializable;
  */
 public class FXMLAlumnoController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
