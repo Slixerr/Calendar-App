@@ -6,28 +6,27 @@
 package controller;
 
 import application.SimpleAlumnoCell;
-import application.SimpleSubjectCell;
 import application.TimeSlot;
 import java.net.URL;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
 import referencias.modelo.Asignatura;
@@ -41,8 +40,6 @@ import referencias.modelo.Tutoria;
 public class FXMLModificationController implements Initializable {
 
     @FXML
-    private ComboBox<Asignatura> comboSubject;
-    @FXML
     private ListView<Alumno> listLV;
     @FXML
     private TextArea boxDescription;
@@ -53,48 +50,70 @@ public class FXMLModificationController implements Initializable {
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
     
     private ObservableList<Alumno> datos = null;
-    
+    int lastFilteredAlumnosSize = 0;
+        
     ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
     ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
+    FilteredList<String> filteredAlumnos;
     
     @FXML
     private Button addButton;
     @FXML
-    private ComboBox<Alumno> comboStudents;
+    private ComboBox<String> comboStudents;
     
     private Tutoria tutoria = new Tutoria();
     @FXML
     private Label errorLabel;
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private Label subjectLabel;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        filteredAlumnos = new FilteredList<>(
+                FXCollections.observableArrayList(
+                        listaAlumnos.stream().map(Alumno::toString).collect(Collectors.toList())
+                ), p -> true);
+        
         addButton.setDisable(true);
         addButton.disableProperty().bind(comboStudents.getEditor().textProperty().isEmpty());
         
         datos = tutoria.getAlumnos();
         listLV.setItems(datos);
-        listLV.setCellFactory(cel -> new SimpleAlumnoCell());
+        listLV.setCellFactory(c -> new SimpleAlumnoCell());
+        listLV.refresh();
         
-    
-        comboStudents.setCellFactory(cel -> new SimpleAlumnoCell()); 
-        comboSubject.setCellFactory(cel -> new SimpleSubjectCell());
-        comboSubject.setButtonCell(new SimpleSubjectCell());
-        comboSubject.setItems(listaAsignaturas);
-        formatoComboStudents();
+        
+        comboStudents.setItems(filteredAlumnos);
+        filteredAlumnosListeners();
+        comboStudentsListeners();
+    }
 
-        
+    private void comboStudentsListeners() {
         comboStudents.getEditor().textProperty().addListener((a,b,c) -> {
-            if(!comboStudents.getSelectionModel().isEmpty() && (c.length() - b.length() == 1)) {
-                comboStudents.getSelectionModel().clearSelection();
-                comboStudents.setValue(null);
-            }
-            if(!comboStudents.getEditor().getText().isEmpty()) {
-                comboStudents.show();
-            }
-        
+            comboStudents.setValue(c);
+        });
+        /*
+        * this piece of code exists to mitigate a bug in javafx
+        * sometimes when changing the amount of items through listeners
+        * strange things will happen to the combobox.
+        * This approach eliminates these errors at the cost of introducing
+        * a flicker when writing (caused by repeated show/hide of the box)
+        * this is reduced by only flickering when the list size changes.
+        */
+        comboStudents.getItems().addListener((Observable c) -> {   
+            Platform.runLater(() -> {
+                if(filteredAlumnos.size() == 0) {
+                    comboStudents.hide();
+                }
+                else if (lastFilteredAlumnosSize == filteredAlumnos.size()){
+                    comboStudents.show();
+                } else {
+                    lastFilteredAlumnosSize = filteredAlumnos.size();
+                    comboStudents.hide();
+                    comboStudents.show();
+                }
+            });
         });
     }
     
@@ -104,25 +123,35 @@ public class FXMLModificationController implements Initializable {
 
     @FXML
     private void addStudent(ActionEvent event) {
-        if ( datos.contains(comboStudents.getValue()) ) {
-            errorLabel.setText("No se pueden añadir alumnos repetidos.");
-            comboStudents.getEditor().setText("");
-            comboStudents.getSelectionModel().clearSelection();
-            comboStudents.setValue(null);
-            comboStudents.requestFocus();
+        Alumno alumno = checkMemberOf(comboStudents.getValue());
+        
+        if(alumno == null) {
+            String[] names = comboStudents.getValue().split(" ");
+            String surname = "";
+            for (int i = 1;i<names.length;i++) surname = String.join(surname, names[i]);
+            alumno = FXMLCalendarioController.createAlumno(names[0], surname);
+            if (alumno == null) return;
+            List<Alumno> alumnos= AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
+            if (!alumnos.contains(alumno)) alumnos.add(alumno);
         }
-        else if ((!comboStudents.getEditor().getText().isEmpty())
-                && (comboStudents.getEditor().getText().trim().length() != 0)
-                ) {
-            datos.add(comboStudents.getValue());
-            comboStudents.getEditor().setText("");
-            comboStudents.getSelectionModel().clearSelection();
-            comboStudents.setValue(null);
-            comboStudents.requestFocus();
+        
+        if (datos.contains(alumno) ) {
+            errorLabel.setText("No se pueden añadir alumnos repetidos.");
+        } else if (!comboStudents.getValue().equals("")) {
+            datos.add(alumno);
             listLV.refresh();
         }
+        comboStudents.getEditor().setText("");
+        comboStudents.getSelectionModel().clearSelection();
+        comboStudents.requestFocus();
     }
 
+    private Alumno checkMemberOf(String nombreAlumno){
+        return listaAlumnos.stream().filter((Alumno a) -> {
+            return a.toString().equalsIgnoreCase(nombreAlumno);
+        }).findAny().orElse(null);
+    }
+    
     @FXML
     private void cancelMethod(ActionEvent event) {
         FXMLCalendarioController.setTutoria(null);
@@ -131,69 +160,51 @@ public class FXMLModificationController implements Initializable {
 
     @FXML
     private void acceptMethod(ActionEvent event) {
-        if(comboSubject.getValue() == null || datos.isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Alerta de guardado");
-            alert.setHeaderText("Imposible guardar la tutoría");
-            alert.setContentText("Por favor, compruebe que: \n\t· Ha elegido el tipo de asignatura. \n\t· Introducido al menos 1 alumno.");
-            alert.showAndWait();
-        }
-        else{
-            FXMLCalendarioController.setTutoria(tutoria);
-            ((Stage) boxDescription.getScene().getWindow()).close();
-        }
+        FXMLCalendarioController.setTutoria(tutoria);
+        ((Stage) boxDescription.getScene().getWindow()).close();
     }
     
-    
-    //METODO COPIADO DE STACK OVERFLOW https://stackoverflow.com/questions/19010619/javafx-filtered-combobox https://stackoverflow.com/questions/46988860/java-fx-editable-combobox-with-objects
-    private void formatoComboStudents() {
-        comboStudents.setConverter(new StringConverter<Alumno>() {
-        @Override
-        public String toString(Alumno alumno) {
-            return alumno == null ? "" : alumno.getNombre() + " " + alumno.getApellidos();
-        }
-
-            @Override
-            public Alumno fromString(String string) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        
-        FilteredList<Alumno> filteredItems = new FilteredList<Alumno>(listaAlumnos, p -> true);
-        comboStudents.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-            final TextField editor = comboStudents.getEditor();
-            final Alumno selected = comboStudents.getSelectionModel().getSelectedItem();
-            
+    /*
+    *  runlater needed as text property can't be modified inside chage handler,
+    *  as per https://bugs.openjdk.java.net/browse/JDK-8081700
+    */
+    private void filteredAlumnosListeners() {
+        comboStudents.getEditor().textProperty().addListener((a, b, c) -> {
             Platform.runLater(() -> {
-                if (selected == null || !selected.equals(editor.getText())) {
-                    filteredItems.setPredicate(item -> {
-                        if (((item.getNombre() + " " + item.getApellidos()).toUpperCase()).startsWith(newValue.toUpperCase())) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    });
-                }
+                filteredAlumnos.setPredicate(item -> item.toUpperCase().startsWith(c.toUpperCase()));
             });
         });
-        comboStudents.setItems(filteredItems);
     }
     
-    public void setTimeLabel(TimeSlot start, TimeSlot end) {
-        //timeLabel.textProperty().bind(Bindings.format("\s - \s", tutoria.inicioProperty(), ));
-        timeLabel.setText(start.getStart().format(timeFormatter) + " - " + end.getEnd().format(timeFormatter));
+//    public void setTimeLabel(TimeSlot start, TimeSlot end) {
+//        timeLabel.setText(start.getStart().format(timeFormatter) + " - " + end.getEnd().format(timeFormatter));
+//    }
+//    
+//    public void startVariables(TimeSlot start, TimeSlot end) {
+//        setTimeLabel(start,end);
+//        
+//        tutoria.setFecha(start.getDate());
+//        tutoria.setEstado(Tutoria.EstadoTutoria.PEDIDA);
+//        tutoria.setInicio(start.getStart().toLocalTime());
+//        tutoria.setDuracion(Duration.between(start.getStart(), end.getEnd()));
+//        tutoria.anotacionesProperty().bind(boxDescription.textProperty());
+//
+//    }
+    public void setTimeLabel() {
+        timeLabel.setText(tutoria.getInicio().format(timeFormatter) + " - " + tutoria.getInicio().plus(tutoria.getDuracion()).format(timeFormatter));
     }
     
-    public void startVariables(TimeSlot start, TimeSlot end) {
-        setTimeLabel(start,end);
+    public void startVariables(Tutoria tut) {
+        tutoria = tut;
+        setTimeLabel();
+        subjectLabel.setText(tutoria.getAsignatura().toString());
+        boxDescription.setText(tutoria.getAnotaciones());
         
-        tutoria.setFecha(start.getDate());
-        tutoria.setEstado(Tutoria.EstadoTutoria.PEDIDA);
-        tutoria.setInicio(start.getStart().toLocalTime());
-        tutoria.setDuracion(Duration.between(start.getStart(), end.getEnd()));
         tutoria.anotacionesProperty().bind(boxDescription.textProperty());
-        tutoria.asignaturaProperty().bind(comboSubject.valueProperty());
     }
-}
+} 
+    
+    
+
 
 

@@ -594,13 +594,16 @@ public class FXMLCalendarioController implements Initializable {
         } catch (IOException ignored) {}
         
         FXMLModificationController controller = loader.getController();
-
+        
+        
+        
         Scene currScene = new Scene(root);
         Stage ventana2= new Stage();
         ventana2.setTitle("Editar tutoría");
         ventana2.initModality(Modality.APPLICATION_MODAL);
         //ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
+        controller.startVariables(getTutoria());
         ventana2.showAndWait();
     }
     
