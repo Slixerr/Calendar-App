@@ -5,6 +5,8 @@
  */
 package referencias.modelo;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
@@ -18,7 +20,7 @@ public class Alumno {
     private final StringProperty nombre = new SimpleStringProperty();
     private final StringProperty apellidos = new SimpleStringProperty();
     private final StringProperty email = new SimpleStringProperty();
-    private Image headShot = null;
+    private final ObjectProperty<Image> headshot = new SimpleObjectProperty<>();
 
     public String getNombre() {
         return nombre.get();
@@ -43,13 +45,17 @@ public class Alumno {
     public StringProperty apellidosProperty() {
         return apellidos;
     }
-
-    public Image getHeadShot() {
-        return headShot;
+    
+    public ObjectProperty headshotProperty() {
+        return headshot;
     }
 
-    public void setHeadShot(Image headShot) {
-        this.headShot = headShot;
+    public Image getHeadShot() {
+        return headshot.get();
+    }
+
+    public void setHeadShot(Image img) {
+        headshot.set(img);
     }
 
     public String getEmail() {

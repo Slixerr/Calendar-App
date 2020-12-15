@@ -136,10 +136,8 @@ public class FXMLSubjectController implements Initializable {
         Alumno alumno = checkMemberOf(comboStudents.getValue());
         
         if(alumno == null) {
-            String[] names = comboStudents.getValue().split(" ");
-            String surname = "";
-            for (int i = 1;i<names.length;i++) surname = String.join(surname, names[i]);
-            alumno = FXMLCalendarioController.createAlumno(names[0], surname);
+            String[] names = comboStudents.getValue().split(" ",2);
+            alumno = FXMLCalendarioController.createAlumno(names[0],(names.length==1)?"":names[1]);
             if (alumno == null) return;
             List<Alumno> alumnos= AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
             if (!alumnos.contains(alumno)) alumnos.add(alumno);

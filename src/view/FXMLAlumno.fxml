@@ -24,7 +24,7 @@
             <Region prefWidth="159.0" />
             <StackPane>
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="headshotView" fitHeight="150.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/headshot.png" />
                      </image>

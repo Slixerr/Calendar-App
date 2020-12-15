@@ -1,29 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.awt.Desktop;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import referencias.modelo.Alumno;
 
-/**
- * FXML Controller class
- *
- * @author danie
- */
+
 public class FXMLAlumnoController implements Initializable {
 
     @FXML
@@ -42,14 +36,25 @@ public class FXMLAlumnoController implements Initializable {
     private Alumno alumno;
     
     private Stage stage;
+    @FXML
+    private ImageView headshotView;
     
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         alumno = new Alumno();
-        nameBox.textProperty().bind(alumno.nombreProperty());
-        surnameBox.textProperty().bind(alumno.apellidosProperty());
-        mailBox.textProperty().bind(alumno.emailProperty());
+        alumno.nombreProperty().bind(nameBox.textProperty());
+        alumno.apellidosProperty().bind(surnameBox.textProperty());
+        alumno.emailProperty().bind(mailBox.textProperty());
+        
+        
+        Image img = new Image(FXMLAlumnoController.class.getResourceAsStream("/resources/headshot.png"));
+
+        headshotView.imageProperty().bind(
+                Bindings.when(alumno.headshotProperty().isNull())
+                        .then(img)
+                        .otherwise(alumno.headshotProperty()));
+
         createButton.setOnAction(a -> {
             FXMLCalendarioController.setCreatedAlumno(alumno);
             stage.close();
@@ -66,18 +71,20 @@ public class FXMLAlumnoController implements Initializable {
             File file = fc.showOpenDialog(stage);
             if (file != null) {
                 try {
-                    Desktop.getDesktop().open(file);
-                } catch (Exception ignore) {}
+                    alumno.setHeadShot(new Image(file.toURI().toString()));
+                } catch (Exception ignore) {
+                    System.out.println(file.getPath());
+                }
             }
         });
     }
     
     public void setName(String name) {
-        alumno.setNombre(name);
+        nameBox.setText(name);
     }
     
     public void setSurname(String surname) {
-        alumno.setApellidos(surname);
+        surnameBox.setText(surname);
     }
 
     public void setStage(Stage stage) {

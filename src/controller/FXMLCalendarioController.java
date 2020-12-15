@@ -613,12 +613,12 @@ public class FXMLCalendarioController implements Initializable {
         
         FXMLAlumnoController controller = loader.getController();
         
-        Scene scene = new Scene(root);
+        Scene currScene = new Scene(root);
         Stage ventana2= new Stage();
         ventana2.setTitle("Añadir alumno");
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
-        ventana2.setScene(scene);
+        ventana2.setScene(currScene);
         controller.setName(sName);
         controller.setSurname(sSurname);
         controller.setStage(ventana2);
