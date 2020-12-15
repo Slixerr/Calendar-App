@@ -447,7 +447,7 @@ public class FXMLCalendarioController implements Initializable {
         timeSlot.getView().setOnMouseDragged((MouseEvent event) -> {
             if(lastHovered!=null){
                 TimeSlot hovered = timeSlotOver(event);
-                if (hovered != null && hovered != lastHovered && allowContinue(timeSlot, hovered)){
+                if (hovered != null && hovered != lastHovered && timeSlot.inHour(hovered) && allowContinue(timeSlot, hovered)){
                     boolean movingDown = Math.abs(timeSlot.getRow() - hovered.getRow()) > 
                             Math.abs(timeSlot.getRow() - lastHovered.getRow());
                     if(movingDown) {
@@ -495,7 +495,7 @@ public class FXMLCalendarioController implements Initializable {
     }
         
     private boolean allowContinue(TimeSlot base, TimeSlot currTS) {
-        boolean res = Math.abs(currTS.getRow() - lastHovered.getRow()) < 2;
+        boolean res = base.inHour(currTS) && Math.abs(currTS.getRow() - lastHovered.getRow()) < 2;
         if(res) return true;
         res = fillBlanks(base, currTS);
         return res;
@@ -508,7 +508,6 @@ public class FXMLCalendarioController implements Initializable {
     are any booked cells within.
     */
     private boolean fillBlanks(TimeSlot base, TimeSlot currentSlot) {
-        
         boolean res = true;
         int i;
         int sign = (int)Math.signum(currentSlot.getRow()-lastHovered.getRow());
@@ -516,7 +515,7 @@ public class FXMLCalendarioController implements Initializable {
         TimeSlot currTS;
         for (i = lastHovered.getRow() + sign; res && i != currentSlot.getRow(); i+=sign) {
             currTS = timeSlots.get(pressedCol-1).get(i);
-            res = !currTS.isBooked();
+            res = !currTS.isBooked() && base.inHour(currTS);
             if(res) {
                 currTS.setSelected(!currTS.isSelected());
             }
@@ -544,12 +543,17 @@ public class FXMLCalendarioController implements Initializable {
         });
     }
 
-    private TimeSlot timeSlotOver(MouseEvent event) { //utilizar posición
+    private TimeSlot timeSlotOver(MouseEvent event) {
         Pane pane = (Pane)(event.getSource());//unnecessary but theres a bug in grid.getHeight() I don't understand
         Bounds paneBounds = pane.localToScene(pane.getBoundsInLocal());
         int row = (int)((event.getSceneY()-gridBounds.getMinY())/(paneBounds.getHeight()));
-        TimeSlot slot = timeSlots.get(pressedCol-1).get(row);
-        return (slot.isBooked()) ? null : slot;
+        TimeSlot slot;
+        try{
+            slot = timeSlots.get(pressedCol-1).get(row);
+        }catch(Exception e) {
+            slot = null;
+        }
+        return (slot == null || slot.isBooked()) ? null : slot;
     }
 
     private Tutoria createTutoria(TimeSlot start, TimeSlot end) {

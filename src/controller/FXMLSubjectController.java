@@ -111,7 +111,7 @@ public class FXMLSubjectController implements Initializable {
         * a flicker when writing (caused by repeated show/hide of the box)
         * this is reduced by only flickering when the list size changes.
         */
-        comboStudents.getItems().addListener((Observable c) -> {
+        comboStudents.getItems().addListener((Observable c) -> {   
             Platform.runLater(() -> {
                 if(filteredAlumnos.size() == 0) {
                     comboStudents.hide();

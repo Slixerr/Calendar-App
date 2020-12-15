@@ -100,6 +100,10 @@ public class TimeSlot extends Position{
         bookedProperty().set(true);
     }
     
+    public boolean inHour(TimeSlot t) {
+        return (int)(Math.abs(Duration.between(this.getStart(), t.getStart()).toMinutes())) < 60;
+    }
+    
     public void setTutoria(Tutoria tutoria) {
         tutoriaProperty.set(tutoria);
     }
