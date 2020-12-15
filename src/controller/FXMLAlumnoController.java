@@ -72,9 +72,7 @@ public class FXMLAlumnoController implements Initializable {
             if (file != null) {
                 try {
                     alumno.setHeadShot(new Image(file.toURI().toString()));
-                } catch (Exception ignore) {
-                    System.out.println(file.getPath());
-                }
+                } catch (Exception ignore) {}
             }
         });
     }
