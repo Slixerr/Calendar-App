@@ -1,0 +1,16 @@
+Implementation:
+    - (FXMLAsignaturaController) Asignatura creation (FXML+Controller)
+    - (FXMLCalendarioController) Buttons for adding asignatura and alumno
+    - (FXMLModificationController) finish
+    - (FXMLCalendarioController) Help button popup
+    - (FXMLCalendarioController) Redo datePicker
+    - (FXMLCalendarioController) Anulacion/confirmacion button
+
+Bug fixes:
+    - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
+    - (FXMLTutoriaController) When selecting Alumno and clicking on dropdown, dropdown still displays name
+
+
+Changes and polish:
+    - CSS
+

@@ -20,13 +20,9 @@ import referencias.modelo.Alumno;
 
 public class FXMLAlumnoController implements Initializable {
 
-    @FXML
     private Button photoButton;
-    @FXML
     private TextField nameBox;
-    @FXML
     private TextField surnameBox;
-    @FXML
     private TextField mailBox;
     @FXML
     private Button cancelButton;
@@ -36,8 +32,11 @@ public class FXMLAlumnoController implements Initializable {
     private Alumno alumno;
     
     private Stage stage;
-    @FXML
     private ImageView headshotView;
+    @FXML
+    private TextField codigoBox;
+    @FXML
+    private TextField nombreBox;
     
 
     @Override

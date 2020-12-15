@@ -45,7 +45,7 @@ import referencias.modelo.Alumno;
 import referencias.modelo.Asignatura;
 import referencias.modelo.Tutoria;
 
-public class FXMLSubjectController implements Initializable {
+public class FXMLTutoriaController implements Initializable {
 
     @FXML
     private ComboBox<Asignatura> comboSubject;

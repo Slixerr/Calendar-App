@@ -565,13 +565,13 @@ public class FXMLCalendarioController implements Initializable {
     }
 
     private Tutoria createTutoria(TimeSlot start, TimeSlot end) {//make static
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLSubject.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTutoria.fxml"));
         Parent root = null;
         try {
             root = loader.load();
         } catch (IOException ignored) {}
         
-        FXMLSubjectController controller = loader.getController();
+        FXMLTutoriaController controller = loader.getController();
         
         controller.startVariables(start, end);
 
