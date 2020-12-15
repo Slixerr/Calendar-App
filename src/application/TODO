@@ -13,4 +13,5 @@ Bug fixes:
 
 Changes and polish:
     - CSS
+    - (FXMLCalendarioController) Refactor FXML creators, unnecessary code
 

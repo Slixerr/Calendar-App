@@ -111,6 +111,7 @@ public class FXMLCalendarioController implements Initializable {
     
     private static Tutoria createdTut;
     private static Alumno createdAlumno;
+    private static Asignatura createdAsignatura;
     
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
 
@@ -577,7 +578,6 @@ public class FXMLCalendarioController implements Initializable {
 
         Scene currScene = new Scene(root);
         Stage ventana2= new Stage();
-        ventana2.setTitle("Crear tutoría");
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
@@ -595,13 +595,10 @@ public class FXMLCalendarioController implements Initializable {
         
         FXMLModificationController controller = loader.getController();
         
-        
-        
         Scene currScene = new Scene(root);
         Stage ventana2= new Stage();
-        ventana2.setTitle("Editar tutoría");
         ventana2.initModality(Modality.APPLICATION_MODAL);
-        //ventana2.initStyle(StageStyle.UNDECORATED);
+        ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
         controller.startVariables(getTutoria());
         ventana2.showAndWait();
@@ -618,7 +615,6 @@ public class FXMLCalendarioController implements Initializable {
         
         Scene currScene = new Scene(root);
         Stage ventana2= new Stage();
-        ventana2.setTitle("Añadir alumno");
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
@@ -628,6 +624,23 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.showAndWait();
 
         return createdAlumno;
+    }
+    
+    public static Asignatura createAsignatura() {
+        FXMLLoader loader = new FXMLLoader(FXMLCalendarioController.class.getResource("/view/FXMLAsignatura.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException ignored) {}
+        
+        Scene currScene = new Scene(root);
+        Stage ventana2 = new Stage();
+        ventana2.initModality(Modality.APPLICATION_MODAL);
+        ventana2.initStyle(StageStyle.UNDECORATED);
+        ventana2.setScene(currScene);
+        ventana2.showAndWait();
+
+        return createdAsignatura;
     }
     
     public static void setTutoria(Tutoria tut) {
@@ -640,6 +653,10 @@ public class FXMLCalendarioController implements Initializable {
 
     public static void setCreatedAlumno(Alumno alumno) {
         createdAlumno = alumno;
+    }
+    
+    static void setCreatedAsignatura(Asignatura asignatura) {
+        createdAsignatura = asignatura;
     }
     
     public static void setScene(Scene sc) {
