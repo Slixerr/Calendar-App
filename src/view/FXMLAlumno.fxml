@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLAlumnoController">
    <children>
       <HBox>
          <children>
@@ -30,7 +29,7 @@
                         <Image url="@../resources/headshot.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" text="+" />
+                  <Button fx:id="photoButton" mnemonicParsing="false" text="+" />
                </children>
             </StackPane>
          </children>
@@ -40,13 +39,13 @@
             <VBox>
                <children>
                   <Label text="Nombre" />
-                  <TextField maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" />
+                  <TextField fx:id="nameBox" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" />
                </children>
             </VBox>
             <VBox>
                <children>
                   <Label text="Apellidos" />
-                  <TextField maxWidth="-Infinity" prefWidth="250.0" />
+                  <TextField fx:id="surnameBox" maxWidth="-Infinity" prefWidth="250.0" />
                </children>
             </VBox>
          </children>
@@ -57,13 +56,13 @@
       <VBox>
          <children>
             <Label text="Correo" />
-            <TextField maxWidth="-Infinity" prefWidth="415.0" />
+            <TextField fx:id="mailBox" maxWidth="-Infinity" prefWidth="415.0" />
          </children>
       </VBox>
       <HBox alignment="CENTER_RIGHT" spacing="15.0">
          <children>
-            <Button mnemonicParsing="false" text="Cancelar" />
-            <Button mnemonicParsing="false" text="Añadir" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancelar" />
+            <Button fx:id="createButton" mnemonicParsing="false" text="Añadir" />
          </children>
          <padding>
             <Insets top="10.0" />

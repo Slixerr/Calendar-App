@@ -110,6 +110,7 @@ public class FXMLCalendarioController implements Initializable {
     private Label slotSelected;
     
     private static Tutoria createdTut;
+    private static Alumno createdAlumno;
     
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
 
@@ -506,6 +507,13 @@ public class FXMLCalendarioController implements Initializable {
     If it detects a space between the last cell the mouse has hovered over
     and the current cell, it will fill in the space (checking to see if there
     are any booked cells within.
+    
+    With the 1hour restriction on tutorías this method is pretty much obsolete,
+    as it is practically impossible for someone to make a jump without hitting
+    the borders. It took me 4 hours to code and debug this :(
+    
+    Regardless, I hold confort in the notion that if the time limit of 1 hour
+    were to be extended or removed, this method would be of use to the program.
     */
     private boolean fillBlanks(TimeSlot base, TimeSlot currentSlot) {
         boolean res = true;
@@ -556,7 +564,7 @@ public class FXMLCalendarioController implements Initializable {
         return (slot == null || slot.isBooked()) ? null : slot;
     }
 
-    private Tutoria createTutoria(TimeSlot start, TimeSlot end) {
+    private Tutoria createTutoria(TimeSlot start, TimeSlot end) {//make static
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLSubject.fxml"));
         Parent root = null;
         try {
@@ -603,16 +611,20 @@ public class FXMLCalendarioController implements Initializable {
             root = loader.load();
         } catch (IOException ignored) {}
         
-        FXMLModificationController controller = loader.getController();
-
+        FXMLAlumnoController controller = loader.getController();
+        
         Scene scene = new Scene(root);
         Stage ventana2= new Stage();
         ventana2.setTitle("Añadir alumno");
         ventana2.initModality(Modality.APPLICATION_MODAL);
-        //ventana2.initStyle(StageStyle.UNDECORATED);
+        ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(scene);
+        controller.setName(sName);
+        controller.setSurname(sSurname);
+        controller.setStage(ventana2);
         ventana2.showAndWait();
-        return null;
+
+        return createdAlumno;
     }
     
     public static void setTutoria(Tutoria tut) {
@@ -621,6 +633,10 @@ public class FXMLCalendarioController implements Initializable {
     
     public static Tutoria getTutoria() {
         return createdTut;
+    }
+
+    public static void setCreatedAlumno(Alumno alumno) {
+        createdAlumno = alumno;
     }
     
     public static void setScene(Scene sc) {
