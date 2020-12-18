@@ -7,6 +7,7 @@ Implementation:
     - (FXMLCalendarioController) Anulacion/confirmacion button
     - (FXMLCalendarioController) Modify existing alumno/tutoria
     - (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
+    - (FXMLSubjectController) Remove Alumno from list
 
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
@@ -16,3 +17,5 @@ Bug fixes:
 Changes and polish:
     - CSS
     - (FXMLCalendarioController) Refactor FXML creators, unnecessary code
+    - (FXMLCalendarioController) Remove Alumno from list
+    - (FXMLCalendarioController) Make añadir button transparente
