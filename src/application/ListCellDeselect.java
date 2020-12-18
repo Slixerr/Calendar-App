@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent;
 
 /*
 The purpose of this class is to allow items in a listView to be deselected just
-by pressing on them
+by clicking on them
 
 This is a hacky solution, if this were a long term project intended to work 
 without updates it would be removed. Since the javafx listView gives no hooks 
