@@ -47,8 +47,11 @@ public class AlumnoCell extends ListCellDeselect<Alumno>{
         super();
         eliminar = new Button("X");
         editar = new Button("E");
-
         
+        setOnMouseEntered((MouseEvent event) -> {
+            getListView().getSelectionModel().select(getItem());
+        });
+
         eliminar.setDisable(false);
         editar.setDisable(false);
         eliminar.setPadding(new Insets(1,2,1,2));
