@@ -9,6 +9,7 @@ Implementation:
     + (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
     + (FXMLSubjectController) Remove Alumno from list
     - (AlumnoCell) Show image when editing Alumno
+    - (FXMLCalendarioController) Allow deselect from alumnosList and AsignaturasList
 
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
