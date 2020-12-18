@@ -9,6 +9,7 @@ import application.SimpleAlumnoCell;
 import application.SimpleSubjectCell;
 import application.AlumnoCell;
 import application.TimeSlot;
+import static controller.FXMLAlumnoController.CREAR;
 import java.net.URL;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
@@ -137,7 +138,7 @@ public class FXMLTutoriaController implements Initializable {
         
         if(alumno == null) {
             String[] names = comboStudents.getValue().split(" ",2);
-            alumno = FXMLCalendarioController.createAlumno(names[0],(names.length==1)?"":names[1], "");
+            alumno = FXMLCalendarioController.createAlumno(names[0],(names.length==1)?"":names[1], "",null, CREAR);
             if (alumno == null) return;
             List<Alumno> alumnos= AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
             if (!alumnos.contains(alumno)) alumnos.add(alumno);

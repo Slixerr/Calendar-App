@@ -9,6 +9,8 @@ import static application.CalendarioIPC.SLOT_LENGTH;
 import application.Position;
 import application.TimeSlot;
 import application.Week;
+import static controller.FXMLAlumnoController.CREAR;
+import static controller.FXMLAlumnoController.MODIFICAR;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -203,17 +205,8 @@ public class FXMLCalendarioController implements Initializable {
         bindSidePaneLists();
         
         sideBoxState.addListener((a,b,c) -> {
-            switch(c.intValue()) {
-                case DISABLED:
-                    break;
-                case ALUMNOS:
-                    
-                    break;
-                case ASIGNATURAS:
-                    break;
-                default:
-                    
-            }
+            alumnosLV.getSelectionModel().clearSelection();
+            asignaturasLV.getSelectionModel().clearSelection();
         });
     }
     
@@ -221,10 +214,6 @@ public class FXMLCalendarioController implements Initializable {
         alumnos = tutorias.getAlumnosTutorizados();
         alumnosLV.setItems(alumnos);
         alumnosLV.setCellFactory(c -> new AlumnoCell());
-        alumnosLV.getSelectionModel().selectedItemProperty().addListener((a,b,c) -> {
-            Button butt = new Button("E");
-            
-        });
         
         asignaturas = tutorias.getAsignaturas();
         asignaturasLV.setItems(asignaturas);
@@ -255,11 +244,13 @@ public class FXMLCalendarioController implements Initializable {
     
     private void createAddingListener() {
         añadirAlumnoButton.setOnAction(a -> {
-            Alumno al = createAlumno("","","");
+            alumnosLV.getSelectionModel().clearSelection();
+            Alumno al = createAlumno("","","",null, CREAR);
             boolean cont = tutorias.getAlumnosTutorizados().contains(al);
             if(!cont) {tutorias.getAlumnosTutorizados().add(al);}
         });
         añadirAsignaturaButton.setOnAction(a -> {
+            asignaturasLV.getSelectionModel().clearSelection();
             Asignatura as = createAsignatura();
             boolean cont = tutorias.getAsignaturas().contains(as);
             if(!cont) {tutorias.getAsignaturas().add(as);}
@@ -282,7 +273,7 @@ public class FXMLCalendarioController implements Initializable {
         double baseX = (bounds.getMaxX()+descriptionBox.getWidth() > scene.getWidth()) ? 
                 bounds.getMinX() - descriptionBox.getWidth() : bounds.getMaxX();
         double baseY = (bounds.getMinY()+descriptionBox.getHeight() > scene.getHeight()) ? 
-                bounds.getMaxY() - descriptionBox.getHeight() : bounds.getMinY();;
+                bounds.getMaxY() - descriptionBox.getHeight() : bounds.getMinY();
         descriptionBox.setTranslateX(baseX-descriptionBox.getLayoutX());
         descriptionBox.setTranslateY(baseY-descriptionBox.getLayoutY());
     }
@@ -627,7 +618,7 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.showAndWait();
     }
     
-    public static Alumno createAlumno(String sName, String sSurname, String sEmail) {
+    public static Alumno createAlumno(String sName, String sSurname, String sEmail, Image hs, int tipo) {
         FXMLLoader loader = new FXMLLoader(FXMLCalendarioController.class.getResource("/view/FXMLAlumno.fxml"));
         Parent root = null;
         try {
@@ -644,7 +635,9 @@ public class FXMLCalendarioController implements Initializable {
         controller.setName(sName);
         controller.setSurname(sSurname);
         controller.setEmail(sEmail);
+        controller.setHeadshot(hs);
         controller.setStage(ventana2);
+        controller.setType(tipo);
         ventana2.showAndWait();
 
         return createdAlumno;

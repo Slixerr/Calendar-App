@@ -1,7 +1,9 @@
 package application;
 
+import static controller.FXMLAlumnoController.MODIFICAR;
 import controller.FXMLCalendarioController;
 import static controller.FXMLCalendarioController.createAlumno;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,9 +42,12 @@ public class AlumnoCell extends ListCell<Alumno>{
     private Button editar;
     
     private ColumnConstraints buttonCol;
+    private boolean wasSelected = false;
 
     public AlumnoCell() {
         super();
+        
+        clickDeselection();
 
         eliminar = new Button("X");
         editar = new Button("E");
@@ -76,6 +81,26 @@ public class AlumnoCell extends ListCell<Alumno>{
         setText(null);
         setGraphic(pane);
     }
+
+    /*
+    This is a hacky solution, if this were a long term project intended to work 
+    without updates it would be removed. Since the javafx listView gives no hooks 
+    for managing its selection internally it must be done using external variables.
+    
+    If the selection event were to change to another function (ej:mousePressed) 
+    in a future javafx update, the method would be rendered obsolete, which is 
+    why it is by no means long-term stable.
+    */
+    private void clickDeselection() {
+        setOnMouseClicked((MouseEvent event) -> {
+            if (wasSelected && isSelected()) {
+                wasSelected = false;
+                getListView().getSelectionModel().clearSelection();
+            } else {
+                wasSelected = isSelected();
+            }
+        });
+    }
     
     @Override
     protected void updateItem(Alumno item, boolean empty) {
@@ -108,14 +133,19 @@ public class AlumnoCell extends ListCell<Alumno>{
                 Bindings.when(this.selectedProperty())
                         .then(USE_COMPUTED_SIZE)
                         .otherwise(0));
-        
+        ObservableList<Alumno> alumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
         editar.setOnAction((ActionEvent event) -> {
-            Alumno alCreado = createAlumno(alumno.getNombre(), alumno.getApellidos(), alumno.getEmail());
-            AccesoBD.getInstance().getTutorias().getAlumnosTutorizados().remove(alumno);
-            AccesoBD.getInstance().getTutorias().getAlumnosTutorizados().add(alCreado);
+            Alumno alCreado = createAlumno(alumno.getNombre(), alumno.getApellidos(), alumno.getEmail(), alumno.getHeadShot(), MODIFICAR);
+            if(alCreado != null) {
+                int pos = alumnos.indexOf(alumno);
+                alumnos.remove(alumno);
+                alumnos.add(pos, alCreado);
+            }
+            this.getListView().getSelectionModel().clearSelection();
         });
         eliminar.setOnAction((ActionEvent event) -> {
             AccesoBD.getInstance().getTutorias().getAlumnosTutorizados().remove(alumno);
+            this.getListView().getSelectionModel().clearSelection();
         });
     }
     
@@ -131,9 +161,10 @@ public class AlumnoCell extends ListCell<Alumno>{
         frame.setClip(clip);
         return frame;
     }
+
+    @Override
+    public void updateSelected(boolean selected) {
+        super.updateSelected(selected);
+        if(!isSelected()) wasSelected = false;
+    }
 }
-
-
-
-    
-
