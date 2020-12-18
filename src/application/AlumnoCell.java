@@ -31,7 +31,7 @@ import referencias.modelo.Alumno;
 import referencias.modelo.Asignatura;
 
 
-public class AlumnoCell extends ListCell<Alumno>{
+public class AlumnoCell extends ListCellDeselect<Alumno>{
     private GridPane pane;
     private Label name;
     private Label mail;
@@ -42,13 +42,9 @@ public class AlumnoCell extends ListCell<Alumno>{
     private Button editar;
     
     private ColumnConstraints buttonCol;
-    private boolean wasSelected = false;
-
+    
     public AlumnoCell() {
         super();
-        
-        clickDeselection();
-
         eliminar = new Button("X");
         editar = new Button("E");
 
@@ -80,26 +76,6 @@ public class AlumnoCell extends ListCell<Alumno>{
         
         setText(null);
         setGraphic(pane);
-    }
-
-    /*
-    This is a hacky solution, if this were a long term project intended to work 
-    without updates it would be removed. Since the javafx listView gives no hooks 
-    for managing its selection internally it must be done using external variables.
-    
-    If the selection event were to change to another function (ej:mousePressed) 
-    in a future javafx update, the method would be rendered obsolete, which is 
-    why it is by no means long-term stable.
-    */
-    private void clickDeselection() {
-        setOnMouseClicked((MouseEvent event) -> {
-            if (wasSelected && isSelected()) {
-                wasSelected = false;
-                getListView().getSelectionModel().clearSelection();
-            } else {
-                wasSelected = isSelected();
-            }
-        });
     }
     
     @Override
@@ -160,11 +136,5 @@ public class AlumnoCell extends ListCell<Alumno>{
         
         frame.setClip(clip);
         return frame;
-    }
-
-    @Override
-    public void updateSelected(boolean selected) {
-        super.updateSelected(selected);
-        if(!isSelected()) wasSelected = false;
     }
 }
