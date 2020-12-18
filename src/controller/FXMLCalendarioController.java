@@ -214,6 +214,9 @@ public class FXMLCalendarioController implements Initializable {
         alumnos = tutorias.getAlumnosTutorizados();
         alumnosLV.setItems(alumnos);
         alumnosLV.setCellFactory(c -> new AlumnoCell());
+        alumnosLV.setOnMouseExited((MouseEvent event) -> {
+            alumnosLV.getSelectionModel().clearSelection();
+        });
         
         asignaturas = tutorias.getAsignaturas();
         asignaturasLV.setItems(asignaturas);
