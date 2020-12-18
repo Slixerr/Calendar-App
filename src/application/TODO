@@ -1,13 +1,14 @@
 Implementation:
-    - (FXMLAsignaturaController) Asignatura creation (FXML+Controller)
-    - (FXMLCalendarioController) Buttons for adding asignatura and alumno
+    + (FXMLAsignaturaController) Asignatura creation (FXML+Controller)
+    + (FXMLCalendarioController) Buttons for adding asignatura and alumno
     - (FXMLModificationController) finish
     - (FXMLCalendarioController) Help button popup
     - (FXMLCalendarioController) Redo datePicker
     - (FXMLCalendarioController) Anulacion/confirmacion button
     - (FXMLCalendarioController) Modify existing alumno/tutoria
-    - (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
-    - (FXMLSubjectController) Remove Alumno from list
+    + (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
+    + (FXMLSubjectController) Remove Alumno from list
+    - (AlumnoCell) Show image when editing Alumno
 
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts

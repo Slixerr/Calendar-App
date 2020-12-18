@@ -129,7 +129,7 @@ public class FXMLModificationController implements Initializable {
             String[] names = comboStudents.getValue().split(" ");
             String surname = "";
             for (int i = 1;i<names.length;i++) surname = String.join(surname, names[i]);
-            alumno = FXMLCalendarioController.createAlumno(names[0], surname);
+            alumno = FXMLCalendarioController.createAlumno(names[0], surname, "");
             if (alumno == null) return;
             List<Alumno> alumnos= AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
             if (!alumnos.contains(alumno)) alumnos.add(alumno);

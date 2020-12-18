@@ -88,4 +88,8 @@ public class FXMLAlumnoController implements Initializable {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public void setEmail(String sSurname) {
+        mailBox.setText(sSurname);
+    }
 }

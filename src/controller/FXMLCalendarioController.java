@@ -52,6 +52,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -147,6 +148,10 @@ public class FXMLCalendarioController implements Initializable {
     
     private ObservableList<Asignatura> asignaturas = null;
     private ObservableList<Alumno> alumnos = null;
+    @FXML
+    private Button añadirAsignaturaButton;
+    @FXML
+    private Button añadirAlumnoButton;
     
 
     @Override
@@ -188,14 +193,14 @@ public class FXMLCalendarioController implements Initializable {
     
     private void createSidebarListener() {
         sideBoxState.set(DISABLED);
-        sidePane.maxWidthProperty().bind(Bindings.multiply(Bindings.min(1, sideBoxState), 250));
+        sidePane.scaleXProperty().bind(Bindings.min(1, sideBoxState));
+        sidePane.managedProperty().bind(Bindings.notEqual(sideBoxState, DISABLED));
         asignaturasBox.visibleProperty().bind(Bindings.equal(sideBoxState, ASIGNATURAS));
         asignaturasBox.disableProperty().bind(Bindings.notEqual(sideBoxState, ASIGNATURAS));
         alumnosBox.visibleProperty().bind(Bindings.equal(sideBoxState, ALUMNOS));
         alumnosBox.disableProperty().bind(Bindings.notEqual(sideBoxState, ALUMNOS));
         
         bindSidePaneLists();
-        
         
         sideBoxState.addListener((a,b,c) -> {
             switch(c.intValue()) {
@@ -216,6 +221,10 @@ public class FXMLCalendarioController implements Initializable {
         alumnos = tutorias.getAlumnosTutorizados();
         alumnosLV.setItems(alumnos);
         alumnosLV.setCellFactory(c -> new AlumnoCell());
+        alumnosLV.getSelectionModel().selectedItemProperty().addListener((a,b,c) -> {
+            Button butt = new Button("E");
+            
+        });
         
         asignaturas = tutorias.getAsignaturas();
         asignaturasLV.setItems(asignaturas);
@@ -245,7 +254,16 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private void createAddingListener() {
-        
+        añadirAlumnoButton.setOnAction(a -> {
+            Alumno al = createAlumno("","","");
+            boolean cont = tutorias.getAlumnosTutorizados().contains(al);
+            if(!cont) {tutorias.getAlumnosTutorizados().add(al);}
+        });
+        añadirAsignaturaButton.setOnAction(a -> {
+            Asignatura as = createAsignatura();
+            boolean cont = tutorias.getAsignaturas().contains(as);
+            if(!cont) {tutorias.getAsignaturas().add(as);}
+        });
     }
     
     private void createDescriptionListener() {
@@ -609,7 +627,7 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.showAndWait();
     }
     
-    public static Alumno createAlumno(String sName, String sSurname) {
+    public static Alumno createAlumno(String sName, String sSurname, String sEmail) {
         FXMLLoader loader = new FXMLLoader(FXMLCalendarioController.class.getResource("/view/FXMLAlumno.fxml"));
         Parent root = null;
         try {
@@ -625,6 +643,7 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.setScene(currScene);
         controller.setName(sName);
         controller.setSurname(sSurname);
+        controller.setEmail(sEmail);
         controller.setStage(ventana2);
         ventana2.showAndWait();
 
