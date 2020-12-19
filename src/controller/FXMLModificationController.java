@@ -6,10 +6,8 @@
 package controller;
 
 import application.SimpleAlumnoCell;
-import application.TimeSlot;
 import static controller.FXMLAlumnoController.CREAR;
 import java.net.URL;
-import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -62,7 +60,8 @@ public class FXMLModificationController implements Initializable {
     @FXML
     private ComboBox<String> comboStudents;
     
-    private Tutoria tutoria = new Tutoria();
+    private Tutoria tutoriaOriginal = new Tutoria();
+    private Tutoria tutoriaAux = new Tutoria();
     @FXML
     private Label errorLabel;
     @FXML
@@ -78,12 +77,6 @@ public class FXMLModificationController implements Initializable {
         
         addButton.setDisable(true);
         addButton.disableProperty().bind(comboStudents.getEditor().textProperty().isEmpty());
-        
-        datos = tutoria.getAlumnos();
-        listLV.setItems(datos);
-        listLV.setCellFactory(c -> new SimpleAlumnoCell());
-        listLV.refresh();
-        
         
         comboStudents.setItems(filteredAlumnos);
         filteredAlumnosListeners();
@@ -126,21 +119,31 @@ public class FXMLModificationController implements Initializable {
     private void addStudent(ActionEvent event) {
         Alumno alumno = checkMemberOf(comboStudents.getValue());
         
-        if(alumno == null) {
-            String[] names = comboStudents.getValue().split(" ");
-            String surname = "";
-            for (int i = 1;i<names.length;i++) surname = String.join(surname, names[i]);
-            alumno = FXMLCalendarioController.createAlumno(names[0], surname, "",null, CREAR);
-            if (alumno == null) return;
-            List<Alumno> alumnos= AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
-            if (!alumnos.contains(alumno)) alumnos.add(alumno);
-        }
-        
-        if (datos.contains(alumno) ) {
-            errorLabel.setText("No se pueden añadir alumnos repetidos.");
-        } else if (!comboStudents.getValue().equals("")) {
-            datos.add(alumno);
-            listLV.refresh();
+        if (datos.size() >= 4) {
+            errorLabel.setText("No se pueden añadir más 4 alumnos.");
+        } else {
+            if (alumno == null) {
+                String[] names = comboStudents.getValue().split(" ");
+                String surname = "";
+                for (int i = 1; i < names.length; i++) {
+                    surname = String.join(surname, names[i]);
+                }
+                alumno = FXMLCalendarioController.createAlumno(names[0], surname, "", null, CREAR);
+                if (alumno == null) {
+                    return;
+                }
+                List<Alumno> alumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
+                if (!alumnos.contains(alumno)) {
+                    alumnos.add(alumno);
+                }
+            }
+
+            if (datos.contains(alumno)) {
+                errorLabel.setText("No se pueden añadir alumnos repetidos.");
+            } else if (!comboStudents.getValue().equals("")) {
+                datos.add(alumno);
+                listLV.refresh();
+            }
         }
         comboStudents.getEditor().setText("");
         comboStudents.getSelectionModel().clearSelection();
@@ -161,7 +164,7 @@ public class FXMLModificationController implements Initializable {
 
     @FXML
     private void acceptMethod(ActionEvent event) {
-        FXMLCalendarioController.setTutoria(tutoria);
+        FXMLCalendarioController.setTutoria(tutoriaAux);
         ((Stage) boxDescription.getScene().getWindow()).close();
     }
     
@@ -177,32 +180,26 @@ public class FXMLModificationController implements Initializable {
         });
     }
     
-//    public void setTimeLabel(TimeSlot start, TimeSlot end) {
-//        timeLabel.setText(start.getStart().format(timeFormatter) + " - " + end.getEnd().format(timeFormatter));
-//    }
-//    
-//    public void startVariables(TimeSlot start, TimeSlot end) {
-//        setTimeLabel(start,end);
-//        
-//        tutoria.setFecha(start.getDate());
-//        tutoria.setEstado(Tutoria.EstadoTutoria.PEDIDA);
-//        tutoria.setInicio(start.getStart().toLocalTime());
-//        tutoria.setDuracion(Duration.between(start.getStart(), end.getEnd()));
-//        tutoria.anotacionesProperty().bind(boxDescription.textProperty());
-//
-//    }
+    
     public void setTimeLabel() {
-        timeLabel.setText(tutoria.getInicio().format(timeFormatter) + " - " + tutoria.getInicio().plus(tutoria.getDuracion()).format(timeFormatter));
+        timeLabel.setText(tutoriaAux.getInicio() + " - " + tutoriaAux.getInicio().plus(tutoriaAux.getDuracion()));
     }
     
-    public void startVariables(Tutoria tut) {
-        tutoria = tut;
-        setTimeLabel();
-        subjectLabel.setText(tutoria.getAsignatura().toString());
-        boxDescription.setText(tutoria.getAnotaciones());
+    public void startVariables(Tutoria tut) throws CloneNotSupportedException {
+        tutoriaAux = tut.clone();
+        tutoriaOriginal = tut;
+        datos = tutoriaOriginal.getAlumnos();
+        listLV.setItems(datos);
+        listLV.setCellFactory(c -> new SimpleAlumnoCell());
+        listLV.refresh();
         
-        tutoria.anotacionesProperty().bind(boxDescription.textProperty());
+        setTimeLabel();
+        subjectLabel.setText(tutoriaAux.getAsignatura().toString());
+        boxDescription.setText(tutoriaAux.getAnotaciones());
+        tutoriaAux.anotacionesProperty().bind(boxDescription.textProperty());
     }
+    
+
 } 
     
     

@@ -21,6 +21,7 @@ Changes and polish:
     - (FXMLCalendarioController) Refactor FXML creators, unnecessary code
     - (FXMLCalendarioController) Remove Alumno from list
     - (FXMLCalendarioController) Make añadir button transparente
+    - Editing Tutoria students not live updating yet
     - (FXMLCalendarioController) Quitar hora de descriptionBox
     - (FXMLCalendarioController) DescriptionBox unbindings
 
