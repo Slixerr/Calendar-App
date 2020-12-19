@@ -78,6 +78,7 @@ public class FXMLTutoriaController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        tutoria.setEstado(Tutoria.EstadoTutoria.PEDIDA);
         
         filteredAlumnos = new FilteredList<>(
                 FXCollections.observableArrayList(

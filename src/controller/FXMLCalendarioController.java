@@ -56,6 +56,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -77,6 +78,7 @@ import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
 import referencias.modelo.Asignatura;
 import referencias.modelo.Tutoria;
+import referencias.modelo.Tutoria.EstadoTutoria;
 import referencias.modelo.Tutorias;
 
 public class FXMLCalendarioController implements Initializable {
@@ -155,6 +157,8 @@ public class FXMLCalendarioController implements Initializable {
     private Button añadirAsignaturaButton;
     @FXML
     private Button añadirAlumnoButton;
+    @FXML
+    private ChoiceBox<EstadoTutoria> stateBox;
     
 
     @Override
@@ -268,12 +272,15 @@ public class FXMLCalendarioController implements Initializable {
         descriptionShowing.set(false);
         descriptionBox.disableProperty().bind(Bindings.not(descriptionShowing));
         descriptionBox.visibleProperty().bind(descriptionShowing);
+        stateBox.setItems(FXCollections.observableArrayList(EstadoTutoria.options()));
     }
     
     private void bindDescriptionTo(Tutoria tut) {
         descriptionLabel.textProperty().bind(tut.anotacionesProperty());
         subjectLabel.textProperty().bind(tut.asignaturaProperty().asString());
         studentsLabel.textProperty().set(tut.getAlumnos().stream().map(Alumno::toString).collect(Collectors.joining("\n")));
+        stateBox.setValue(tut.getEstado());
+        tut.estadoProperty().bind(stateBox.valueProperty());
     }
     
     private void moveDescriptionBox(Bounds bounds) {
@@ -702,9 +709,6 @@ public class FXMLCalendarioController implements Initializable {
         sideBoxState.set((sideBoxState.get() == ASIGNATURAS) ? DISABLED : ASIGNATURAS);
     }
 
-    @FXML
-    private void canceledMethod(ActionEvent event) {
-    }
 
     @FXML
     private void editMethod(ActionEvent event) {

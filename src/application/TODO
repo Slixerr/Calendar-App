@@ -4,7 +4,7 @@ Implementation:
     - (FXMLModificationController) finish
     - (FXMLCalendarioController) Help button popup
     - (FXMLCalendarioController) Redo datePicker
-    - (FXMLCalendarioController) Anulacion/confirmacion button
+    + (FXMLCalendarioController) Anulacion/confirmacion button
     + (FXMLCalendarioController) Modify existing alumno/tutoria
     + (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
     + (FXMLSubjectController) Remove Alumno from list
@@ -14,7 +14,7 @@ Implementation:
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
     - (FXMLTutoriaController) When selecting Alumno and clicking on dropdown, dropdown still displays name
-
+    - (FXMLCalendarioController) When scrolling up description doesnt close
 
 Changes and polish:
     - CSS
@@ -22,6 +22,7 @@ Changes and polish:
     - (FXMLCalendarioController) Remove Alumno from list
     - (FXMLCalendarioController) Make añadir button transparente
     - (FXMLCalendarioController) Quitar hora de descriptionBox
+    - (FXMLCalendarioController) DescriptionBox unbindings
 
 Preguntas:
     - En las descripciones de asignaturas es el nombre reducido o entero?

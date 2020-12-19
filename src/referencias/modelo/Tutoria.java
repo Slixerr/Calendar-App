@@ -11,6 +11,11 @@ import modelo.util.LocalDateAdapter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -44,6 +49,29 @@ public class Tutoria {
 
         public static EstadoTutoria fromValue(String v) {
             return valueOf(v);
+        }
+        
+        public static List<EstadoTutoria> options() {
+            return Arrays.asList(values());
+        }
+        
+        public String toString() {
+            String res = "";
+            switch(this) {
+                case PEDIDA:
+                  res = "Pedida";
+                  break;
+                case ANULADA:
+                  res = "Anulada";
+                  break;
+                case REALIZADA:
+                  res = "Realizada";
+                  break;
+                case NO_ASISTIDA:
+                  res = "No asistida";
+                  break;
+            }
+            return res;
         }
     }
 
