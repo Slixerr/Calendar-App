@@ -267,7 +267,9 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private void bindDescriptionTo(Tutoria tut) {
+        descriptionLabel.textProperty().unbind();
         descriptionLabel.textProperty().bind(tut.anotacionesProperty());
+        subjectLabel.textProperty().unbind();
         subjectLabel.textProperty().bind(tut.asignaturaProperty().asString());
         studentsLabel.textProperty().set(tut.getAlumnos().stream().map(Alumno::toString).collect(Collectors.joining("\n")));
     }
@@ -617,8 +619,20 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
-        controller.startVariables(getTutoria());
+        try {
+            controller.startVariables(getTutoria());
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(FXMLCalendarioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Tutoria  tutoriaAnterior = getTutoria();
         ventana2.showAndWait();
+        if (getTutoria() != null) {
+            tutorias.getTutoriasConcertadas().remove(tutoriaAnterior);
+            weekTutorias.remove(tutoriaAnterior);
+            tutorias.getTutoriasConcertadas().add(getTutoria());
+            weekTutorias.add(getTutoria());
+            bindDescriptionTo(getTutoria());
+        }
     }
     
     public static Alumno createAlumno(String sName, String sSurname, String sEmail, Image hs, int tipo) {

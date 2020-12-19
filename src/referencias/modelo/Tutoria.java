@@ -31,7 +31,7 @@ import modelo.util.LocalTimeAdapter;
  *
  * @author DSIC_jsoler
  */
-public class Tutoria {
+public class Tutoria implements Cloneable{
 
     @XmlType(name = "EstadoTutoria")
     @XmlEnum
@@ -46,7 +46,20 @@ public class Tutoria {
             return valueOf(v);
         }
     }
-
+    
+    @Override
+    public Tutoria clone() throws CloneNotSupportedException{
+        Tutoria res = new Tutoria();
+        res.setAsignatura(this.getAsignatura());
+        res.setFecha(this.getFecha());
+        res.setEstado(this.getEstado());
+        res.setInicio(this.getInicio());
+        res.setDuracion(this.getDuracion());
+        res.setAnotaciones(new String(this.getAnotaciones()));
+        res.alumnos.setAll(this.alumnos);
+	return res;  
+    }
+    
     private final ObjectProperty<EstadoTutoria> estado = new SimpleObjectProperty<>();
 
     private ObjectProperty<LocalDate> fecha = new SimpleObjectProperty<>();
@@ -150,4 +163,13 @@ public class Tutoria {
     public Tutoria() {
     }
     
+//    public void shallowCopy(Tutoria tutoria) {
+//        this.setAsignatura(tutoria.getAsignatura());
+//        this.setFecha(tutoria.getFecha());
+//        this.setEstado(tutoria.getEstado());
+//        this.setInicio(tutoria.getInicio());
+//        this.setDuracion(tutoria.getDuracion());
+//        this.setAnotaciones(tutoria.getAnotaciones());
+//        this.alumnos.setAll(tutoria.alumnos);
+//    }
 }

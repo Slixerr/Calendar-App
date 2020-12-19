@@ -15,6 +15,7 @@ public class Asignatura {
     private final StringProperty codigo = new SimpleStringProperty();
     private final StringProperty descripcion = new SimpleStringProperty();
     
+    
     public String getCodigo() {
         return codigo.get();
     }
