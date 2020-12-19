@@ -738,4 +738,15 @@ public class FXMLCalendarioController implements Initializable {
     private void closeMethod(ActionEvent event) {
         descriptionShowing.set(false);
     }
+
+    @FXML
+    private void helpMethod(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLHelp.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        Stage ventana2= new Stage();
+        ventana2.setTitle("Ventana Ayuda");
+        ventana2.setScene(scene);
+        ventana2.showAndWait();
+    }
 }

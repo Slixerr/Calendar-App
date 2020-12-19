@@ -26,6 +26,7 @@ Changes and polish:
     - (FXMLCalendarioController) Quitar hora de descriptionBox
     - (FXMLCalendarioController) DescriptionBox unbindings
     - (FXML) Minimun sizes for windows
+    - Destroy blank spaces in adding students listview
 
 Preguntas:
     - En las descripciones de asignaturas es el nombre reducido o entero?

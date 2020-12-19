@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="40.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLHelpController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Centro de Ayuda">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido al area de ayuda, aquí podrás consultar dudas sobre el funcionamiento del programa. " />
+      <Accordion VBox.vgrow="ALWAYS">
+        <panes>
+          <TitledPane animated="false" text="Creación de una tutoría">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="En primer lugar, habrá que situarse con el ratón encima del día y hora deseada para la nueva tutoría.&#10;&#10;A continuación presionamos con el botón izquierdo del ratón y arrastramos en función de la duración de la tutoría deseada.&#10;&#10;Aparecerá una nueva ventana con los parámetros a introducir. Se recuerda que una nueva tutoría debe contener:&#10;     · Un alumno tutorizado.&#10;     · Una asignatura&#10;&#10;Un nuevo alumno que aún no esté creado puede ser añadido. Basta con introducir su nombre y la nueva ventana de añadido del alumno aparecerá.&#10;" wrapText="true" />
+                     </children>
+                  </VBox>
+               </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Modificación de una tutoría">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Selecciona la tutoría a modificar y en la ventana de información de esta presiona el boton de editar en la esquina superior derecha. &#10;&#10;La nueva venta de modificación aparecerá.&#10;" wrapText="true" />
+                     </children>
+                  </VBox>
+               </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Manejo listado alumnos">
+               <content>
+                  <VBox>
+                     <children>
+                        <Label text="En el panel lateral izquierdo presiona el icono de alumnos. En este nuevo panel se pueden añadir nuevos alumnos.&#10;&#10;Si desea modificar o eliminar alguno de ellos basta con situar el ratón encima de este y presionar el boton deseado." wrapText="true" />
+                     </children>
+                  </VBox>
+               </content>
+          </TitledPane>
+            <TitledPane animated="false" text="Manejo listado asignaturas">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" text="En el panel lateral izquierdo presiona el icono de asignaturas. En este nuevo panel se pueden añadir nuevas asignaturas.&#10;&#10;Si desea eliminar alguna de ellas basta con situar el ratón encima de esta y presionar el botón de eliminar.&#10;&#10;" wrapText="true" />
+                     </children>
+                  </VBox>
+               </content>
+            </TitledPane>
+        </panes>
+      </Accordion>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sigue teniendo dudas o ha encontrado algún error?  No dude en contactar con el soporte técnico: &#10;   · Email:   soporte24-7@calendario.com&#10;" VBox.vgrow="ALWAYS" />
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>

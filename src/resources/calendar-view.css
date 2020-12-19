@@ -27,3 +27,53 @@
 .time-slot:selected{
     -fx-background-color: indianred;
 }
+
+.tool-panel {
+    -fx-background-color: #673AB7;
+    -fx-border-width: 0;
+}
+
+.side-panel {
+    -fx-background-color: #9575CD;
+    -fx-border-width: 8 8 0 0;
+    -fx-border-color: #9575CD;
+}
+
+.button-transparent {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/*.button-transparent:focused {
+    -fx-border-color: transparent, black;
+    -fx-border-width: 1, 1;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}*/
+
+.button-transparent:pressed {
+    -fx-background-color: #4527A0;
+}
+
+.popup-panel {
+    -fx-background-color: #beb0cc;
+}
+
+.button-popup {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.button-popup:pressed {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.combo-status {
+    -fx-border-width: 1;
+    -fx-border-color: black;
+    -fx-background-color: transparent;
+}

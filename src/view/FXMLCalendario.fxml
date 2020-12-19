@@ -8,6 +8,8 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -22,15 +24,36 @@
    <children>
       <HBox>
          <children>
-            <SplitPane>
+            <SplitPane styleClass="tool-panel">
                <items>
                   <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="652.0" prefWidth="43.0" spacing="20.0">
                      <children>
-                        <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#alumnoMethod" text="A" />
-                        <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#subjectsMethod" text="S" />
+                        <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#alumnoMethod" styleClass="button-transparent">
+                           <graphic>
+                              <ImageView pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/study.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                        <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#subjectsMethod" styleClass="button-transparent">
+                           <graphic>
+                              <ImageView pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/graduated.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
                         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button alignment="BOTTOM_CENTER" mnemonicParsing="false" text="?" />
+                              <Button alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#helpMethod" styleClass="button-transparent">
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resources/help.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                            <VBox.margin>
                               <Insets bottom="20.0" />
@@ -43,7 +66,7 @@
                   </VBox>
                </items>
             </SplitPane>
-            <SplitPane fx:id="sidePane" maxWidth="300.0" minWidth="200.0" HBox.hgrow="ALWAYS">
+            <SplitPane fx:id="sidePane" maxWidth="300.0" minWidth="200.0" styleClass="side-panel" HBox.hgrow="ALWAYS">
                <items>
                   <StackPane>
                      <children>
@@ -276,7 +299,7 @@
       <AnchorPane fx:id="descriptionBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="471.0" translateX="100.0" translateY="150.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e2fce5" height="256.0" stroke="BLACK" strokeType="INSIDE" width="472.0" />
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="471.0" spacing="10.0">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="471.0" spacing="10.0" styleClass="popup-panel">
                <children>
                   <HBox alignment="CENTER" prefHeight="26.0" prefWidth="400.0" spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
@@ -289,8 +312,22 @@
                            <children>
                               <HBox alignment="CENTER_RIGHT" spacing="10.0">
                                  <children>
-                                    <Button alignment="BASELINE_RIGHT" mnemonicParsing="false" onAction="#editMethod" text="E" />
-                                    <Button alignment="BASELINE_RIGHT" mnemonicParsing="false" onAction="#closeMethod" text="X" />
+                                    <Button alignment="BASELINE_RIGHT" mnemonicParsing="false" onAction="#editMethod" styleClass="button-transparent">
+                                       <graphic>
+                                          <ImageView pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/edit.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic></Button>
+                                    <Button alignment="BASELINE_RIGHT" mnemonicParsing="false" onAction="#closeMethod" styleClass="button-transparent">
+                                       <graphic>
+                                          <ImageView pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resources/cancel.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic></Button>
                                  </children>
                               </HBox>
                            </children>
@@ -312,7 +349,7 @@
                                     <Font name="System Italic" size="20.0" />
                                  </font>
                               </Label>
-                              <ChoiceBox fx:id="stateBox" prefWidth="150.0" />
+                              <ChoiceBox fx:id="stateBox" prefWidth="150.0" styleClass="combo-status" />
                            </children>
                            <VBox.margin>
                               <Insets />
