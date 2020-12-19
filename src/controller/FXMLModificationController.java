@@ -11,9 +11,13 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.Observable;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -48,7 +52,6 @@ public class FXMLModificationController implements Initializable {
     
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
     
-    private ObservableList<Alumno> datos = null;
     int lastFilteredAlumnosSize = 0;
         
     ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
@@ -60,8 +63,10 @@ public class FXMLModificationController implements Initializable {
     @FXML
     private ComboBox<String> comboStudents;
     
-    private Tutoria tutoriaOriginal = new Tutoria();
-    private Tutoria tutoriaAux = new Tutoria();
+    private Tutoria tutoria = new Tutoria();
+    private final ObjectProperty<String> description = new SimpleObjectProperty<>();
+    private final ObservableList<Alumno> alumnos = FXCollections.observableArrayList();
+    
     @FXML
     private Label errorLabel;
     @FXML
@@ -69,6 +74,9 @@ public class FXMLModificationController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        listLV.setItems(alumnos);
+        listLV.setCellFactory(c -> new SimpleAlumnoCell());
+        listLV.refresh();
         
         filteredAlumnos = new FilteredList<>(
                 FXCollections.observableArrayList(
@@ -119,7 +127,7 @@ public class FXMLModificationController implements Initializable {
     private void addStudent(ActionEvent event) {
         Alumno alumno = checkMemberOf(comboStudents.getValue());
         
-        if (datos.size() >= 4) {
+        if (alumnos.size() >= 4) {
             errorLabel.setText("No se pueden añadir más 4 alumnos.");
         } else {
             if (alumno == null) {
@@ -132,16 +140,16 @@ public class FXMLModificationController implements Initializable {
                 if (alumno == null) {
                     return;
                 }
-                List<Alumno> alumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
-                if (!alumnos.contains(alumno)) {
-                    alumnos.add(alumno);
+                List<Alumno> alumnos2 = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
+                if (!alumnos2.contains(alumno)) {
+                    alumnos2.add(alumno);
                 }
             }
 
-            if (datos.contains(alumno)) {
+            if (alumnos.contains(alumno)) {
                 errorLabel.setText("No se pueden añadir alumnos repetidos.");
             } else if (!comboStudents.getValue().equals("")) {
-                datos.add(alumno);
+                alumnos.add(alumno);
                 listLV.refresh();
             }
         }
@@ -158,13 +166,13 @@ public class FXMLModificationController implements Initializable {
     
     @FXML
     private void cancelMethod(ActionEvent event) {
-        FXMLCalendarioController.setTutoria(null);
         ((Stage) boxDescription.getScene().getWindow()).close();
     }
 
     @FXML
     private void acceptMethod(ActionEvent event) {
-        FXMLCalendarioController.setTutoria(tutoriaAux);
+        tutoria.setAnotaciones(description.getValue());
+        tutoria.getAlumnos().setAll(alumnos);
         ((Stage) boxDescription.getScene().getWindow()).close();
     }
     
@@ -182,27 +190,15 @@ public class FXMLModificationController implements Initializable {
     
     
     public void setTimeLabel() {
-        timeLabel.setText(tutoriaAux.getInicio() + " - " + tutoriaAux.getInicio().plus(tutoriaAux.getDuracion()));
+        timeLabel.setText(tutoria.getInicio() + " - " + tutoria.getInicio().plus(tutoria.getDuracion()));
     }
     
-    public void startVariables(Tutoria tut) throws CloneNotSupportedException {
-        tutoriaAux = tut.clone();
-        tutoriaOriginal = tut;
-        datos = tutoriaOriginal.getAlumnos();
-        listLV.setItems(datos);
-        listLV.setCellFactory(c -> new SimpleAlumnoCell());
-        listLV.refresh();
-        
+    public void startVariables(Tutoria tut) {
+        tutoria = tut;
         setTimeLabel();
-        subjectLabel.setText(tutoriaAux.getAsignatura().toString());
-        boxDescription.setText(tutoriaAux.getAnotaciones());
-        tutoriaAux.anotacionesProperty().bind(boxDescription.textProperty());
+        subjectLabel.setText(tutoria.getAsignatura().toString());
+        boxDescription.setText(tutoria.getAnotaciones());
+        description.bind(boxDescription.textProperty());
+        alumnos.setAll(tutoria.getAlumnos());
     }
-    
-
-} 
-    
-    
-
-
-
+}

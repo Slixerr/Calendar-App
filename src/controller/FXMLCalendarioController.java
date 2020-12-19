@@ -116,6 +116,7 @@ public class FXMLCalendarioController implements Initializable {
     private Label slotSelected;
     
     private static Tutoria createdTut;
+    private static Tutoria desctiptionBoxTut;
     private static Alumno createdAlumno;
     private static Asignatura createdAsignatura;
     
@@ -276,13 +277,17 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private void bindDescriptionTo(Tutoria tut) {
-        descriptionLabel.textProperty().unbind();
         descriptionLabel.textProperty().bind(tut.anotacionesProperty());
-        subjectLabel.textProperty().unbind();
         subjectLabel.textProperty().bind(tut.asignaturaProperty().asString());
         studentsLabel.textProperty().set(tut.getAlumnos().stream().map(Alumno::toString).collect(Collectors.joining("\n")));
         stateBox.setValue(tut.getEstado());
         tut.estadoProperty().bind(stateBox.valueProperty());
+    }
+    
+    private void unbindDescription(Tutoria tut) {
+        descriptionLabel.textProperty().unbind();
+        subjectLabel.textProperty().unbind();
+        tut.estadoProperty().unbind();
     }
     
     private void moveDescriptionBox(Bounds bounds) {
@@ -521,7 +526,9 @@ public class FXMLCalendarioController implements Initializable {
                 }
                 lastHovered = null;
             } else {
+                unbindDescription(timeSlot.getTutoria());
                 descriptionShowing.set(true);
+                setModifiedTutoria(timeSlot.getTutoria());
             }
         });
     }
@@ -613,7 +620,7 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.setScene(currScene);
         ventana2.showAndWait();
         
-        return createdTut;
+        return getTutoria();
     }
     
     private void editTutoria() {
@@ -630,20 +637,10 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
-        try {
-            controller.startVariables(getTutoria());
-        } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(FXMLCalendarioController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Tutoria  tutoriaAnterior = getTutoria();
+        unbindDescription(getModifiedTutoria());
+        controller.startVariables(getModifiedTutoria());
         ventana2.showAndWait();
-        if (getTutoria() != null) {
-            tutorias.getTutoriasConcertadas().remove(tutoriaAnterior);
-            weekTutorias.remove(tutoriaAnterior);
-            tutorias.getTutoriasConcertadas().add(getTutoria());
-            weekTutorias.add(getTutoria());
-            bindDescriptionTo(getTutoria());
-        }
+        bindDescriptionTo(getModifiedTutoria());
     }
     
     public static Alumno createAlumno(String sName, String sSurname, String sEmail, Image hs, int tipo) {
@@ -701,6 +698,14 @@ public class FXMLCalendarioController implements Initializable {
         return createdTut;
     }
 
+    public static Tutoria getModifiedTutoria() {
+        return desctiptionBoxTut;
+    }
+
+    public static void setModifiedTutoria(Tutoria modifiedTut) {
+        FXMLCalendarioController.desctiptionBoxTut = modifiedTut;
+    }
+    
     public static void setCreatedAlumno(Alumno alumno) {
         createdAlumno = alumno;
     }

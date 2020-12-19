@@ -172,12 +172,14 @@ public class FXMLTutoriaController implements Initializable {
     
     @FXML
     private void cancelMethod(ActionEvent event) {
+        tutoria.anotacionesProperty().unbind();
         FXMLCalendarioController.setTutoria(null);
         ((Stage) boxDescription.getScene().getWindow()).close();
     }
 
     @FXML
     private void acceptMethod(ActionEvent event) {
+        tutoria.anotacionesProperty().unbind();
         if(comboSubject.getValue() == null || datos.isEmpty()){
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Alerta de guardado");
