@@ -173,6 +173,7 @@ public class FXMLTutoriaController implements Initializable {
     @FXML
     private void cancelMethod(ActionEvent event) {
         tutoria.anotacionesProperty().unbind();
+        tutoria.asignaturaProperty().unbind();
         FXMLCalendarioController.setTutoria(null);
         ((Stage) boxDescription.getScene().getWindow()).close();
     }
@@ -180,6 +181,7 @@ public class FXMLTutoriaController implements Initializable {
     @FXML
     private void acceptMethod(ActionEvent event) {
         tutoria.anotacionesProperty().unbind();
+        tutoria.asignaturaProperty().unbind();
         if(comboSubject.getValue() == null || datos.isEmpty()){
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Alerta de guardado");
