@@ -9,6 +9,8 @@ import static application.CalendarioIPC.SLOT_LENGTH;
 import application.Position;
 import application.TimeSlot;
 import application.Week;
+import static controller.FXMLAlumnoController.CREAR;
+import static controller.FXMLAlumnoController.MODIFICAR;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -52,6 +54,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -147,6 +150,10 @@ public class FXMLCalendarioController implements Initializable {
     
     private ObservableList<Asignatura> asignaturas = null;
     private ObservableList<Alumno> alumnos = null;
+    @FXML
+    private Button añadirAsignaturaButton;
+    @FXML
+    private Button añadirAlumnoButton;
     
 
     @Override
@@ -188,7 +195,8 @@ public class FXMLCalendarioController implements Initializable {
     
     private void createSidebarListener() {
         sideBoxState.set(DISABLED);
-        sidePane.maxWidthProperty().bind(Bindings.multiply(Bindings.min(1, sideBoxState), 250));
+        sidePane.scaleXProperty().bind(Bindings.min(1, sideBoxState));
+        sidePane.managedProperty().bind(Bindings.notEqual(sideBoxState, DISABLED));
         asignaturasBox.visibleProperty().bind(Bindings.equal(sideBoxState, ASIGNATURAS));
         asignaturasBox.disableProperty().bind(Bindings.notEqual(sideBoxState, ASIGNATURAS));
         alumnosBox.visibleProperty().bind(Bindings.equal(sideBoxState, ALUMNOS));
@@ -196,19 +204,9 @@ public class FXMLCalendarioController implements Initializable {
         
         bindSidePaneLists();
         
-        
         sideBoxState.addListener((a,b,c) -> {
-            switch(c.intValue()) {
-                case DISABLED:
-                    break;
-                case ALUMNOS:
-                    
-                    break;
-                case ASIGNATURAS:
-                    break;
-                default:
-                    
-            }
+            alumnosLV.getSelectionModel().clearSelection();
+            asignaturasLV.getSelectionModel().clearSelection();
         });
     }
     
@@ -216,6 +214,9 @@ public class FXMLCalendarioController implements Initializable {
         alumnos = tutorias.getAlumnosTutorizados();
         alumnosLV.setItems(alumnos);
         alumnosLV.setCellFactory(c -> new AlumnoCell());
+        alumnosLV.setOnMouseExited((MouseEvent event) -> {
+            alumnosLV.getSelectionModel().clearSelection();
+        });
         
         asignaturas = tutorias.getAsignaturas();
         asignaturasLV.setItems(asignaturas);
@@ -245,7 +246,18 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private void createAddingListener() {
-        
+        añadirAlumnoButton.setOnAction(a -> {
+            alumnosLV.getSelectionModel().clearSelection();
+            Alumno al = createAlumno("","","",null, CREAR);
+            boolean cont = tutorias.getAlumnosTutorizados().contains(al);
+            if(!cont) {tutorias.getAlumnosTutorizados().add(al);}
+        });
+        añadirAsignaturaButton.setOnAction(a -> {
+            asignaturasLV.getSelectionModel().clearSelection();
+            Asignatura as = createAsignatura();
+            boolean cont = tutorias.getAsignaturas().contains(as);
+            if(!cont) {tutorias.getAsignaturas().add(as);}
+        });
     }
     
     private void createDescriptionListener() {
@@ -264,7 +276,7 @@ public class FXMLCalendarioController implements Initializable {
         double baseX = (bounds.getMaxX()+descriptionBox.getWidth() > scene.getWidth()) ? 
                 bounds.getMinX() - descriptionBox.getWidth() : bounds.getMaxX();
         double baseY = (bounds.getMinY()+descriptionBox.getHeight() > scene.getHeight()) ? 
-                bounds.getMaxY() - descriptionBox.getHeight() : bounds.getMinY();;
+                bounds.getMaxY() - descriptionBox.getHeight() : bounds.getMinY();
         descriptionBox.setTranslateX(baseX-descriptionBox.getLayoutX());
         descriptionBox.setTranslateY(baseY-descriptionBox.getLayoutY());
     }
@@ -609,7 +621,7 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.showAndWait();
     }
     
-    public static Alumno createAlumno(String sName, String sSurname) {
+    public static Alumno createAlumno(String sName, String sSurname, String sEmail, Image hs, int tipo) {
         FXMLLoader loader = new FXMLLoader(FXMLCalendarioController.class.getResource("/view/FXMLAlumno.fxml"));
         Parent root = null;
         try {
@@ -625,7 +637,10 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.setScene(currScene);
         controller.setName(sName);
         controller.setSurname(sSurname);
+        controller.setEmail(sEmail);
+        controller.setHeadshot(hs);
         controller.setStage(ventana2);
+        controller.setType(tipo);
         ventana2.showAndWait();
 
         return createdAlumno;

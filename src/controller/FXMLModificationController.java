@@ -6,6 +6,8 @@
 package controller;
 
 import application.SimpleAlumnoCell;
+import application.TimeSlot;
+import static controller.FXMLAlumnoController.CREAR;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -119,32 +121,22 @@ public class FXMLModificationController implements Initializable {
     @FXML
     private void addStudent(ActionEvent event) {
         Alumno alumno = checkMemberOf(comboStudents.getValue());
-    
-        if (datos.size() >= 4) {
-            errorLabel.setText("No se pueden añadir más 4 alumnos.");
-        } else {
-            if (alumno == null) {
-                String[] names = comboStudents.getValue().split(" ");
-                String surname = "";
-                for (int i = 1; i < names.length; i++) {
-                    surname = String.join(surname, names[i]);
-                }
-                alumno = FXMLCalendarioController.createAlumno(names[0], surname);
-                if (alumno == null) {
-                    return;
-                }
-                List<Alumno> alumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
-                if (!alumnos.contains(alumno)) {
-                    alumnos.add(alumno);
-                }
-            }
-
-            if (datos.contains(alumno)) {
-                errorLabel.setText("No se pueden añadir alumnos repetidos.");
-            } else if (!comboStudents.getValue().equals("")) {
-                datos.add(alumno);
-                listLV.refresh();
-            }
+        
+        if(alumno == null) {
+            String[] names = comboStudents.getValue().split(" ");
+            String surname = "";
+            for (int i = 1;i<names.length;i++) surname = String.join(surname, names[i]);
+            alumno = FXMLCalendarioController.createAlumno(names[0], surname, "",null, CREAR);
+            if (alumno == null) return;
+            List<Alumno> alumnos= AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
+            if (!alumnos.contains(alumno)) alumnos.add(alumno);
+        }
+        
+        if (datos.contains(alumno) ) {
+            errorLabel.setText("No se pueden añadir alumnos repetidos.");
+        } else if (!comboStudents.getValue().equals("")) {
+            datos.add(alumno);
+            listLV.refresh();
         }
         comboStudents.getEditor().setText("");
         comboStudents.getSelectionModel().clearSelection();

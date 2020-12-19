@@ -47,24 +47,48 @@
                <items>
                   <StackPane>
                      <children>
-                        <VBox fx:id="asignaturasBox" maxWidth="-Infinity" prefWidth="250.0" spacing="20.0">
+                        <VBox fx:id="asignaturasBox" spacing="20.0">
                            <children>
-                              <Label text="Asignaturas" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </Label>
-                              <ListView fx:id="asignaturasLV" accessibleRole="BUTTON" prefHeight="633.0" prefWidth="245.0" VBox.vgrow="ALWAYS" />
+                              <HBox VBox.vgrow="NEVER">
+                                 <children>
+                                    <Label text="Asignaturas">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button fx:id="añadirAsignaturaButton" mnemonicParsing="false" text="Añadir" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="5.0" right="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <ListView fx:id="asignaturasLV" accessibleRole="BUTTON" prefHeight="633.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox fx:id="alumnosBox" disable="true" spacing="20.0" visible="false">
                            <children>
-                              <Label text="Alumnos" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </Label>
-                              <ListView fx:id="alumnosLV" prefHeight="633.0" prefWidth="246.0" VBox.vgrow="ALWAYS" />
+                              <HBox VBox.vgrow="NEVER">
+                                 <children>
+                                    <Label text="Alumnos">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button fx:id="añadirAlumnoButton" mnemonicParsing="false" text="Añadir" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="5.0" right="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <ListView fx:id="alumnosLV" prefHeight="633.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                      </children>

@@ -19,6 +19,8 @@ import referencias.modelo.Alumno;
 
 
 public class FXMLAlumnoController implements Initializable {
+    
+    public static final int CREAR = 0, MODIFICAR = 1;
 
     @FXML
     private Button photoButton;
@@ -87,5 +89,18 @@ public class FXMLAlumnoController implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setEmail(String sSurname) {
+        mailBox.setText(sSurname);
+    }
+
+    void setHeadshot(Image hs) {
+        alumno.setHeadShot(hs);
+    }
+    
+    public void setType(int type) {
+        if(type == MODIFICAR) createButton.setText("Modificar");
+        else createButton.setText("Crear");
     }
 }

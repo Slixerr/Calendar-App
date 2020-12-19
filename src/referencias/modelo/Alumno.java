@@ -83,4 +83,20 @@ public class Alumno {
     public String toString() {
         return nombre.get() + " " + apellidos.get();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Alumno al = (Alumno)obj;
+        boolean res;
+        try{
+            res = this.getNombre().equals(al.getNombre()) && 
+                this.getApellidos().equals(al.getApellidos()) &&
+                this.getEmail().equals(al.getEmail());
+        } catch(NullPointerException e) {
+            res = false;
+        }
+        return res;
+    }
+    
+    
 }
