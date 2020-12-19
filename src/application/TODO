@@ -5,7 +5,7 @@ Implementation:
     - (FXMLCalendarioController) Help button popup
     - (FXMLCalendarioController) Redo datePicker
     - (FXMLCalendarioController) Anulacion/confirmacion button
-    +- (FXMLCalendarioController) Modify existing alumno/tutoria
+    + (FXMLCalendarioController) Modify existing alumno/tutoria
     + (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
     + (FXMLSubjectController) Remove Alumno from list
     + (AlumnoCell) Show image when editing Alumno
@@ -21,8 +21,11 @@ Changes and polish:
     - (FXMLCalendarioController) Refactor FXML creators, unnecessary code
     - (FXMLCalendarioController) Remove Alumno from list
     - (FXMLCalendarioController) Make añadir button transparente
+    - (FXMLCalendarioController) Quitar hora de descriptionBox
 
 Preguntas:
     - En las descripciones de asignaturas es el nombre reducido o entero?
     - La clase calendarioController es demasiado grande, como dividir?
     - No pasa nada si algunas cosas estan en ingles y otras en español?
+    - Donde ponemos las imágenes en descrptionBox?
+
