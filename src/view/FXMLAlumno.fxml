@@ -16,7 +16,7 @@
    <children>
       <HBox>
          <children>
-            <Label text="Añadir alumno">
+            <Label fx:id="title" text="Añadir alumno">
                <font>
                   <Font size="30.0" />
                </font>

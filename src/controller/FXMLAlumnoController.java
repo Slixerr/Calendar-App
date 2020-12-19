@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,6 +41,8 @@ public class FXMLAlumnoController implements Initializable {
     private Stage stage;
     @FXML
     private ImageView headshotView;
+    @FXML
+    private Label title;
     
 
     @Override
@@ -100,7 +103,13 @@ public class FXMLAlumnoController implements Initializable {
     }
     
     public void setType(int type) {
-        if(type == MODIFICAR) createButton.setText("Modificar");
-        else createButton.setText("Crear");
+        if(type == MODIFICAR) {
+            createButton.setText("Modificar");
+            title.setText("Modificar alumno");
+        }
+        else {
+            createButton.setText("Crear");
+            title.setText("Añadir alumno");
+        }
     }
 }

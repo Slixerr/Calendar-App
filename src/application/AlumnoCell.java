@@ -31,17 +31,17 @@ import referencias.modelo.Alumno;
 import referencias.modelo.Asignatura;
 
 
-public class AlumnoCell extends ListCellDeselect<Alumno>{
-    private GridPane pane;
-    private Label name;
-    private Label mail;
-    private ImageView headshot;
+public class AlumnoCell extends ListCell<Alumno>{
+    private final GridPane pane;
+    private final Label name;
+    private final Label mail;
+    private final ImageView headshot;
     private final double headshotSize = 45;
     private final Image defaultHS = new Image(getClass().getResourceAsStream("/resources/headshot.png"));
-    private Button eliminar;
-    private Button editar;
+    private final Button eliminar;
+    private final Button editar;
     
-    private ColumnConstraints buttonCol;
+    private final ColumnConstraints buttonCol;
     
     public AlumnoCell() {
         super();

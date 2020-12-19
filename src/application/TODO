@@ -21,3 +21,8 @@ Changes and polish:
     - (FXMLCalendarioController) Refactor FXML creators, unnecessary code
     - (FXMLCalendarioController) Remove Alumno from list
     - (FXMLCalendarioController) Make añadir button transparente
+
+Preguntas:
+    - En las descripciones de asignaturas es el nombre reducido o entero?
+    - La clase calendarioController es demasiado grande, como dividir?
+    - No pasa nada si algunas cosas estan en ingles y otras en español?

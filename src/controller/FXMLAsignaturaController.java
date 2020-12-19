@@ -1,10 +1,12 @@
 package controller;
 
+import static controller.FXMLAlumnoController.MODIFICAR;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import referencias.modelo.Asignatura;
@@ -22,6 +24,8 @@ public class FXMLAsignaturaController implements Initializable {
     private Button createButton;
     
     private Asignatura asignatura;
+    @FXML
+    private Label title;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -38,5 +42,24 @@ public class FXMLAsignaturaController implements Initializable {
         });
         
     }    
+
+    void setDescription(String description) {
+        nombreBox.setText(description);
+    }
+
+    void setCode(String code) {
+        codigoBox.setText(code);
+    }
+
+    void setType(int type) {
+        if(type == MODIFICAR) {
+            createButton.setText("Modificar");
+            title.setText("Modificar asignatura");
+        }
+        else {
+            createButton.setText("Crear");
+            title.setText("Añadir asignatura");
+        }
+    }
     
 }

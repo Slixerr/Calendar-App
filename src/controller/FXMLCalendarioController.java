@@ -60,6 +60,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -221,6 +222,9 @@ public class FXMLCalendarioController implements Initializable {
         asignaturas = tutorias.getAsignaturas();
         asignaturasLV.setItems(asignaturas);
         asignaturasLV.setCellFactory(c -> new AsignaturaCell());
+        asignaturasLV.setOnMouseExited((MouseEvent event) -> {
+            asignaturasLV.getSelectionModel().clearSelection();
+        });
     }
     
     private void createBoundsListener() {
@@ -254,7 +258,7 @@ public class FXMLCalendarioController implements Initializable {
         });
         añadirAsignaturaButton.setOnAction(a -> {
             asignaturasLV.getSelectionModel().clearSelection();
-            Asignatura as = createAsignatura();
+            Asignatura as = createAsignatura("","",CREAR);
             boolean cont = tutorias.getAsignaturas().contains(as);
             if(!cont) {tutorias.getAsignaturas().add(as);}
         });
@@ -646,20 +650,25 @@ public class FXMLCalendarioController implements Initializable {
         return createdAlumno;
     }
     
-    public static Asignatura createAsignatura() {
+    public static Asignatura createAsignatura(String description, String code, int type) {
         FXMLLoader loader = new FXMLLoader(FXMLCalendarioController.class.getResource("/view/FXMLAsignatura.fxml"));
         Parent root = null;
         try {
             root = loader.load();
         } catch (IOException ignored) {}
         
+        FXMLAsignaturaController controller = loader.getController();
+        
         Scene currScene = new Scene(root);
         Stage ventana2 = new Stage();
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
+        controller.setDescription(description);
+        controller.setCode(code);
+        controller.setType(type);
         ventana2.showAndWait();
-
+        
         return createdAsignatura;
     }
     
