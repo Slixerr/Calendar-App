@@ -8,6 +8,7 @@ Implementation:
     - (FXMLCalendarioController) Modify existing alumno/tutoria
     - (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
     - (FXMLSubjectController) Remove Alumno from list
+    
 
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
@@ -19,3 +20,4 @@ Changes and polish:
     - (FXMLCalendarioController) Refactor FXML creators, unnecessary code
     - (FXMLCalendarioController) Remove Alumno from list
     - (FXMLCalendarioController) Make añadir button transparente
+    - Editing Tutoria students not live updating yet
