@@ -5,6 +5,7 @@
  */
 package application;
 
+import static application.CalendarioIPC.SLOT_LENGTH;
 import controller.FXMLCalendarioController;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -101,6 +102,17 @@ public class TimeSlot extends Position{
                     start.toLocalTime().compareTo(hora) >= 0 && 
                     start.toLocalTime().compareTo(hora.plus(duracion)) < 0;
         }).findAny().orElse(null));
+        Tutoria tut = tutoriaProperty.getValue();
+        if (tut != null) {
+            if (tut.getInicio().equals(this.getStart().toLocalTime())) {
+                setState(TOP);
+                if (tut.getDuracion().equals(SLOT_LENGTH)) {
+                    setState(MIDDLE);
+                }
+            } else if (tut.getInicio().plus(tut.getDuracion()).equals(this.getEnd().toLocalTime())) {
+                setState(BOTTOM);
+            }
+        }
     }
     
     public boolean inHour(TimeSlot t) {

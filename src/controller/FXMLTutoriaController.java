@@ -212,6 +212,12 @@ public class FXMLTutoriaController implements Initializable {
     }
     
     public void startVariables(TimeSlot start, TimeSlot end) {
+        if (start.getStart().isAfter(end.getEnd())) {
+            TimeSlot aux = end;
+            end = start;
+            start = aux;
+        }
+        
         setTimeLabel(start,end);
         
         tutoria.setFecha(start.getDate());

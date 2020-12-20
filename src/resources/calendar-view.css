@@ -1,11 +1,12 @@
 .time-slot {
 	-fx-background-color: white ;
-	-fx-background-insets: 0 0 0 0 ;
+	-fx-border-width: 0;
 }
 
 .time-slot:mid {
 	-fx-background-color: white ;
-	-fx-background-insets: 1 0 0 0 ;
+        -fx-border-color: black;
+	-fx-border-width: 1 0 0 0 ;
 }
 
 .time-slot:selected{
@@ -21,18 +22,15 @@
 }
 
 .time-slot:topStack{
-    /*-fx-border-radius: 10,10,0,0;*/
-    -fx-background-radius: 10,10,0,0;
+    -fx-background-radius: 10 10 0 0;
 }
 
 .time-slot:middleStack{
-    /*-fx-border-radius: 10,10,10,10;*/
-    -fx-background-radius: 10,10,10,10;
+    -fx-background-radius: 10 10 10 10;
 }
 
 .time-slot:bottomStack{
-    /*-fx-border-radius: 0,0,10,10;*/
-    -fx-background-radius: 0,0,10,10;
+    -fx-background-radius: 0 0 10 10;
 }
 
 
