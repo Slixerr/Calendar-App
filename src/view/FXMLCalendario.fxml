@@ -172,7 +172,7 @@
                         <Label fx:id="viernesCol" text="Viernes" GridPane.columnIndex="5" />
                      </children>
                   </GridPane>
-                  <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefViewportHeight="500.0" prefViewportWidth="500.0" prefWidth="616.0" VBox.vgrow="ALWAYS">
+                  <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefViewportHeight="500.0" prefViewportWidth="500.0" prefWidth="616.0" styleClass="button-transparent" VBox.vgrow="ALWAYS">
                      <content>
                         <HBox maxHeight="1.7976931348623157E308">
                            <children>
@@ -283,29 +283,104 @@
                                           <Insets right="4.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label layoutX="29.0" layoutY="142.0" text="10:30" GridPane.halignment="RIGHT" GridPane.rowIndex="15" GridPane.valignment="TOP" />
-                                    <Label layoutX="10.0" layoutY="17.0" text="11:00" GridPane.halignment="RIGHT" GridPane.rowIndex="18" GridPane.valignment="TOP" />
-                                    <Label layoutX="10.0" layoutY="17.0" text="11:30" GridPane.halignment="RIGHT" GridPane.rowIndex="21" GridPane.valignment="TOP" />
-                                    <Label layoutX="10.0" layoutY="17.0" text="12:00" GridPane.halignment="RIGHT" GridPane.rowIndex="24" GridPane.valignment="TOP" />
-                                    <Label layoutX="27.0" layoutY="142.0" text="12:30" GridPane.halignment="RIGHT" GridPane.rowIndex="27" GridPane.valignment="TOP" />
+                                    <Label layoutX="29.0" layoutY="142.0" text="10:30" GridPane.halignment="RIGHT" GridPane.rowIndex="15" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="17.0" text="11:00" GridPane.halignment="RIGHT" GridPane.rowIndex="18" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="17.0" text="11:30" GridPane.halignment="RIGHT" GridPane.rowIndex="21" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="17.0" text="12:00" GridPane.halignment="RIGHT" GridPane.rowIndex="24" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="27.0" layoutY="142.0" text="12:30" GridPane.halignment="RIGHT" GridPane.rowIndex="27" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
                                     <Label layoutX="40.0" layoutY="42.0" text="13:00" GridPane.halignment="RIGHT" GridPane.rowIndex="30" GridPane.valignment="TOP">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
                                     </Label>
-                                    <Label layoutX="40.0" layoutY="62.0" text="13:30" GridPane.halignment="RIGHT" GridPane.rowIndex="33" GridPane.valignment="TOP" />
-                                    <Label layoutX="40.0" layoutY="82.0" text="14:00" GridPane.halignment="RIGHT" GridPane.rowIndex="36" GridPane.valignment="TOP" />
-                                    <Label layoutX="33.0" layoutY="102.0" text="14:30" GridPane.halignment="RIGHT" GridPane.rowIndex="39" GridPane.valignment="TOP" />
-                                    <Label layoutX="27.0" layoutY="122.0" text="15:00" GridPane.halignment="RIGHT" GridPane.rowIndex="42" GridPane.valignment="TOP" />
-                                    <Label layoutX="10.0" layoutY="17.0" text="15:30" GridPane.halignment="RIGHT" GridPane.rowIndex="45" GridPane.valignment="TOP" />
-                                    <Label layoutX="10.0" layoutY="17.0" text="16:00" GridPane.halignment="RIGHT" GridPane.rowIndex="48" GridPane.valignment="TOP" />
-                                    <Label layoutX="10.0" layoutY="17.0" text="16:30" GridPane.halignment="RIGHT" GridPane.rowIndex="51" GridPane.valignment="TOP" />
-                                    <Label layoutX="10.0" layoutY="17.0" text="17:00" GridPane.halignment="RIGHT" GridPane.rowIndex="54" GridPane.valignment="TOP" />
-                                    <Label layoutX="81.0" layoutY="1027.0" text="17:30" GridPane.halignment="RIGHT" GridPane.rowIndex="57" GridPane.valignment="TOP" />
-                                    <Label layoutX="81.0" layoutY="1077.0" text="18:00" GridPane.halignment="RIGHT" GridPane.rowIndex="60" GridPane.valignment="TOP" />
-                                    <Label layoutX="81.0" layoutY="1127.0" text="18:30" GridPane.halignment="RIGHT" GridPane.rowIndex="63" GridPane.valignment="TOP" />
-                                    <Label layoutX="81.0" layoutY="1177.0" text="19:00" GridPane.halignment="RIGHT" GridPane.rowIndex="66" GridPane.valignment="TOP" />
-                                    <Label layoutX="81.0" layoutY="1227.0" text="19:30" GridPane.halignment="RIGHT" GridPane.rowIndex="69" GridPane.valignment="TOP" />
+                                    <Label layoutX="40.0" layoutY="62.0" text="13:30" GridPane.halignment="RIGHT" GridPane.rowIndex="33" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="40.0" layoutY="82.0" text="14:00" GridPane.halignment="RIGHT" GridPane.rowIndex="36" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="102.0" text="14:30" GridPane.halignment="RIGHT" GridPane.rowIndex="39" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="27.0" layoutY="122.0" text="15:00" GridPane.halignment="RIGHT" GridPane.rowIndex="42" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="17.0" text="15:30" GridPane.halignment="RIGHT" GridPane.rowIndex="45" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="17.0" text="16:00" GridPane.halignment="RIGHT" GridPane.rowIndex="48" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="17.0" text="16:30" GridPane.halignment="RIGHT" GridPane.rowIndex="51" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="17.0" text="17:00" GridPane.halignment="RIGHT" GridPane.rowIndex="54" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="81.0" layoutY="1027.0" text="17:30" GridPane.halignment="RIGHT" GridPane.rowIndex="57" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="81.0" layoutY="1077.0" text="18:00" GridPane.halignment="RIGHT" GridPane.rowIndex="60" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="81.0" layoutY="1127.0" text="18:30" GridPane.halignment="RIGHT" GridPane.rowIndex="63" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="81.0" layoutY="1177.0" text="19:00" GridPane.halignment="RIGHT" GridPane.rowIndex="66" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="81.0" layoutY="1227.0" text="19:30" GridPane.halignment="RIGHT" GridPane.rowIndex="69" GridPane.valignment="TOP">
+                                       <GridPane.margin>
+                                          <Insets right="4.0" />
+                                       </GridPane.margin>
+                                    </Label>
                                  </children>
                               </GridPane>
                               <GridPane fx:id="timeTable" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
@@ -390,6 +465,9 @@
                                     <RowConstraints minHeight="-Infinity" prefHeight="17.0" vgrow="NEVER" />
                                     <RowConstraints minHeight="-Infinity" prefHeight="17.0" vgrow="NEVER" />
                                  </rowConstraints>
+                                 <HBox.margin>
+                                    <Insets top="8.0" />
+                                 </HBox.margin>
                               </GridPane>
                            </children>
                         </HBox>

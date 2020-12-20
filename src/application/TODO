@@ -2,7 +2,7 @@ Implementation:
     + (FXMLAsignaturaController) Asignatura creation (FXML+Controller)
     + (FXMLCalendarioController) Buttons for adding asignatura and alumno
     + (FXMLModificationController) finish
-    - (FXMLCalendarioController) Help button popup
+    + (FXMLCalendarioController) Help button popup
     - (FXMLCalendarioController) Redo datePicker
     - (FXMLTutoria+Modification+SimpleAlumnoCell) Remove alumnos from list
     + (FXMLCalendarioController) Anulacion/confirmacion button
@@ -29,6 +29,7 @@ Changes and polish:
     - Destroy blank spaces in adding students listview
     - Add button is displayed out of alingment
     - Properties file is wrong, clean up
+    - Separar tutorias en el calendario
 
 Preguntas:
     - En las descripciones de asignaturas es el nombre reducido o entero?
