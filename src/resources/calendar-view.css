@@ -27,16 +27,23 @@
 .time-slot:selected{
     -fx-background-color: indianred;
 }
+/*
+*{
+  --primary: #b3e5fc;
+  --dark: #82b3c9;
+  --light: #e6ffff;
+  --select: #2e586b;
+}*/
 
 .tool-panel {
-    -fx-background-color: #673AB7;
+    -fx-background-color: #5151ff;
     -fx-border-width: 0;
 }
 
 .side-panel {
-    -fx-background-color: #9575CD;
-    -fx-border-width: 8 8 0 0;
-    -fx-border-color: #9575CD;
+    -fx-background-color: #e5e5e5;
+    -fx-border-width: 0 8 8 0;
+    -fx-border-color: #e5e5e5;
 }
 
 .button-transparent {
@@ -53,11 +60,11 @@
 }*/
 
 .button-transparent:pressed {
-    -fx-background-color: #4527A0;
+    -fx-background-color: #969696;
 }
 
 .popup-panel {
-    -fx-background-color: #beb0cc;
+    -fx-background-color: #d6d6ff;
 }
 
 .button-popup {

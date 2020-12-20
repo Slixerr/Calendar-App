@@ -30,17 +30,17 @@
                <items>
                   <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="652.0" prefWidth="43.0" spacing="20.0">
                      <children>
-                        <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#alumnoMethod" styleClass="button-transparent">
+                        <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alumnoMethod" styleClass="button-transparent">
                            <graphic>
                               <FontAwesomeIconView glyphName="BOOK" size="27" />
                            </graphic></Button>
-                        <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#subjectsMethod" styleClass="button-transparent">
+                        <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#subjectsMethod" styleClass="button-transparent">
                            <graphic>
                               <FontAwesomeIconView glyphName="USERS" size="25" />
                            </graphic></Button>
                         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button alignment="BOTTOM_CENTER" mnemonicParsing="false" onAction="#helpMethod" styleClass="button-transparent">
+                              <Button alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#helpMethod" styleClass="button-transparent">
                                  <graphic>
                                     <FontAwesomeIconView glyphName="QUESTION" size="27" />
                                  </graphic></Button>
