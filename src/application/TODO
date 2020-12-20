@@ -27,6 +27,7 @@ Changes and polish:
     - (FXMLCalendarioController) DescriptionBox unbindings
     - (FXML) Minimun sizes for windows
     - Destroy blank spaces in adding students listview
+    - Add button is displayed out of alingment
 
 Preguntas:
     - En las descripciones de asignaturas es el nombre reducido o entero?
