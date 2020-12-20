@@ -33,17 +33,38 @@
                         <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alumnoMethod" styleClass="button-transparent">
                            <graphic>
                               <FontAwesomeIconView glyphName="BOOK" size="27" />
-                           </graphic></Button>
-                        <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#subjectsMethod" styleClass="button-transparent">
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Asignaturas">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></Button>
+                        <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#subjectsMethod" styleClass="button-transparent">
                            <graphic>
                               <FontAwesomeIconView glyphName="USERS" size="25" />
-                           </graphic></Button>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Alumnos tutorizados">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></Button>
                         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Button alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#helpMethod" styleClass="button-transparent">
                                  <graphic>
                                     <FontAwesomeIconView glyphName="QUESTION" size="27" />
-                                 </graphic></Button>
+                                 </graphic>
+                                 <tooltip>
+                                    <Tooltip text="Ayuda">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></Button>
                            </children>
                            <VBox.margin>
                               <Insets bottom="20.0" />
@@ -74,7 +95,14 @@
                                           <Button fx:id="añadirAsignaturaButton" mnemonicParsing="false" styleClass="button-transparent">
                                              <graphic>
                                                 <OctIconView glyphName="PLUS" size="22" />
-                                             </graphic></Button>
+                                             </graphic>
+                                             <tooltip>
+                                                <Tooltip text="Añadir">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Tooltip>
+                                             </tooltip></Button>
                                        </children>
                                     </VBox>
                                  </children>
@@ -311,13 +339,23 @@
                                     <Button alignment="BASELINE_RIGHT" mnemonicParsing="false" onAction="#editMethod" styleClass="button-transparent">
                                        <graphic>
                                           <MaterialDesignIconView glyphName="PENCIL" size="21" />
-                                       </graphic></Button>
+                                       </graphic>
+                                       <tooltip>
+                                          <Tooltip text="Editar">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Tooltip>
+                                       </tooltip></Button>
                                     <Button alignment="BASELINE_RIGHT" mnemonicParsing="false" onAction="#closeMethod" styleClass="button-transparent">
                                        <graphic>
                                           <MaterialDesignIconView glyphName="CLOSE" size="26" />
                                        </graphic>
                                        <tooltip>
-                                          <Tooltip text="Cerrar" />
+                                          <Tooltip text="Cerrar">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font></Tooltip>
                                        </tooltip></Button>
                                  </children>
                               </HBox>
