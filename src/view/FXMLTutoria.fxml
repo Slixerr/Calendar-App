@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.octicons.OctIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -8,8 +9,9 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLTutoriaController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="600.0" styleClass="vbox-window" stylesheets="@../resources/calendar-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLTutoriaController">
    <children>
       <HBox alignment="CENTER" prefHeight="26.0" prefWidth="400.0" spacing="10.0" VBox.vgrow="NEVER">
          <children>
@@ -31,8 +33,11 @@
             <Insets left="10.0" />
          </VBox.margin>
          <children>
-            <Label alignment="TOP_LEFT" text="Asignatura:" />
-            <ComboBox fx:id="comboSubject" prefWidth="150.0" />
+            <Label alignment="TOP_LEFT" text="Asignatura:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <ComboBox fx:id="comboSubject" prefWidth="150.0" styleClass="combo-students" />
          </children>
       </HBox>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="30.0" VBox.vgrow="ALWAYS">
@@ -46,20 +51,29 @@
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
                   </Label>
-                  <ListView fx:id="listLV" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+                  <ListView fx:id="listLV" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="100.0" styleClass="text-box" VBox.vgrow="ALWAYS" />
                   <HBox prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ComboBox fx:id="comboStudents" editable="true" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
-                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addStudent" text="+" />
+                        <ComboBox fx:id="comboStudents" editable="true" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" styleClass="combo-students" />
+                        <Button fx:id="addButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#addStudent" styleClass="button-plus">
+                           <graphic>
+                              <OctIconView glyphName="PLUS" />
+                           </graphic></Button>
                      </children>
                   </HBox>
                </children>
             </VBox>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="30.0" HBox.hgrow="SOMETIMES">
                <children>
-                  <Label alignment="TOP_LEFT" prefWidth="434.0" text="Descripción:" VBox.vgrow="NEVER" />
-                  <TextArea fx:id="boxDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+                  <Label alignment="TOP_LEFT" prefWidth="434.0" text="Descripción:" VBox.vgrow="NEVER">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <TextArea fx:id="boxDescription" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="100.0" styleClass="text-box" wrapText="true" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>
@@ -71,8 +85,14 @@
                   <Label fx:id="errorLabel" textFill="RED" />
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#cancelMethod" text="Cancelar" />
-            <Button mnemonicParsing="false" onAction="#acceptMethod" text="Aceptar" />
+            <Button mnemonicParsing="false" onAction="#cancelMethod" styleClass="button-transparent" text="Cancelar">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onAction="#acceptMethod" styleClass="button-transparent" text="Aceptar">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
          </children>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

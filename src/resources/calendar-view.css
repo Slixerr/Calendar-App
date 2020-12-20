@@ -84,3 +84,25 @@
     -fx-border-color: black;
     -fx-background-color: transparent;
 }
+
+/*Seccion  ventana creacion y modificacion*/
+.text-box {
+    -fx-border-width: 2;
+    -fx-border-color: #82b3c9;
+}
+
+.button-plus {
+    -fx-border-width: 2;
+    -fx-border-color: #82b3c9;
+}
+
+.vbox-window {
+    -fx-border-width: 3;
+    -fx-border-color: #82b3c9;
+}
+
+.combo-students {
+    -fx-border-width: 2;
+    -fx-border-color: #82b3c9;
+    -fx-background-color: transparent;
+}
