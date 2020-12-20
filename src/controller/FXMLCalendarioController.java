@@ -8,6 +8,10 @@ import static application.CalendarioIPC.SLOTS_LAST;
 import static application.CalendarioIPC.SLOT_LENGTH;
 import application.Position;
 import application.TimeSlot;
+import static application.TimeSlot.BOTTOM;
+import static application.TimeSlot.EMPTY;
+import static application.TimeSlot.MIDDLE;
+import static application.TimeSlot.TOP;
 import application.Week;
 import static controller.FXMLAlumnoController.CREAR;
 import static controller.FXMLAlumnoController.MODIFICAR;
@@ -108,8 +112,12 @@ public class FXMLCalendarioController implements Initializable {
     
     public static final int DISABLED=0,ALUMNOS=1,ASIGNATURAS=2;
     public static final int TIME_COL_WIDTH = 100; // Since the first column doesnt rezise, a special case is implemented for it
+    public static final PseudoClass MID_PSEUDO_CLASS = PseudoClass.getPseudoClass("mid");
+    public static final PseudoClass BOOKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("booked");
     public static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
-    public static final PseudoClass BOOKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("active");
+    public static final PseudoClass TOP_PSEUDO_CLASS = PseudoClass.getPseudoClass("topStack");
+    public static final PseudoClass MIDDLE_PSEUDO_CLASS = PseudoClass.getPseudoClass("middleStack");
+    public static final PseudoClass BOTTOM_PSEUDO_CLASS = PseudoClass.getPseudoClass("bottomStack");
     
     private int pressedCol = 0;
     private TimeSlot lastHovered = null;
@@ -395,6 +403,7 @@ public class FXMLCalendarioController implements Initializable {
 
     private TimeSlot createTimeSlot(LocalDateTime startTime, Position gridPos) {
         TimeSlot timeSlot = new TimeSlot(startTime, gridPos, weekTutorias);
+        if (startTime.getMinute()%30 == 0) timeSlot.isTopLine();
         registerHandlers(timeSlot);
         return timeSlot;
     }
@@ -437,6 +446,7 @@ public class FXMLCalendarioController implements Initializable {
                 
                 pressedCol = (int)((event.getSceneX()-gridBounds.getMinX()- TIME_COL_WIDTH)/((timeTable.getWidth()-TIME_COL_WIDTH)/CalendarioIPC.COL_SPAN)) + 1;
                 timeSlot.setSelected(true);
+                timeSlot.setState(MIDDLE);
                 
                 timeSlot.blockSelected();
                 lastHovered = timeSlot;
@@ -487,12 +497,18 @@ public class FXMLCalendarioController implements Initializable {
                 if (hovered != null && hovered != lastHovered && timeSlot.inHour(hovered) && allowContinue(timeSlot, hovered)){
                     boolean movingDown = Math.abs(timeSlot.getRow() - hovered.getRow()) > 
                             Math.abs(timeSlot.getRow() - lastHovered.getRow());
+                    int cmp = hovered.compareRows(timeSlot);
+                    int roundPos = (cmp<0)?BOTTOM:TOP;
                     if(movingDown) {
                         hovered.setSelected(true);
+                        hovered.setState(roundPos);
+                        lastHovered.setState((lastHovered == timeSlot) ? roundPos : EMPTY);
                     }else {
                         lastHovered.setSelected(false);
+                        lastHovered.setState(EMPTY);
+                        hovered.setState(roundPos);
                     }
-                    lastHovered = hovered;//This doesnt cover some weird cases created by fillBlanks
+                    lastHovered = hovered;
                     if (timeSlot.getRow() < hovered.getRow()) {
                         bookingTime.setValue(new LocalDateTime[]{timeSlot.getStart(),hovered.getEnd()});
                     }else {
@@ -516,6 +532,9 @@ public class FXMLCalendarioController implements Initializable {
                         TimeSlot curr = timeSlots.get(pressedCol-1).get(i);
                         curr.setTutoria(result);
                         curr.setSelected(false);
+                        if(i == min) curr.setState(TOP);
+                        else if (i == max) curr.setState(MIDDLE);
+                        else  curr.setState(EMPTY);
                     }
                     slotSelected = new Label();
                     slotSelected.setMouseTransparent(true);
@@ -553,7 +572,7 @@ public class FXMLCalendarioController implements Initializable {
     Regardless, I hold confort in the notion that if the time limit of 1 hour
     were to be extended or removed, this method would be of use to the program.
     */
-    private boolean fillBlanks(TimeSlot base, TimeSlot currentSlot) {
+    private boolean fillBlanks(TimeSlot base, TimeSlot currentSlot) {//Yikes for css here
         boolean res = true;
         int i;
         int sign = (int)Math.signum(currentSlot.getRow()-lastHovered.getRow());
@@ -585,6 +604,7 @@ public class FXMLCalendarioController implements Initializable {
         timeSlots.forEach(currDay -> {
             currDay.forEach(slot -> {
                 slot.setSelected(false);
+                slot.setState(EMPTY);
             });
         });
     }

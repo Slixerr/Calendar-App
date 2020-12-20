@@ -1,32 +1,41 @@
-
 .time-slot {
-	-fx-background-color: red, white ;
-	-fx-background-insets: 0, 1 1 0 0 ;
+	-fx-background-color: white ;
+	-fx-background-insets: 0 0 0 0 ;
 }
 
-.time-slot:active{
-    -fx-background-color: red, #ccccff ;
-    -fx-background-insets: 0, 1 1 0 0 ;
+.time-slot:mid {
+	-fx-background-color: white ;
+	-fx-background-insets: 1 0 0 0 ;
 }
-
-.time-slot:topStack{
-    -fx-border-radius: 10 10 0 0;
-    -fx-background-radius: 10 10 0 0;
-    -fx-background-color: red, #ccccff ;
-    -fx-background-insets: 0, 1 1 0 0 ;
-}
-
-.time-slot:bottomStack{
-    -fx-border-radius: 10 10 0 0;
-    -fx-background-radius: 10 10 0 0;
-    -fx-background-color: red, #ccccff ;
-    -fx-background-insets: 0, 1 1 0 0 ;
-}
-
 
 .time-slot:selected{
     -fx-background-color: indianred;
 }
+
+.time-slot:booked{
+    -fx-background-color: #ccccff ;
+    /*-fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+    -fx-background-color: red, #ccccff ;
+    -fx-background-insets: 0, 1 1 0 0 ;*/
+}
+
+.time-slot:topStack{
+    /*-fx-border-radius: 10,10,0,0;*/
+    -fx-background-radius: 10,10,0,0;
+}
+
+.time-slot:middleStack{
+    /*-fx-border-radius: 10,10,10,10;*/
+    -fx-background-radius: 10,10,10,10;
+}
+
+.time-slot:bottomStack{
+    /*-fx-border-radius: 0,0,10,10;*/
+    -fx-background-radius: 0,0,10,10;
+}
+
+
 /*
 *{
   --primary: #b3e5fc;

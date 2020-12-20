@@ -12,35 +12,43 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import referencias.modelo.Tutoria;
 
-/**
- *
- * @author danie
- */
 public class TimeSlot extends Position{
-    
+    public static final int EMPTY=0,TOP=1,MIDDLE=2,BOTTOM=3;
     private final LocalDateTime start;
     protected final Pane view;
     private boolean selectedBlocked = false;
-    private final BooleanProperty selected = new SimpleBooleanProperty();
-    private final BooleanProperty booked = new SimpleBooleanProperty();
+    private final IntegerProperty stateProperty = new SimpleIntegerProperty();//should be enum I think
+    private final BooleanProperty selectedProperty = new SimpleBooleanProperty(); 
     private final ObjectProperty<Tutoria> tutoriaProperty = new SimpleObjectProperty<>();
     
     public final BooleanProperty selectedProperty() {
-        return selected;
+        return selectedProperty;
+    }
+    
+    public void setState(int n) {
+        stateProperty.set(n);
     }
     
     public Tutoria getTutoria() {
         return tutoriaProperty.getValue();
+    }
+    
+    public void isTopLine() {
+        view.pseudoClassStateChanged(FXMLCalendarioController.MID_PSEUDO_CLASS, true);
+    }
+    
+    public int compareRows(TimeSlot other) {
+        return this.getRow()-other.getRow();
     }
     
     public final void blockSelected() {
@@ -50,18 +58,13 @@ public class TimeSlot extends Position{
     public final void unBlockSelected() {
         selectedBlocked = false;
     }
-    
-    public final BooleanProperty bookedProperty() {
-        return booked;
-    }
 
     public final boolean isSelected() {
-        return selectedProperty().get();
+        return selectedProperty.getValue();
     }
     
     public final boolean isBooked() {
-        return bookedProperty().get();
-        //return tutoriaProperty().get() != null
+        return getTutoria() != null;
     }
 
     public final void setSelected(boolean selected) {
@@ -73,15 +76,23 @@ public class TimeSlot extends Position{
         this.start = start;
         view = new Pane();
         view.getStyleClass().add("time-slot");
-        bookedProperty().set(false);
-        selectedProperty().addListener((obs, wasSelected, isSelected) -> view.pseudoClassStateChanged(FXMLCalendarioController.SELECTED_PSEUDO_CLASS, isSelected));
-        bookedProperty().addListener((obs, wasBooked, isBooked) -> view.pseudoClassStateChanged(FXMLCalendarioController.BOOKED_PSEUDO_CLASS, isBooked));
-    
+        selectedProperty.addListener((a, b, isSelected) -> {
+            view.pseudoClassStateChanged(FXMLCalendarioController.SELECTED_PSEUDO_CLASS, isSelected);
+        });
+        tutoriaProperty.addListener((a, b, tut) -> {
+            view.pseudoClassStateChanged(FXMLCalendarioController.BOOKED_PSEUDO_CLASS, tut != null);
+        });
+        stateProperty.set(EMPTY);
+        stateProperty.addListener((a, b, state) -> {
+            view.pseudoClassStateChanged(FXMLCalendarioController.TOP_PSEUDO_CLASS, state.intValue() == TOP);
+            view.pseudoClassStateChanged(FXMLCalendarioController.MIDDLE_PSEUDO_CLASS, state.intValue() == MIDDLE);
+            view.pseudoClassStateChanged(FXMLCalendarioController.BOTTOM_PSEUDO_CLASS, state.intValue() == BOTTOM);
+        });
+        
         instatiateTutoriaProperty(tutorias);
-        bookedProperty().bind(Bindings.notEqual(tutoriaProperty,Tutoria.nullValue()));
     }
     
-    public void instatiateTutoriaProperty(List<Tutoria> tutorias) {
+    public final void instatiateTutoriaProperty(List<Tutoria> tutorias) {
         tutoriaProperty.set(tutorias.stream().filter((Tutoria tutoria) -> {
             LocalDate fecha = tutoria.getFecha();
             LocalTime hora = tutoria.getInicio();
@@ -90,14 +101,6 @@ public class TimeSlot extends Position{
                     start.toLocalTime().compareTo(hora) >= 0 && 
                     start.toLocalTime().compareTo(hora.plus(duracion)) < 0;
         }).findAny().orElse(null));
-    }
-
-    @Deprecated
-    public void setBooked() {
-        /*ObservableList<String> styles = view.getStyleClass();
-        styles.remove("time-slot");
-        styles.add("time-slot-libre");*/
-        bookedProperty().set(true);
     }
     
     public boolean inHour(TimeSlot t) {
@@ -111,6 +114,8 @@ public class TimeSlot extends Position{
     public LocalDateTime getStart() {
         return start;
     }
+    
+    
     
     public LocalDateTime getEnd() {
         return start.plus(CalendarioIPC.SLOT_LENGTH);
