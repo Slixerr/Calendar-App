@@ -19,7 +19,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <StackPane prefWidth="900.0" stylesheets="@../resources/calendar-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLCalendarioController">
@@ -32,7 +31,7 @@
                      <children>
                         <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alumnoMethod" styleClass="button-transparent">
                            <graphic>
-                              <FontAwesomeIconView glyphName="BOOK" size="27" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="BOOK" size="27" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="Asignaturas">
@@ -43,7 +42,7 @@
                            </tooltip></Button>
                         <Button alignment="TOP_CENTER" mnemonicParsing="false" onAction="#subjectsMethod" styleClass="button-transparent">
                            <graphic>
-                              <FontAwesomeIconView glyphName="USERS" size="25" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="USERS" size="25" />
                            </graphic>
                            <tooltip>
                               <Tooltip text="Alumnos tutorizados">
@@ -56,7 +55,7 @@
                            <children>
                               <Button alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#helpMethod" styleClass="button-transparent">
                                  <graphic>
-                                    <FontAwesomeIconView glyphName="QUESTION" size="27" />
+                                    <FontAwesomeIconView fill="WHITE" glyphName="QUESTION" size="27" />
                                  </graphic>
                                  <tooltip>
                                     <Tooltip text="Ayuda">
@@ -79,13 +78,13 @@
             </SplitPane>
             <SplitPane fx:id="sidePane" maxWidth="300.0" minWidth="200.0" styleClass="side-panel" HBox.hgrow="ALWAYS">
                <items>
-                  <StackPane>
+                  <StackPane styleClass="side-panel">
                      <children>
                         <VBox fx:id="asignaturasBox" spacing="20.0">
                            <children>
                               <HBox VBox.vgrow="NEVER">
                                  <children>
-                                    <Label text="Asignaturas">
+                                    <Label text="Asignaturas" textFill="WHITE">
                                        <font>
                                           <Font size="22.0" />
                                        </font>
@@ -94,7 +93,7 @@
                                        <children>
                                           <Button fx:id="añadirAsignaturaButton" mnemonicParsing="false" styleClass="button-transparent">
                                              <graphic>
-                                                <OctIconView glyphName="PLUS" size="22" />
+                                                <OctIconView fill="WHITE" glyphName="PLUS" size="22" />
                                              </graphic>
                                              <tooltip>
                                                 <Tooltip text="Añadir">
@@ -110,7 +109,7 @@
                                     <Insets left="5.0" right="10.0" top="10.0" />
                                  </VBox.margin>
                               </HBox>
-                              <ListView fx:id="asignaturasLV" accessibleRole="BUTTON" prefHeight="633.0" VBox.vgrow="ALWAYS" />
+                              <ListView fx:id="asignaturasLV" accessibleRole="BUTTON" prefHeight="633.0" styleClass="side-list" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox fx:id="alumnosBox" disable="true" spacing="20.0" visible="false">
@@ -135,21 +134,27 @@
                                     <Insets left="5.0" right="10.0" top="10.0" />
                                  </VBox.margin>
                               </HBox>
-                              <ListView fx:id="alumnosLV" prefHeight="633.0" VBox.vgrow="ALWAYS" />
+                              <ListView fx:id="alumnosLV" prefHeight="633.0" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin></ListView>
                            </children>
                         </VBox>
                      </children>
                   </StackPane>
                </items>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
             </SplitPane>
-            <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_CENTER" styleClass="vbox-calendar" HBox.hgrow="ALWAYS">
                <children>
                   <DatePicker fx:id="dayPicker" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                      <VBox.margin>
                         <Insets bottom="30.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <GridPane VBox.vgrow="NEVER">
+                  <GridPane styleClass="vbox-calendar" VBox.vgrow="NEVER">
                      <VBox.margin>
                         <Insets right="10.0" />
                      </VBox.margin>
@@ -172,13 +177,13 @@
                         <Label fx:id="viernesCol" text="Viernes" GridPane.columnIndex="5" />
                      </children>
                   </GridPane>
-                  <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefViewportHeight="500.0" prefViewportWidth="500.0" prefWidth="616.0" styleClass="button-transparent" VBox.vgrow="ALWAYS">
+                  <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefViewportHeight="500.0" prefViewportWidth="500.0" prefWidth="616.0" styleClass="vbox-calendar" VBox.vgrow="ALWAYS">
                      <content>
-                        <HBox maxHeight="1.7976931348623157E308">
+                        <HBox maxHeight="1.7976931348623157E308" styleClass="vbox-calendar">
                            <children>
-                              <GridPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                              <GridPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="vbox-calendar">
                                  <columnConstraints>
-                                    <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="70.0" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints minHeight="-Infinity" prefHeight="17.0" vgrow="NEVER" />
@@ -383,7 +388,7 @@
                                     </Label>
                                  </children>
                               </GridPane>
-                              <GridPane fx:id="timeTable" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                              <GridPane fx:id="timeTable" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="vbox-calendar" HBox.hgrow="ALWAYS">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
@@ -470,6 +475,9 @@
                                  </HBox.margin>
                               </GridPane>
                            </children>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </HBox>
                      </content>
                   </ScrollPane>
@@ -482,7 +490,6 @@
       </HBox>
       <AnchorPane fx:id="descriptionBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="471.0" translateX="100.0" translateY="150.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e2fce5" height="256.0" stroke="BLACK" strokeType="INSIDE" width="472.0" />
             <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="471.0" spacing="10.0" styleClass="popup-panel">
                <children>
                   <HBox alignment="CENTER" prefHeight="26.0" prefWidth="400.0" spacing="10.0" VBox.vgrow="ALWAYS">

@@ -1,32 +1,36 @@
 .time-slot {
-	-fx-background-color: white ;
+	-fx-background-color: -fx-calendar;
 	-fx-border-width: 0;
 }
 
 .time-slot:mid {
-	-fx-background-color: white ;
-        -fx-border-color: black;
+	-fx-background-color: -fx-calendar;
+        -fx-border-color: grey;
 	-fx-border-width: 1 0 0 0 ;
 }
 
 .time-slot:booked{
     -fx-background-color: blue, #ccccff ;
     -fx-background-insets: 0, 0 2 0 2;
+    -fx-border-width: 0;
 }
 
 .time-slot:selected{
     -fx-background-color: blue, indianred;
     -fx-background-insets: 0, 0 2 0 2;
+    -fx-border-width: 0;
 }
 
 .time-slot:topStack{
     -fx-background-radius: 10 10 0 0;
     -fx-background-insets: 0, 2 2 0 2;
+    -fx-border-width: 1 0 0 0 ;
 }
 
 .time-slot:middleStack{
     -fx-background-radius: 10 10 10 10;
     -fx-background-insets: 0, 2 2 2 2;
+    -fx-border-width: 1 0 0 0 ;
 }
 
 .time-slot:bottomStack{
@@ -35,42 +39,41 @@
 }
 
 .root{
-  -fx-primary: #b3e5fc;
-  -fx-dark: #82b3c9;
-  -fx-light: #e6ffff;
-  -fx-select: #2e586b;
+  -fx-primary: #2f3a4c;
+  -fx-light: 	#385b94;
+  -fx-light2: 	#b8c6e0;
+  -fx-super-light: white;
+  
+  -fx-dark: #8080b3;
+  -fx-select: #8080b3;
+  -fx-calendar: white;
 }
 
 .tool-panel {
     -fx-background-color: -fx-primary;
-    -fx-border-width: 0;
 }
 
 .side-panel {
-    -fx-background-color: #e5e5e5;
-    -fx-border-width: 0 8 8 0;
-    -fx-border-color: #e5e5e5;
+    -fx-background-insets: 0, 0 8 8 0;
+    -fx-background-color: -fx-light;
 }
 
 .button-transparent {
     -fx-border-color: transparent;
-    -fx-background-color: transparent;
+    -fx-background-color: #d4dfec;
     -fx-border-width: 0;
 }
 
-/*.button-transparent:focused {
-    -fx-border-color: transparent, black;
-    -fx-border-width: 1, 1;
-    -fx-border-radius: 0, 0;
-    -fx-border-insets: 1 1 1 1, 0;
-}*/
+.button-transparent:hover {
+    -fx-background-color: #bfcfe3;
+}
 
 .button-transparent:pressed {
-    -fx-background-color: #969696;
+    -fx-background-color: -fx-dark;
 }
 
 .popup-panel {
-    -fx-background-color: #d6d6ff;
+    -fx-background-color: #ccccff;
 }
 
 .button-popup {
@@ -93,22 +96,62 @@
 
 /*Seccion  ventana creacion y modificacion*/
 .text-box {
-    -fx-border-width: 2;
-    -fx-border-color: #82b3c9;
+    -fx-background-radius: 2;
+    -fx-effect: innershadow( gaussian, rgba(0, 0, 0, 0.25), 15, 0, 0, 0 );
 }
 
 .button-plus {
     -fx-border-width: 2;
-    -fx-border-color: #82b3c9;
+    -fx-border-color: -fx-light;
 }
 
 .vbox-window {
-    -fx-border-width: 3;
-    -fx-border-color: #82b3c9;
+    -fx-background-radius: 10;
+    -fx-background-insets: 5;
+    -fx-background-color: transparent, #e6ecf4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0);
 }
 
 .combo-students {
-    -fx-border-width: 2;
-    -fx-border-color: #82b3c9;
-    -fx-background-color: transparent;
+    -fx-background-radius: 2;
+    -fx-background-color: #f4f7fa,#f4f7fa;
+}
+
+.combo-students .arrow-button {
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0em 0.0em 0.0em;
+}
+
+.combo-students .arrow-button .arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 0 0 0 0, 0;
+    -fx-padding: 0em 0em 0em 0em;
+    -fx-shape: null;
+}
+
+.combo-box .text-field {
+    -fx-prompt-text-fill: rgba(0, 0, 0, 0.5) ;
+}
+
+.vbox-calendar {
+    -fx-background-color: -fx-super-light;
+    -fx-border-width: 0;
+}
+
+.side-list {
+    -fx-background-color: -fx-light2;
+}
+
+.side-list .list-cell {
+    -fx-background-color: -fx-light2;
+    -fx-text-fill: black;
+    -fx-border-color: 		#a3adc2;
+    -fx-border-width: 0 0 1 0;
+}
+
+.side-list .list-cell:empty {
+    -fx-background-color: -fx-light2;
+    -fx-border-width: 0;
 }
