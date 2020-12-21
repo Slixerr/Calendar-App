@@ -117,8 +117,7 @@ public class FXMLTutoriaController implements Initializable {
             Platform.runLater(() -> {
                 if(filteredAlumnos.size() == 0) {
                     comboStudents.hide();
-                }
-                else if (lastFilteredAlumnosSize == filteredAlumnos.size()){
+                } else if (lastFilteredAlumnosSize == filteredAlumnos.size()){
                     comboStudents.show();
                 } else {
                     lastFilteredAlumnosSize = filteredAlumnos.size();
@@ -161,6 +160,7 @@ public class FXMLTutoriaController implements Initializable {
         }
         comboStudents.getEditor().setText("");
         comboStudents.getSelectionModel().clearSelection();
+        
         comboStudents.requestFocus();
     }
 
