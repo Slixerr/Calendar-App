@@ -54,6 +54,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -374,6 +375,7 @@ public class FXMLCalendarioController implements Initializable {
     private void addLabels(Week now) {
         weekTutorias.forEach(tutoria -> {
             Label l = new Label();
+            l.setPadding(new Insets(0,0,0,8));
             LocalDateTime start = LocalDateTime.of(tutoria.getFecha(),tutoria.getInicio());
             LocalDateTime end = start.plus(tutoria.getDuracion());
             l.setText(start.format(timeFormatter)+" - "+end.format(timeFormatter));
@@ -438,6 +440,7 @@ public class FXMLCalendarioController implements Initializable {
         timeSlot.getView().setOnMousePressed((MouseEvent event) ->{
             if(slotSelected==null){
                 slotSelected = new Label();
+                slotSelected.setPadding(new Insets(0,0,0,8));
                 slotSelected.setMouseTransparent(true);
             }
             resetTimeSlots();
@@ -540,6 +543,7 @@ public class FXMLCalendarioController implements Initializable {
                         }
                     }
                     slotSelected = new Label();
+                    slotSelected.setPadding(new Insets(0,0,0,8));
                     slotSelected.setMouseTransparent(true);
                     
                     weekTutorias.add(result);
@@ -579,6 +583,7 @@ public class FXMLCalendarioController implements Initializable {
         boolean res = true;
         int i;
         int sign = (int)Math.signum(currentSlot.getRow()-lastHovered.getRow());
+        lastHovered.setState(EMPTY);
         
         TimeSlot currTS;
         for (i = lastHovered.getRow() + sign; res && i != currentSlot.getRow(); i+=sign) {

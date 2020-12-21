@@ -9,30 +9,31 @@
 	-fx-border-width: 1 0 0 0 ;
 }
 
-.time-slot:selected{
-    -fx-background-color: indianred;
+.time-slot:booked{
+    -fx-background-color: blue, #ccccff ;
+    -fx-background-insets: 0, 0 2 0 2;
 }
 
-.time-slot:booked{
-    -fx-background-color: #ccccff ;
-    /*-fx-border-radius: 10 10 0 0;
-    -fx-background-radius: 10 10 0 0;
-    -fx-background-color: red, #ccccff ;
-    -fx-background-insets: 0, 1 1 0 0 ;*/
+.time-slot:selected{
+    -fx-background-color: blue, indianred;
+    -fx-background-insets: 0, 0 2 0 2;
 }
 
 .time-slot:topStack{
     -fx-background-radius: 10 10 0 0;
+    -fx-background-insets: 0, 2 2 0 2;
 }
 
 .time-slot:middleStack{
     -fx-background-radius: 10 10 10 10;
+    -fx-background-insets: 0, 2 2 2 2;
+    
 }
 
 .time-slot:bottomStack{
     -fx-background-radius: 0 0 10 10;
+    -fx-background-insets: 0, 0 2 2 2;
 }
-
 
 /*
 *{
