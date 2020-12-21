@@ -27,7 +27,6 @@
 .time-slot:middleStack{
     -fx-background-radius: 10 10 10 10;
     -fx-background-insets: 0, 2 2 2 2;
-    
 }
 
 .time-slot:bottomStack{
@@ -35,16 +34,15 @@
     -fx-background-insets: 0, 0 2 2 2;
 }
 
-/*
-*{
-  --primary: #b3e5fc;
-  --dark: #82b3c9;
-  --light: #e6ffff;
-  --select: #2e586b;
-}*/
+.root{
+  -fx-primary: #b3e5fc;
+  -fx-dark: #82b3c9;
+  -fx-light: #e6ffff;
+  -fx-select: #2e586b;
+}
 
 .tool-panel {
-    -fx-background-color: #5151ff;
+    -fx-background-color: -fx-primary;
     -fx-border-width: 0;
 }
 
