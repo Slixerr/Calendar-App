@@ -112,7 +112,6 @@ public class FXMLCalendarioController implements Initializable {
     private Label viernesCol;
     
     public static final int DISABLED=0,ALUMNOS=1,ASIGNATURAS=2;
-    //public static final int TIME_COL_WIDTH = 100; // Since the first column doesnt rezise, a special case is implemented for it
     public static final PseudoClass MID_PSEUDO_CLASS = PseudoClass.getPseudoClass("mid");
     public static final PseudoClass BOOKED_PSEUDO_CLASS = PseudoClass.getPseudoClass("booked");
     public static final PseudoClass SELECTED_PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
@@ -579,7 +578,7 @@ public class FXMLCalendarioController implements Initializable {
     Regardless, I hold confort in the notion that if the time limit of 1 hour
     were to be extended or removed, this method would be of use to the program.
     */
-    private boolean fillBlanks(TimeSlot base, TimeSlot currentSlot) {//Yikes for css here
+    private boolean fillBlanks(TimeSlot base, TimeSlot currentSlot) {
         boolean res = true;
         int i;
         int sign = (int)Math.signum(currentSlot.getRow()-lastHovered.getRow());
