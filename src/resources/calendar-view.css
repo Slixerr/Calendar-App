@@ -82,12 +82,12 @@
     -fx-border-width: 0;
 }
 
-toggle-Button {
+.toggle-Button {
     -fx-background-color: -fx-primary;
     -fx-border-width: 0;
 }
 
-toggle-Button:selected {
+.toggle-Button:selected {
     -fx-background-color: -fx-light;
     -fx-border-width: 0;
 }
