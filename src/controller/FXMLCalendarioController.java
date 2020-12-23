@@ -770,9 +770,19 @@ public class FXMLCalendarioController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLHelp.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-        Stage ventana2= new Stage();
-        ventana2.setTitle("Ventana Ayuda");
-        ventana2.setScene(scene);
-        ventana2.showAndWait();
+        Stage ventana= new Stage();
+        ventana.setMinHeight(500);
+        ventana.setMinWidth(700);
+        ventana.setTitle("Ventana Ayuda");
+        ventana.setScene(scene);
+        ventana.showAndWait();
+    }
+
+    @FXML
+    private void previousWeekMethod(ActionEvent event) {
+    }
+
+    @FXML
+    private void nextWeekMethod(ActionEvent event) {
     }
 }

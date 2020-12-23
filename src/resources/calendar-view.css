@@ -59,8 +59,7 @@
 }
 
 .button-transparent {
-    -fx-border-color: transparent;
-    -fx-background-color: #d4dfec;
+    -fx-background-color: -fx-primary;
     -fx-border-width: 0;
 }
 
@@ -73,12 +72,23 @@
 }
 
 .popup-panel {
-    -fx-background-color: #ccccff;
+    /*-fx-background-color: #ccccff;*/
+    -fx-background-color: #b8c6e0;
 }
 
 .button-popup {
     -fx-border-color: transparent;
     -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+toggle-Button {
+    -fx-background-color: -fx-primary;
+    -fx-border-width: 0;
+}
+
+toggle-Button:selected {
+    -fx-background-color: -fx-light;
     -fx-border-width: 0;
 }
 
@@ -94,46 +104,7 @@
     -fx-background-color: transparent;
 }
 
-/*Seccion  ventana creacion y modificacion*/
-.text-box {
-    -fx-background-radius: 2;
-    -fx-effect: innershadow( gaussian, rgba(0, 0, 0, 0.25), 15, 0, 0, 0 );
-}
 
-.button-plus {
-    -fx-border-width: 2;
-    -fx-border-color: -fx-light;
-}
-
-.vbox-window {
-    -fx-background-radius: 10;
-    -fx-background-insets: 5;
-    -fx-background-color: transparent, #e6ecf4;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0);
-}
-
-.combo-students {
-    -fx-background-radius: 2;
-    -fx-background-color: #f4f7fa,#f4f7fa;
-}
-
-.combo-students .arrow-button {
-    -fx-background-color: null;
-    -fx-background-insets: 0;
-    -fx-background-radius: 0;
-    -fx-padding: 0.0em 0em 0.0em 0.0em;
-}
-
-.combo-students .arrow-button .arrow {
-    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
-    -fx-background-insets: 0 0 0 0, 0;
-    -fx-padding: 0em 0em 0em 0em;
-    -fx-shape: null;
-}
-
-.combo-box .text-field {
-    -fx-prompt-text-fill: rgba(0, 0, 0, 0.5) ;
-}
 
 .vbox-calendar {
     -fx-background-color: -fx-super-light;

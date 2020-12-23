@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLAlumnoController">
+<VBox styleClass="vbox-window" stylesheets="@../resources/SecondaryWindows-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLAlumnoController">
    <children>
       <HBox>
          <children>
@@ -38,14 +38,20 @@
          <children>
             <VBox>
                <children>
-                  <Label text="Nombre" />
+                  <Label text="Nombre">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
                   <TextField fx:id="nameBox" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" />
                </children>
             </VBox>
             <VBox>
                <children>
-                  <Label text="Apellidos" />
-                  <TextField fx:id="surnameBox" maxWidth="-Infinity" prefWidth="250.0" />
+                  <Label text="Apellidos">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <TextField fx:id="surnameBox" maxWidth="-Infinity" prefWidth="250.0" styleClass="text-field" />
                </children>
             </VBox>
          </children>
@@ -55,14 +61,23 @@
       </HBox>
       <VBox>
          <children>
-            <Label text="Correo" />
+            <Label text="Correo">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
             <TextField fx:id="mailBox" maxWidth="-Infinity" prefWidth="415.0" />
          </children>
       </VBox>
       <HBox alignment="CENTER_RIGHT" spacing="15.0">
          <children>
-            <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancelar" />
-            <Button fx:id="createButton" mnemonicParsing="false" text="Añadir" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" styleClass="button-transparent" text="Cancelar">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+            <Button fx:id="createButton" mnemonicParsing="false" styleClass="button-transparent" text="Añadir">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
          </children>
          <padding>
             <Insets top="10.0" />

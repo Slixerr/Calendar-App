@@ -4,59 +4,116 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="40.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLHelpController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="40.0" styleClass="vbox-window-help" stylesheets="@../resources/SecondaryWindows-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLHelpController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Centro de Ayuda">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido al area de ayuda, aquí podrás consultar dudas sobre el funcionamiento del programa. " />
-      <Accordion VBox.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido al area de ayuda, aquí podrás consultar dudas sobre el funcionamiento del programa. ">
+         <font>
+            <Font size="15.0" />
+         </font></Text>
+      <Accordion maxHeight="500.0">
         <panes>
-          <TitledPane animated="false" text="Creación de una tutoría">
+          <TitledPane animated="false" styleClass="first-titled-pane" text="Creación de una tutoría">
                <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <HBox spacing="10.0">
                      <children>
-                        <Label text="En primer lugar, habrá que situarse con el ratón encima del día y hora deseada para la nueva tutoría.&#10;&#10;A continuación presionamos con el botón izquierdo del ratón y arrastramos en función de la duración de la tutoría deseada.&#10;&#10;Aparecerá una nueva ventana con los parámetros a introducir. Se recuerda que una nueva tutoría debe contener:&#10;     · Un alumno tutorizado.&#10;     · Una asignatura&#10;&#10;Un nuevo alumno que aún no esté creado puede ser añadido. Basta con introducir su nombre y la nueva ventana de añadido del alumno aparecerá.&#10;" wrapText="true" />
+                        <ImageView fitHeight="302.0" fitWidth="361.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Screenshot_2.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="En primer lugar, habrá que situarse con el ratón encima del día y hora deseada para la nueva tutoría.&#10;&#10;A continuación presionamos con el botón izquierdo del ratón y arrastramos en función de la duración de la tutoría deseada.&#10;&#10;Aparecerá una nueva ventana con los parámetros a introducir. Se recuerda que una nueva tutoría debe contener:&#10;     · Almenos un alumno tutorizado.&#10;     · Una asignatura&#10;&#10;Un nuevo alumno que aún no esté creado puede ser añadido. Basta con introducir su nombre y la nueva ventana de añadido del alumno aparecerá.&#10;" wrapText="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
                      </children>
-                  </VBox>
+                  </HBox>
                </content>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
           </TitledPane>
           <TitledPane animated="false" text="Modificación de una tutoría">
                <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Selecciona la tutoría a modificar y en la ventana de información de esta presiona el boton de editar en la esquina superior derecha. &#10;&#10;La nueva venta de modificación aparecerá.&#10;" wrapText="true" />
+                        <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Selecciona la tutoría a modificar y en la ventana de información de esta presiona el boton de editar en la esquina superior derecha. &#10;&#10;La nueva venta de modificación aparecerá.&#10;" wrapText="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <HBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/Screenshot_1.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </content>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
           </TitledPane>
           <TitledPane animated="false" text="Manejo listado alumnos">
                <content>
                   <VBox>
                      <children>
-                        <Label text="En el panel lateral izquierdo presiona el icono de alumnos. En este nuevo panel se pueden añadir nuevos alumnos.&#10;&#10;Si desea modificar o eliminar alguno de ellos basta con situar el ratón encima de este y presionar el boton deseado." wrapText="true" />
+                        <Label prefHeight="131.0" prefWidth="716.0" text="En el panel lateral izquierdo presiona el icono de alumnos. En este nuevo panel se pueden añadir nuevos alumnos.&#10;&#10;Si desea modificar o eliminar alguno de ellos basta con situar el ratón encima de este y presionar el boton deseado." wrapText="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
                      </children>
                   </VBox>
                </content>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
           </TitledPane>
             <TitledPane animated="false" text="Manejo listado asignaturas">
                <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <HBox>
                      <children>
-                        <Label maxWidth="1.7976931348623157E308" text="En el panel lateral izquierdo presiona el icono de asignaturas. En este nuevo panel se pueden añadir nuevas asignaturas.&#10;&#10;Si desea eliminar alguna de ellas basta con situar el ratón encima de esta y presionar el botón de eliminar.&#10;&#10;" wrapText="true" />
+                        <ImageView fitHeight="189.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Screenshot_3.png" />
+                           </image>
+                        </ImageView>
+                        <Label maxWidth="1.7976931348623157E308" text="En el panel lateral izquierdo presiona el icono de asignaturas. En este nuevo panel se pueden añadir nuevas asignaturas.&#10;&#10;Si desea eliminar alguna de ellas basta con situar el ratón encima de esta y presionar el botón de eliminar.&#10;&#10;" wrapText="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
                      </children>
-                  </VBox>
+                  </HBox>
                </content>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
             </TitledPane>
         </panes>
       </Accordion>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sigue teniendo dudas o ha encontrado algún error?  No dude en contactar con el soporte técnico: &#10;   · Email:   soporte24-7@calendario.com&#10;" VBox.vgrow="ALWAYS" />
+      <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sigue teniendo dudas o ha encontrado algún error?  No dude en contactar con el soporte técnico: &#10;   · Email:   soporte24-7@calendario.com&#10;" />
+         </children>
+      </VBox>
    </children>
    <padding>
       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="382.0" prefWidth="600.0" styleClass="vbox-window" stylesheets="@../resources/calendar-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLTutoriaController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="380.0" prefWidth="600.0" styleClass="vbox-window" stylesheets="@../resources/SecondaryWindows-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLTutoriaController">
    <children>
       <HBox alignment="CENTER" prefHeight="26.0" prefWidth="400.0" spacing="10.0" VBox.vgrow="NEVER">
          <children>
@@ -36,10 +36,10 @@
                <font>
                   <Font size="15.0" />
                </font></Label>
-            <ComboBox fx:id="comboSubject" prefHeight="25.0" prefWidth="142.0" promptText="Añadir asignatura" styleClass="combo-students" />
+            <ComboBox fx:id="comboSubject" prefHeight="25.0" prefWidth="142.0" promptText="Añadir asignatura" styleClass="combo-subject" />
          </children>
       </HBox>
-      <HBox maxWidth="1.7976931348623157E308" prefHeight="186.0" prefWidth="570.0" spacing="30.0" VBox.vgrow="NEVER">
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="184.0" prefWidth="570.0" spacing="30.0" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
          </VBox.margin>
@@ -54,11 +54,11 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <ListView fx:id="listLV" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="98.0" prefWidth="100.0" styleClass="text-box" VBox.vgrow="ALWAYS" />
+                  <ListView fx:id="listLV" minHeight="-Infinity" prefHeight="98.0" prefWidth="100.0" styleClass="text-box" VBox.vgrow="ALWAYS" />
                   <HBox prefWidth="200.0">
                      <children>
                         <ComboBox fx:id="comboStudents" editable="true" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" promptText="Añadir alumno" styleClass="combo-students" />
-                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addStudent" styleClass="button-transparent">
+                        <Button fx:id="addButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#addStudent" styleClass="button-transparent">
                            <graphic>
                               <OctIconView glyphName="PLUS" />
                            </graphic></Button>
@@ -72,7 +72,7 @@
                      <font>
                         <Font size="15.0" />
                      </font></Label>
-                  <TextArea fx:id="boxDescription" maxWidth="1.7976931348623157E308" prefHeight="143.0" prefWidth="315.0" styleClass="text-box" wrapText="true" VBox.vgrow="NEVER" />
+                  <TextArea fx:id="boxDescription" maxWidth="1.7976931348623157E308" prefHeight="143.0" prefWidth="325.0" styleClass="text-box" wrapText="true" VBox.vgrow="NEVER" />
                </children>
             </VBox>
          </children>

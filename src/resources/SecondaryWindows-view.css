@@ -1,0 +1,121 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23 dic. 2020, 11:15:59
+    Author     : silvi
+*/
+
+.root{
+  -fx-primary: #2f3a4c;
+  -fx-light: 	#385b94;
+  -fx-light2: 	#b8c6e0;
+  -fx-super-light: white;
+  
+  -fx-dark: #8080b3;
+  -fx-select: #8080b3;
+  -fx-calendar: white;
+}
+
+.button-transparent {
+    -fx-border-color: transparent;
+    -fx-background-color: #b8cae0;
+    -fx-border-width: 0;
+}
+
+.button-transparent:hover {
+    -fx-background-color: #bfcfe3;
+}
+
+.button-transparent:pressed {
+    -fx-background-color: -fx-dark;
+}
+
+
+
+.text-box {
+    -fx-background-radius: 2;
+    -fx-effect: innershadow( gaussian, rgba(0, 0, 0, 0.25), 15, 0, 0, 0 );
+}
+
+
+.vbox-window {
+    -fx-background-radius: 10;
+    -fx-background-insets: 5;
+    -fx-background-color: transparent, #e3eaf3;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0);  /* el efecto lo hemos encontrado en stackoverflow*/
+}
+
+
+
+.combo-students {
+    -fx-background-radius: 2;
+    -fx-background-color: #f4f7fa,#f4f7fa;
+}
+
+
+.combo-students .arrow-button { /* styling del combobox encontrado en StackOverflow*/
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0em 0.0em 0.0em;
+}
+
+
+.combo-students .arrow-button .arrow { /* styling del combobox encontrado en StackOverflow*/
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 0 0 0 0, 0;
+    -fx-padding: 0em 0em 0em 0em;
+    -fx-shape: null;
+}
+
+.combo-subject .list-cell {
+    -fx-background-color: #f4f7fa,#f4f7fa;
+    -fx-background-radius: 2;
+    -fx-text-fill: grey;
+    
+}
+
+.combo-subject .arrow-button {
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0em 0.0em 0.0em;
+}
+
+
+.combo-subject .arrow-button .arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 0 0 0 0, 0;
+    -fx-padding: 0em 0em 0em 0em;
+    -fx-shape: null;
+}
+
+
+.combo-box .text-field {
+    -fx-prompt-text-fill: rgba(0, 0, 0, 0.5) ;
+}
+
+
+.text-field {
+   -fx-border-color: #e3eaf3;
+}
+
+.accordion .titled-pane .title{
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    
+}
+
+.accordion .titled-pane .content{
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    
+}
+
+.vbox-window-help {
+    -fx-background-color: #e3eaf3;
+}
