@@ -16,8 +16,14 @@ import static application.TimeSlot.TOP;
 import application.TransparentPickerSkin;
 import application.Week;
 import static controller.FXMLAlumnoController.CREAR;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +32,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -160,6 +168,9 @@ public class FXMLCalendarioController implements Initializable {
     private ResourceBundle bundle;
     @FXML
     private GridPane dayGrid;
+    
+    private List<LocalDate> festivos;
+    File festivosFile = new File(getClass().getResource("festivos.txt").getFile());
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -190,6 +201,13 @@ public class FXMLCalendarioController implements Initializable {
     
     public void accessDatabase() {
         tutorias = AccesoBD.getInstance().getTutorias();
+        try {
+            festivos = Files.lines(festivosFile.toPath())
+                    .map(c->LocalDate.parse(c))
+                    .collect(Collectors.toList());
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLCalendarioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void addDayLabels() {
@@ -413,6 +431,7 @@ public class FXMLCalendarioController implements Initializable {
         TimeSlot timeSlot = new TimeSlot(startTime, gridPos, weekTutorias);
         if (startTime.getMinute()%30 == 0) timeSlot.isTopLine();
         registerHandlers(timeSlot);
+        timeSlot.getView().setDisable(festivos.contains(startTime.toLocalDate()));
         return timeSlot;
     }
 
