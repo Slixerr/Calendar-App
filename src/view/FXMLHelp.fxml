@@ -33,7 +33,7 @@
                               <Image url="@../resources/Screenshot_2.png" />
                            </image>
                         </ImageView>
-                        <Label text="En primer lugar, habrá que situarse con el ratón encima del día y hora deseada para la nueva tutoría.&#10;&#10;A continuación presionamos con el botón izquierdo del ratón y arrastramos en función de la duración de la tutoría deseada.&#10;&#10;Aparecerá una nueva ventana con los parámetros a introducir. Se recuerda que una nueva tutoría debe contener:&#10;     · Almenos un alumno tutorizado.&#10;     · Una asignatura&#10;&#10;Un nuevo alumno que aún no esté creado puede ser añadido. Basta con introducir su nombre y la nueva ventana de añadido del alumno aparecerá.&#10;" wrapText="true">
+                        <Label text="En primer lugar, habrá que situarse con el ratón encima del día y hora deseada para la nueva tutoría.&#10;&#10;A continuación presionamos con el botón izquierdo del ratón y arrastramos en función de la duración de la tutoría deseada.&#10;&#10;Aparecerá una nueva ventana con los parámetros a introducir. Se recuerda que una nueva tutoría debe contener:&#10;     · Al menos un alumno tutorizado.&#10;     · Una asignatura&#10;&#10;Un nuevo alumno que aún no esté creado puede ser añadido. Basta con introducir su nombre y la nueva ventana de añadido del alumno aparecerá.&#10;" wrapText="true">
                            <font>
                               <Font size="15.0" />
                            </font>

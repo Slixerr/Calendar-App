@@ -181,9 +181,13 @@ public class FXMLModificationController implements Initializable {
 
     @FXML
     private void acceptMethod(ActionEvent event) {
-        tutoria.setAnotaciones(description.getValue());
-        tutoria.getAlumnos().setAll(alumnos);
-        ((Stage) boxDescription.getScene().getWindow()).close();
+        if (alumnos.isEmpty()) {
+            errorLabel.setText("Debe añadir al menos 1 alumno");
+        } else {
+            tutoria.setAnotaciones(description.getValue());
+            tutoria.getAlumnos().setAll(alumnos);
+            ((Stage) boxDescription.getScene().getWindow()).close();
+        }
     }
     
     /*

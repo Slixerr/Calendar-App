@@ -183,16 +183,16 @@ public class FXMLTutoriaController implements Initializable {
 
     @FXML
     private void acceptMethod(ActionEvent event) {
-        tutoria.anotacionesProperty().unbind();
-        tutoria.asignaturaProperty().unbind();
-        if(comboSubject.getValue() == null || datos.isEmpty()){
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Alerta de guardado");
-            alert.setHeaderText("Imposible guardar la tutoría");
-            alert.setContentText("Por favor, compruebe que: \n\t· Ha elegido el tipo de asignatura. \n\t· Introducido al menos 1 alumno.");
-            alert.showAndWait();
+        if (comboSubject.getValue() == null && datos.isEmpty()) {
+            errorLabel.setText("Elija asignatura y al menos 1 alumno");
+        } else if (comboSubject.getValue() == null) {
+            errorLabel.setText("Debe elegir una asigntura");
+        } else if (datos.isEmpty()) {
+            errorLabel.setText("Añada al menos 1 alumno");
         }
         else{
+            tutoria.anotacionesProperty().unbind();
+            tutoria.asignaturaProperty().unbind();
             FXMLCalendarioController.setTutoria(tutoria);
             ((Stage) boxDescription.getScene().getWindow()).close();
         }
