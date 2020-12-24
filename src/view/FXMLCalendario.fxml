@@ -183,11 +183,11 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label fx:id="lunesCol" text="Lunes" GridPane.columnIndex="1" />
-                        <Label fx:id="martesCol" text="Martes" GridPane.columnIndex="2" />
-                        <Label fx:id="miercoles" text="Miércoles" GridPane.columnIndex="3" />
-                        <Label fx:id="juevesCol" text="Jueves" GridPane.columnIndex="4" />
-                        <Label fx:id="viernesCol" text="Viernes" GridPane.columnIndex="5" />
+                        <Label fx:id="lunesCol" text="Monday" GridPane.columnIndex="1" />
+                        <Label fx:id="martesCol" text="Tuesday" GridPane.columnIndex="2" />
+                        <Label fx:id="miercoles" text="Wednesday" GridPane.columnIndex="3" />
+                        <Label fx:id="juevesCol" text="Thursday" GridPane.columnIndex="4" />
+                        <Label fx:id="viernesCol" text="Friday" GridPane.columnIndex="5" />
                      </children>
                   </GridPane>
                   <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefViewportHeight="500.0" prefViewportWidth="500.0" prefWidth="616.0" styleClass="vbox-calendar" VBox.vgrow="ALWAYS">

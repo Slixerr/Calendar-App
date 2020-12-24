@@ -177,9 +177,11 @@ public class FXMLCalendarioController implements Initializable {
     @FXML
     private ChoiceBox<EstadoTutoria> stateBox;
     
+    private ResourceBundle bundle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        bundle = rb;
         dayPickerStatic = dayPicker;
         dayPicker.setSkin(new TransparentPickerSkin(dayPicker));
         accessDatabase();
@@ -192,7 +194,7 @@ public class FXMLCalendarioController implements Initializable {
         createDescriptionListener();
         createAddingListener();
     }
-
+    
     private void generateTestParameters() {
         Alumno daniel = new Alumno("Daniel", "Santamarina Puertas", "danielsantamarinapuertas@gmail.com");
         tutorias.getAlumnosTutorizados().add(daniel);
@@ -380,7 +382,7 @@ public class FXMLCalendarioController implements Initializable {
                 !day.isAfter(now.getEndOfWeek()); 
                 day = day.plusDays(1), dayIndex++) {
             
-            diasSemana.get(dayIndex).setText(day.getDayOfWeek()+System.lineSeparator()+day.toString());
+            diasSemana.get(dayIndex).setText(bundle.getString(day.getDayOfWeek().toString())+System.lineSeparator()+day.toString());
             fillDaySlots(day, dayIndex);
         }
     }

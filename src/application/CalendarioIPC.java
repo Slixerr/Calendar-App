@@ -8,6 +8,8 @@ package application;
 import controller.FXMLCalendarioController;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +31,9 @@ public class CalendarioIPC extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLCalendario.fxml"));
+        Locale locale = Locale.getDefault();
+        ResourceBundle bundle = ResourceBundle.getBundle("resources.labelText",locale);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLCalendario.fxml"), bundle);
         
         Scene scene = new Scene(root);
         
