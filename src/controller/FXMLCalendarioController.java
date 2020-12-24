@@ -151,6 +151,7 @@ public class FXMLCalendarioController implements Initializable {
     private List<Tutoria> weekTutorias;
     
     private final BooleanProperty descriptionShowing = new SimpleBooleanProperty();
+    private boolean outOfScreen = false;
     
     private Node baseView = null;
     
@@ -178,6 +179,8 @@ public class FXMLCalendarioController implements Initializable {
     private ChoiceBox<EstadoTutoria> stateBox;
     
     private ResourceBundle bundle;
+    @FXML
+    private GridPane dayGrid;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -311,6 +314,14 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private void moveDescriptionBox(Bounds bounds) {
+        if((descriptionShowing.getValue()||outOfScreen) && dayGrid.localToScene(dayGrid.getBoundsInLocal()).getMaxY()>bounds.getMinY()){
+            descriptionShowing.set(false);
+            outOfScreen = true;
+        }else if (outOfScreen){
+            descriptionShowing.set(true);
+            outOfScreen = false;
+        }
+        
         double baseX = (bounds.getMaxX()+descriptionBox.getWidth() > scene.getWidth()) ? 
                 bounds.getMinX() - descriptionBox.getWidth() : bounds.getMaxX();
         double baseY = (bounds.getMinY()+descriptionBox.getHeight() > scene.getHeight()) ? 
@@ -366,6 +377,7 @@ public class FXMLCalendarioController implements Initializable {
 
     private void resetPastParameters() {
         descriptionShowing.set(false);
+        outOfScreen = false;
         timeTable.getChildren().remove(slotSelected);
         slotSelected = null;
     }
@@ -462,6 +474,7 @@ public class FXMLCalendarioController implements Initializable {
             resetTimeSlots();
             if(!timeSlot.isBooked()){
                 descriptionShowing.set(false);
+                outOfScreen = false;
                 
                 pressedCol = (int)((event.getSceneX()-gridBounds.getMinX())/((timeTable.getWidth())/CalendarioIPC.COL_SPAN));
                 timeSlot.setSelected(true);
@@ -571,6 +584,7 @@ public class FXMLCalendarioController implements Initializable {
             } else {
                 unbindDescription(timeSlot.getTutoria());
                 descriptionShowing.set(true);
+                outOfScreen = false;
                 setModifiedTutoria(timeSlot.getTutoria());
             }
         });
@@ -781,6 +795,7 @@ public class FXMLCalendarioController implements Initializable {
     @FXML
     private void closeMethod(ActionEvent event) {
         descriptionShowing.set(false);
+        outOfScreen = false;
     }
 
     @FXML

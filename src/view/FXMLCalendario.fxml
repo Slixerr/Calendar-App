@@ -167,7 +167,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <GridPane styleClass="vbox-calendar" VBox.vgrow="NEVER">
+                  <GridPane fx:id="dayGrid" styleClass="vbox-calendar" VBox.vgrow="NEVER">
                      <VBox.margin>
                         <Insets right="10.0" />
                      </VBox.margin>
