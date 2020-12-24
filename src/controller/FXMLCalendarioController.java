@@ -277,13 +277,13 @@ public class FXMLCalendarioController implements Initializable {
             alumnosLV.getSelectionModel().clearSelection();
             Alumno al = createAlumno("","","",null, CREAR);
             boolean cont = tutorias.getAlumnosTutorizados().contains(al);
-            if(!cont) {tutorias.getAlumnosTutorizados().add(al);}
+            if(!cont && al != null) {tutorias.getAlumnosTutorizados().add(al);}
         });
         añadirAsignaturaButton.setOnAction(a -> {
             asignaturasLV.getSelectionModel().clearSelection();
             Asignatura as = createAsignatura("","",CREAR);
             boolean cont = tutorias.getAsignaturas().contains(as);
-            if(!cont) {tutorias.getAsignaturas().add(as);}
+            if(!cont && as != null) {tutorias.getAsignaturas().add(as);}
         });
     }
     
