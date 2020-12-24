@@ -2,5 +2,4 @@ Implementation:
     - (FXMLCalendarioController) Añadir festivos
 
 Bug fixes:
-    - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
     - Minimo de alumnos en Modify
