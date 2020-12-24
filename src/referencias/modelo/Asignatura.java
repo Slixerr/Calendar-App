@@ -61,4 +61,8 @@ public class Asignatura {
         int logVal = (int)(Math.floor(Math.log(nAs)/Math.log(2)));
         color = (int) ((255/(Math.pow(2,logVal+1))) * ((nAs-Math.pow(2, logVal)+1)*2 - 1));
     }
+
+    public int getColor() {
+        return color;
+    }
 }

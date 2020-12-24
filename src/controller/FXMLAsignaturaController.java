@@ -68,7 +68,4 @@ public class FXMLAsignaturaController implements Initializable {
             title.setText("Añadir asignatura");
         }
     }
-    
-
-    
 }

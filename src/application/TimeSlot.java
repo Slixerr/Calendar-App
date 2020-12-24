@@ -21,7 +21,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import referencias.modelo.Tutoria;
 
 public class TimeSlot extends Position{
@@ -83,6 +88,9 @@ public class TimeSlot extends Position{
         });
         tutoriaProperty.addListener((a, b, tut) -> {
             view.pseudoClassStateChanged(FXMLCalendarioController.BOOKED_PSEUDO_CLASS, tut != null);
+            Color col = Color.hsb(tutoriaProperty.getValue().getAsignatura().getColor()*360/255.0, 60/100.0, 80/100.0);
+            System.out.println(tutoriaProperty.getValue().getAsignatura().getColor());
+            view.setStyle("-fx-background-color: "+toHexString(col)+";");
         });
         stateProperty.set(EMPTY);
         stateProperty.addListener((a, b, state) -> {
@@ -92,6 +100,16 @@ public class TimeSlot extends Position{
         });
         
         instatiateTutoriaProperty(tutorias);
+    }
+    
+    // código copiado de respuesta de usuario Kröw a https://stackoverflow.com/questions/17925318/how-to-get-hex-web-string-from-javafx-colorpicker-color
+    private String format(double val) {
+        String in = Integer.toHexString((int) Math.round(val * 255));
+        return in.length() == 1 ? "0" + in : in;
+    }
+    public String toHexString(Color value) {
+        return "#" + (format(value.getRed()) + format(value.getGreen()) + format(value.getBlue()) + format(value.getOpacity()))
+                .toUpperCase();
     }
     
     public final void instatiateTutoriaProperty(List<Tutoria> tutorias) {
