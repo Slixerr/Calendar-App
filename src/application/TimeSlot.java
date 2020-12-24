@@ -88,7 +88,7 @@ public class TimeSlot extends Position{
         });
         tutoriaProperty.addListener((a, b, tut) -> {
             view.pseudoClassStateChanged(FXMLCalendarioController.BOOKED_PSEUDO_CLASS, tut != null);
-            Color col = Color.hsb(tutoriaProperty.getValue().getAsignatura().getColor()*360/255.0, 60/100.0, 80/100.0);
+            Color col = Color.hsb(tutoriaProperty.getValue().getAsignatura().getColor()*360/255.0, 65/100.0, 85/100.0);
             System.out.println(tutoriaProperty.getValue().getAsignatura().getColor());
             view.setStyle("-fx-background-color: "+toHexString(col)+";");
         });
