@@ -45,7 +45,6 @@ public class DayPickerCell extends DateCell {
                 }
             }
         };
-        //removeEventHandler(MouseEvent.MOUSE_ENTERED, mouseHandler);
         setOnMouseEntered(mouseHandler);
         
         if (empty || item == null) {

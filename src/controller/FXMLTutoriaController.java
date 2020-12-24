@@ -52,7 +52,7 @@ public class FXMLTutoriaController implements Initializable {
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
     
     private ObservableList<Alumno> datos = null;
-    int lastFilteredAlumnosSize = 0;
+    int lastFilteredAlumnosSize = -1;
         
     private ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
     private ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();

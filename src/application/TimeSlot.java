@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package application;
 
 import static application.CalendarioIPC.SLOT_LENGTH;
@@ -89,7 +84,6 @@ public class TimeSlot extends Position{
         tutoriaProperty.addListener((a, b, tut) -> {
             view.pseudoClassStateChanged(FXMLCalendarioController.BOOKED_PSEUDO_CLASS, tut != null);
             Color col = Color.hsb(tutoriaProperty.getValue().getAsignatura().getColor()*360/255.0, 65/100.0, 85/100.0);
-            System.out.println(tutoriaProperty.getValue().getAsignatura().getColor());
             view.setStyle("-fx-background-color: "+toHexString(col)+";");
         });
         stateProperty.set(EMPTY);
@@ -145,8 +139,6 @@ public class TimeSlot extends Position{
     public LocalDateTime getStart() {
         return start;
     }
-    
-    
     
     public LocalDateTime getEnd() {
         return start.plus(CalendarioIPC.SLOT_LENGTH);

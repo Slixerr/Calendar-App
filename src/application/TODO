@@ -1,39 +1,12 @@
 Implementation:
-    + (FXMLAsignaturaController) Asignatura creation (FXML+Controller)
-    + (FXMLCalendarioController) Buttons for adding asignatura and alumno
-    + (FXMLModificationController) finish
-    + (FXMLCalendarioController) Help button popup
-    + (FXMLCalendarioController) Redo datePicker
-    + (FXMLTutoria+Modification+SimpleAlumnoCell) Remove alumnos from list
-    + (FXMLCalendarioController) Anulacion/confirmacion button
-    + (FXMLCalendarioController) Modify existing alumno/tutoria
-    + (Alumno&Asignatura&Tutoria) Implement equals/comparteTo
-    + (FXMLSubjectController) Remove Alumno from list
-    + (AlumnoCell) Show image when editing Alumno
-    + (FXMLCalendarioController) Allow deselect from alumnosList and AsignaturasList
+    - (FXMLCalendarioController) Añadir festivos
 
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
-    - (FXMLTutoriaController) When selecting Alumno and clicking on dropdown, dropdown still displays name
     - (FXMLCalendarioController) When scrolling up description doesnt close
+    - Cambiar alumnos o asignaturas update references to tutoriaList
 
 Changes and polish:
-    - CSS
-    - (FXMLCalendarioController) Refactor FXML creators, unnecessary code
-    - (FXMLCalendarioController) Remove Alumno from list
-    - (FXMLCalendarioController) Make añadir button transparente
-    - Editing Tutoria students not live updating yet
-    - (FXMLCalendarioController) Quitar hora de descriptionBox
-    - (FXMLCalendarioController) DescriptionBox unbindings
-    - (FXML) Minimun sizes for windows
-    - Destroy blank spaces in adding students listview
-    - Add button is displayed out of alingment
-    - Properties file is wrong, clean up
-    - Separar tutorias en el calendario
-
-Preguntas:
-    - En las descripciones de asignaturas es el nombre reducido o entero?
-    - La clase calendarioController es demasiado grande, como dividir?
-    - No pasa nada si algunas cosas estan en ingles y otras en español?
-    - Donde ponemos las imágenes en descrptionBox?
-
+    = (FXMLCalendarioController) Refactor FXML creators, unnecessary code
+    = Separar tutorias en el calendario
+    - [Me apareció en un sueño] Botón de cerrar en ventanas de crear tutoria
