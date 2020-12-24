@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="380.0" prefWidth="600.0" styleClass="vbox-window" stylesheets="@../resources/SecondaryWindows-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLModificationController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="600.0" styleClass="vbox-window" stylesheets="@../resources/SecondaryWindows-view.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLModificationController">
    <children>
       <HBox alignment="CENTER" prefHeight="26.0" prefWidth="400.0" spacing="10.0" VBox.vgrow="NEVER">
          <children>
@@ -39,12 +39,12 @@
                </font></Label>
          </children>
       </HBox>
-      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="184.0" prefWidth="570.0" spacing="30.0" VBox.vgrow="NEVER">
+      <HBox maxWidth="1.7976931348623157E308" prefWidth="570.0" spacing="30.0" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
          </VBox.margin>
          <children>
-            <VBox maxWidth="1.7976931348623157E308" prefHeight="312.0" prefWidth="225.0" spacing="20.0" HBox.hgrow="NEVER">
+            <VBox maxWidth="1.7976931348623157E308" prefWidth="225.0" spacing="20.0" HBox.hgrow="NEVER">
                <children>
                   <Label alignment="TOP_LEFT" prefWidth="268.0" text="Alumnos:" VBox.vgrow="NEVER">
                      <VBox.margin>
@@ -54,7 +54,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <ListView fx:id="listLV" prefHeight="98.0" styleClass="text-box" VBox.vgrow="ALWAYS" />
+                  <ListView fx:id="listLV" maxHeight="-Infinity" prefHeight="125.0" styleClass="text-box" VBox.vgrow="ALWAYS" />
                   <HBox prefWidth="200.0">
                      <children>
                         <ComboBox fx:id="comboStudents" editable="true" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" styleClass="combo-students" />
@@ -72,7 +72,7 @@
                      <font>
                         <Font size="15.0" />
                      </font></Label>
-                  <TextArea fx:id="boxDescription" maxWidth="1.7976931348623157E308" prefHeight="143.0" prefWidth="325.0" styleClass="text-box" wrapText="true" VBox.vgrow="NEVER" />
+                  <TextArea fx:id="boxDescription" maxWidth="1.7976931348623157E308" prefWidth="325.0" styleClass="text-box" wrapText="true" VBox.vgrow="NEVER" />
                </children>
             </VBox>
          </children>

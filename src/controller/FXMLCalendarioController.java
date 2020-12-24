@@ -176,7 +176,6 @@ public class FXMLCalendarioController implements Initializable {
     private Button añadirAlumnoButton;
     @FXML
     private ChoiceBox<EstadoTutoria> stateBox;
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
