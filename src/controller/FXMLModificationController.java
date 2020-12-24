@@ -92,6 +92,10 @@ public class FXMLModificationController implements Initializable {
         listLV.setOnMouseExited((MouseEvent event) -> {
             listLV.getSelectionModel().clearSelection();
         });
+        comboStudents.getEditor().focusedProperty().addListener((a,b,c) -> {
+            if(c) comboStudents.show();
+            
+        });
     }
 
     private void comboStudentsListeners() {
@@ -202,9 +206,11 @@ public class FXMLModificationController implements Initializable {
     public void startVariables(Tutoria tut) {
         tutoria = tut;
         setTimeLabel();
-        subjectLabel.setText(tutoria.getAsignatura().toString());
+        subjectLabel.setText(tutoria.getAsignatura().getCodigo());
         boxDescription.setText(tutoria.getAnotaciones());
         description.bind(boxDescription.textProperty());
         alumnos.setAll(tutoria.getAlumnos());
     }
+
+
 }

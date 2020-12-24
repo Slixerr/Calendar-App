@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.octicons.OctIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -22,14 +23,17 @@
                </font>
             </Label>
             <Region prefWidth="159.0" />
-            <StackPane>
+            <StackPane alignment="BOTTOM_RIGHT">
                <children>
                   <ImageView fx:id="headshotView" fitHeight="150.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/headshot.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="photoButton" mnemonicParsing="false" text="+" />
+                  <Button fx:id="photoButton" mnemonicParsing="false">
+                     <graphic>
+                        <OctIconView glyphName="PLUS" />
+                     </graphic></Button>
                </children>
             </StackPane>
          </children>
