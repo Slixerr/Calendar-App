@@ -4,8 +4,3 @@ Implementation:
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
     - Minimo de alumnos en Modify
-
-Changes and polish:
-    = (FXMLCalendarioController) Refactor FXML creators, unnecessary code
-    = Separar tutorias en el calendario
-    - [Me apareció en un sueño] Botón de cerrar en ventanas de crear tutoria
