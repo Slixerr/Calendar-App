@@ -16,6 +16,7 @@ Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
     - (FXMLTutoriaController) When selecting Alumno and clicking on dropdown, dropdown still displays name
     - (FXMLCalendarioController) When scrolling up description doesnt close
+    -  Modifying an subject doesnt update in popup and colored box
 
 Changes and polish:
     - CSS

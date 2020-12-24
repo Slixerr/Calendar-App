@@ -105,14 +105,16 @@ and open the template in the editor.
 
 .accordion .titled-pane .title{
     -fx-font-weight: bold;
-    -fx-background-color: transparent;
-    -fx-border-width: 0;
+    -fx-background-color: #6a80a4;
+    -fx-border-width: 2;
+    -fx-border-color:black;
     
 }
 
 .accordion .titled-pane .content{
     -fx-background-color: transparent;
-    -fx-border-width: 0;
+    -fx-border-width: 2;
+    -fx-border-color:black;
     
 }
 

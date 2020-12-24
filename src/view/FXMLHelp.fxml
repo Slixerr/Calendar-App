@@ -24,7 +24,7 @@
          </font></Text>
       <Accordion maxHeight="500.0">
         <panes>
-          <TitledPane animated="false" styleClass="first-titled-pane" text="Creación de una tutoría">
+          <TitledPane animated="false" styleClass="first-titled-pane" text="Creación de una tutoría" textFill="WHITE">
                <content>
                   <HBox spacing="10.0">
                      <children>
@@ -45,7 +45,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
           </TitledPane>
-          <TitledPane animated="false" text="Modificación de una tutoría">
+          <TitledPane animated="false" text="Modificación de una tutoría" textFill="WHITE">
                <content>
                   <VBox>
                      <children>
@@ -70,7 +70,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
           </TitledPane>
-          <TitledPane animated="false" text="Manejo listado alumnos">
+          <TitledPane animated="false" text="Manejo listado alumnos" textFill="WHITE">
                <content>
                   <HBox spacing="10.0">
                      <children>
@@ -91,7 +91,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
           </TitledPane>
-            <TitledPane animated="false" text="Manejo listado asignaturas">
+            <TitledPane animated="false" text="Manejo listado asignaturas" textFill="WHITE">
                <content>
                   <HBox spacing="10.0">
                      <children>

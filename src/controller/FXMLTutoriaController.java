@@ -69,6 +69,7 @@ public class FXMLTutoriaController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         tutoria.setEstado(Tutoria.EstadoTutoria.PEDIDA);
         
         filteredAlumnos = new FilteredList<>(
@@ -93,6 +94,10 @@ public class FXMLTutoriaController implements Initializable {
         
         listLV.setOnMouseExited((MouseEvent event) -> {
             listLV.getSelectionModel().clearSelection();
+        });
+        comboStudents.getEditor().focusedProperty().addListener((a,b,c) -> {
+            if(c) comboStudents.show();
+            
         });
     }
 
@@ -222,6 +227,8 @@ public class FXMLTutoriaController implements Initializable {
         tutoria.anotacionesProperty().bind(boxDescription.textProperty());
         tutoria.asignaturaProperty().bind(comboSubject.valueProperty());
     }
+
+
 }
 
 
