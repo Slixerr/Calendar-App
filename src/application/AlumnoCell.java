@@ -1,34 +1,29 @@
 package application;
 
 import static controller.FXMLAlumnoController.MODIFICAR;
-import controller.FXMLCalendarioController;
 import static controller.FXMLCalendarioController.createAlumno;
-import javafx.application.Platform;
+import static de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon.DELETE;
+import static de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon.PENCIL;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
-import referencias.modelo.Asignatura;
 
 
 public class AlumnoCell extends ListCell<Alumno>{
@@ -45,8 +40,15 @@ public class AlumnoCell extends ListCell<Alumno>{
     
     public AlumnoCell() {
         super();
-        eliminar = new Button("X");
-        editar = new Button("E");
+        MaterialDesignIconView delete = new MaterialDesignIconView(DELETE);
+        delete.setSize("18");
+        eliminar = new Button("", delete);
+        eliminar.setTooltip(new Tooltip("Eliminar"));
+        
+        MaterialDesignIconView pencil = new MaterialDesignIconView(PENCIL);
+        pencil.setSize("18");
+        editar = new Button("", pencil);
+        editar.setTooltip(new Tooltip("Editar"));
         
         setOnMouseEntered((MouseEvent event) -> {
             getListView().getSelectionModel().select(getItem());

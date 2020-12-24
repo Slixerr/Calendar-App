@@ -1,11 +1,7 @@
 package application;
 
-import static controller.FXMLAlumnoController.MODIFICAR;
-import static controller.FXMLCalendarioController.createAlumno;
 import static de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon.DELETE;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import javafx.beans.binding.Bindings;
-import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -13,19 +9,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
 
 public class SimpleAlumnoCell extends ListCell<Alumno>{
@@ -42,6 +29,7 @@ public class SimpleAlumnoCell extends ListCell<Alumno>{
         MaterialDesignIconView icon = new MaterialDesignIconView(DELETE);
         icon.setSize("15");
         eliminar.setGraphic(icon);
+        eliminar.setTooltip(new Tooltip("Eliminar"));
         eliminar.pseudoClassStateChanged(BUTTON_PSEUDO_CLASS, true);
         
         setOnMouseEntered((MouseEvent event) -> {

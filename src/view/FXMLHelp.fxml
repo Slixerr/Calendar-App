@@ -72,15 +72,20 @@
           </TitledPane>
           <TitledPane animated="false" text="Manejo listado alumnos">
                <content>
-                  <VBox>
+                  <HBox spacing="10.0">
                      <children>
+                        <ImageView fitHeight="200.0" fitWidth="188.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/Screenshot_4.png" />
+                           </image>
+                        </ImageView>
                         <Label prefHeight="131.0" prefWidth="716.0" text="En el panel lateral izquierdo presiona el icono de alumnos. En este nuevo panel se pueden añadir nuevos alumnos.&#10;&#10;Si desea modificar o eliminar alguno de ellos basta con situar el ratón encima de este y presionar el boton deseado." wrapText="true">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
                      </children>
-                  </VBox>
+                  </HBox>
                </content>
                <font>
                   <Font name="System Bold" size="15.0" />

@@ -2,6 +2,9 @@ package application;
 
 import static controller.FXMLAlumnoController.MODIFICAR;
 import static controller.FXMLCalendarioController.createAsignatura;
+import static de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon.DELETE;
+import static de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon.PENCIL;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,18 +12,15 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import referencias.accesoBD.AccesoBD;
-import referencias.modelo.Alumno;
 import referencias.modelo.Asignatura;
 
 public class AsignaturaCell extends ListCell<Asignatura> {
@@ -34,8 +34,17 @@ public class AsignaturaCell extends ListCell<Asignatura> {
     
     public AsignaturaCell() {
         super();
-        eliminar = new Button("X");
-        editar = new Button("E");
+        MaterialDesignIconView delete = new MaterialDesignIconView(DELETE);
+        delete.setSize("18");
+        eliminar = new Button("", delete);
+        eliminar.setTooltip(new Tooltip("Eliminar"));
+        
+        MaterialDesignIconView pencil = new MaterialDesignIconView(PENCIL);
+        pencil.setSize("18");
+        editar = new Button("", pencil);
+        editar.setTooltip(new Tooltip("Editar"));
+        
+
         
         setOnMouseEntered((MouseEvent event) -> {
             getListView().getSelectionModel().select(getItem());
@@ -56,8 +65,8 @@ public class AsignaturaCell extends ListCell<Asignatura> {
         
         pane.add(eliminar, 0, 0);
         pane.add(editar, 0, 1);
-        pane.add(name, 1, 0);
-        pane.add(code, 1, 1);
+        pane.add(name, 1, 1);
+        pane.add(code, 1, 0);
         pane.getColumnConstraints().addAll(buttonCol);
         
         pane.setHgap(5);

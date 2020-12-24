@@ -30,7 +30,7 @@
       </VBox>
       <VBox>
          <children>
-            <Label text="Nombre de asignatura">
+            <Label text="Nombre de la asignatura">
                <font>
                   <Font size="15.0" />
                </font></Label>

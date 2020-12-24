@@ -202,8 +202,8 @@ public class FXMLCalendarioController implements Initializable {
         Alumno silviu = new Alumno("Silviu Valentin", "Manolescu", "silviu1200@gmail.com");
         //silviu.setHeadShot();
         tutorias.getAlumnosTutorizados().add(silviu);
-        tutorias.getAsignaturas().add(new Asignatura("1224","IPC"));
-        tutorias.getAsignaturas().add(new Asignatura("2334","TAL"));
+        tutorias.getAsignaturas().add(new Asignatura("IPC","Interfaces persona computador"));
+        tutorias.getAsignaturas().add(new Asignatura("TAL","Teoria de automatas y lenguajes formales"));
     }
     
     public void accessDatabase() {

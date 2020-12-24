@@ -12,7 +12,7 @@ public class SimpleSubjectCell extends ListCell<Asignatura>{
             setText("");
         }
         else {
-            setText(item.getDescripcion());
+            setText(item.getCodigo());
         }
     }
 }
