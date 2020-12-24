@@ -13,6 +13,7 @@ import static application.TimeSlot.BOTTOM;
 import static application.TimeSlot.EMPTY;
 import static application.TimeSlot.MIDDLE;
 import static application.TimeSlot.TOP;
+import application.TransparentPickerSkin;
 import application.Week;
 import com.sun.javafx.scene.control.skin.DatePickerContent;
 import com.sun.javafx.scene.control.skin.DatePickerSkin;
@@ -180,6 +181,7 @@ public class FXMLCalendarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dayPickerStatic = dayPicker;
+        dayPicker.setSkin(new TransparentPickerSkin(dayPicker));
         accessDatabase();
         generateTestParameters();
         addDayLabels();
@@ -340,7 +342,6 @@ public class FXMLCalendarioController implements Initializable {
         dayPicker.setValue(LocalDate.MIN);
         dayPicker.setDayCellFactory(c -> new DayPickerCell());
         dayPicker.setOnHidden(c->{
-            System.out.println("CLEAR--------------------------------------------------------");
             cells = new ArrayList<>();
             days = new ArrayList<>();
         });

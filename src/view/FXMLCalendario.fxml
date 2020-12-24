@@ -154,13 +154,13 @@
                         <Insets bottom="30.0" />
                      </VBox.margin>
                      <children>
-                        <Button mnemonicParsing="false" onAction="#previousWeekMethod">
+                        <Button mnemonicParsing="false" onAction="#previousWeekMethod" styleClass="button-popup">
                            <graphic>
                               <FontAwesomeIconView glyphName="ARROW_LEFT" size="16" />
                            </graphic>
                         </Button>
-                        <DatePicker fx:id="dayPicker" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
-                        <Button mnemonicParsing="false" onAction="#nextWeekMethod">
+                        <DatePicker fx:id="dayPicker" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="button-transparent" />
+                        <Button mnemonicParsing="false" onAction="#nextWeekMethod" styleClass="button-popup">
                            <graphic>
                               <FontAwesomeIconView glyphName="ARROW_RIGHT" size="16" />
                            </graphic>

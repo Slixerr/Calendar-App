@@ -53,7 +53,6 @@ public class DayPickerCell extends DateCell {
             setGraphic(null);
         } else {   
             if (weekBase.contains(item)) getStyleClass().add(CSS_WEEK_DAY);
-            System.out.println("adding: "+item);
             cells.add(this);
             days.add(item); // should be refactored to object
         }

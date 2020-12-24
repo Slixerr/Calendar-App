@@ -1,15 +1,9 @@
-WORKFLOW:
-+ Select week with datePicker
-+ Implement next day/week arrows
-- FXML for datePicker
-
-
 Implementation:
     + (FXMLAsignaturaController) Asignatura creation (FXML+Controller)
     + (FXMLCalendarioController) Buttons for adding asignatura and alumno
     + (FXMLModificationController) finish
     + (FXMLCalendarioController) Help button popup
-    - (FXMLCalendarioController) Redo datePicker
+    + (FXMLCalendarioController) Redo datePicker
     - (FXMLTutoria+Modification+SimpleAlumnoCell) Remove alumnos from list
     + (FXMLCalendarioController) Anulacion/confirmacion button
     + (FXMLCalendarioController) Modify existing alumno/tutoria
