@@ -139,7 +139,10 @@ public class FXMLModificationController implements Initializable {
                 for (int i = 1; i < names.length; i++) {
                     surname = String.join(surname, names[i]);
                 }
-                alumno = FXMLCalendarioController.createAlumno(names[0], surname, "", null, CREAR);
+                alumno = new Alumno();
+                alumno.setNombre(names[0]);
+                alumno.setApellidos(surname);
+                alumno = FXMLCalendarioController.createAlumno(alumno, CREAR);
                 if (alumno == null) {
                     return;
                 }

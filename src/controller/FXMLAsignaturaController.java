@@ -45,12 +45,14 @@ public class FXMLAsignaturaController implements Initializable {
             if (codigoBox.getText().isEmpty() || nombreBox.getText().isEmpty()) {
                 errorLabel.setText("Por favor, rellene todos los campos");
             } else {
+                FXMLCalendarioController.setCreatedAsignatura(asignatura);
                 asignatura.setCodigo(codigo.getValue());
                 asignatura.setDescripcion(descripcion.getValue());
                 ((Stage) createButton.getScene().getWindow()).close();
             }
         });
         cancelButton.setOnAction(a -> {
+            FXMLCalendarioController.setCreatedAsignatura(null);
             ((Stage) cancelButton.getScene().getWindow()).close();
         });
     }    

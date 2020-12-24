@@ -116,12 +116,12 @@ public class AlumnoCell extends ListCell<Alumno>{
                         .otherwise(0));
         ObservableList<Alumno> alumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
         editar.setOnAction((ActionEvent event) -> {
-            Alumno alCreado = createAlumno(alumno.getNombre(), alumno.getApellidos(), alumno.getEmail(), alumno.getHeadShot(), MODIFICAR);
-            if(alCreado != null) {
-                int pos = alumnos.indexOf(alumno);
-                alumnos.remove(alumno);
-                alumnos.add(pos, alCreado);
-            }
+            createAlumno(alumno, MODIFICAR);
+            
+            Image img = (alumno.getHeadShot() != null) ? alumno.getHeadShot():defaultHS;
+            headshot.setImage(img);
+            name.setText(alumno.getNombre() + " " + alumno.getApellidos());
+            mail.setText(alumno.getEmail());
             this.getListView().getSelectionModel().clearSelection();
         });
         eliminar.setOnAction((ActionEvent event) -> {

@@ -3,7 +3,7 @@ Implementation:
 
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
-    - Cambiar alumnos o asignaturas update references to tutoriaList
+    - Minimo de alumnos en Modify
 
 Changes and polish:
     = (FXMLCalendarioController) Refactor FXML creators, unnecessary code

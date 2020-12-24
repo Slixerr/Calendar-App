@@ -136,7 +136,10 @@ public class FXMLTutoriaController implements Initializable {
         } else {
             if (alumno == null) {
                 String[] names = comboStudents.getValue().split(" ", 2);
-                alumno = FXMLCalendarioController.createAlumno(names[0], (names.length == 1) ? "" : names[1], "", null, CREAR);
+                alumno = new Alumno();
+                alumno.setNombre(names[0]);
+                alumno.setApellidos((names.length == 1) ? "" : names[1]);
+                alumno = FXMLCalendarioController.createAlumno(alumno, CREAR);
                 if (alumno == null) {
                     return;
                 }

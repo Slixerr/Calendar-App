@@ -280,7 +280,7 @@ public class FXMLCalendarioController implements Initializable {
     private void createAddingListener() {
         añadirAlumnoButton.setOnAction(a -> {
             alumnosLV.getSelectionModel().clearSelection();
-            Alumno al = createAlumno("","","",null, CREAR);
+            Alumno al = createAlumno(new Alumno(), CREAR);
             boolean cont = tutorias.getAlumnosTutorizados().contains(al);
             if(!cont && al != null) {tutorias.getAlumnosTutorizados().add(al);}
         });
@@ -288,7 +288,7 @@ public class FXMLCalendarioController implements Initializable {
             asignaturasLV.getSelectionModel().clearSelection();
             Asignatura as = createAsignatura(new Asignatura(),CREAR);
             boolean cont = tutorias.getAsignaturas().contains(as);
-            if(!cont) {tutorias.getAsignaturas().add(as);}
+            if(!cont && as != null) {tutorias.getAsignaturas().add(as);}
         });
     }
     
@@ -700,7 +700,7 @@ public class FXMLCalendarioController implements Initializable {
         bindDescriptionTo(getModifiedTutoria());
     }
     
-    public static Alumno createAlumno(String sName, String sSurname, String sEmail, Image hs, int tipo) {
+    public static Alumno createAlumno(Alumno al, int tipo) {
         FXMLLoader loader = new FXMLLoader(FXMLCalendarioController.class.getResource("/view/FXMLAlumno.fxml"));
         Parent root = null;
         try {
@@ -714,12 +714,7 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
-        controller.setName(sName);
-        controller.setSurname(sSurname);
-        controller.setEmail(sEmail);
-        controller.setHeadshot(hs);
-        controller.setStage(ventana2);
-        controller.setType(tipo);
+        controller.setAlumno(al);
         ventana2.showAndWait();
 
         return createdAlumno;
@@ -743,7 +738,7 @@ public class FXMLCalendarioController implements Initializable {
         controller.setType(type);
         ventana2.showAndWait();
         
-        return asig;
+        return createdAsignatura;
     }
     
     public static void setTutoria(Tutoria tut) {
