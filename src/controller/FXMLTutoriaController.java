@@ -54,9 +54,9 @@ public class FXMLTutoriaController implements Initializable {
     private ObservableList<Alumno> datos = null;
     int lastFilteredAlumnosSize = 0;
         
-    ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
-    ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
-    FilteredList<String> filteredAlumnos;
+    private ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
+    private ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
+    private FilteredList<String> filteredAlumnos;
     
     @FXML
     private Button addButton;

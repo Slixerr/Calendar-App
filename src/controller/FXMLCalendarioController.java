@@ -279,13 +279,13 @@ public class FXMLCalendarioController implements Initializable {
             alumnosLV.getSelectionModel().clearSelection();
             Alumno al = createAlumno("","","",null, CREAR);
             boolean cont = tutorias.getAlumnosTutorizados().contains(al);
-            if(!cont) {tutorias.getAlumnosTutorizados().add(al);}
+            if(!cont && al != null) {tutorias.getAlumnosTutorizados().add(al);}
         });
         añadirAsignaturaButton.setOnAction(a -> {
             asignaturasLV.getSelectionModel().clearSelection();
             Asignatura as = createAsignatura("","",CREAR);
             boolean cont = tutorias.getAsignaturas().contains(as);
-            if(!cont) {tutorias.getAsignaturas().add(as);}
+            if(!cont && as != null) {tutorias.getAsignaturas().add(as);}
         });
     }
     
@@ -393,7 +393,8 @@ public class FXMLCalendarioController implements Initializable {
             l.setPadding(new Insets(0,0,0,8));
             LocalDateTime start = LocalDateTime.of(tutoria.getFecha(),tutoria.getInicio());
             LocalDateTime end = start.plus(tutoria.getDuracion());
-            l.setText(start.format(timeFormatter)+" - "+end.format(timeFormatter));
+            l.setText(start.format(timeFormatter)+" - "+end.format(timeFormatter)+
+                    "  "+tutoria.getAsignatura().getCodigo());
             l.setMouseTransparent(true);
             
             int col = (int)(Period.between(now.getStartOfWeek(), tutoria.getFecha()).getDays());
@@ -557,6 +558,7 @@ public class FXMLCalendarioController implements Initializable {
                             else  curr.setState(EMPTY);
                         }
                     }
+                    slotSelected.setText(result.getAsignatura().getCodigo()+"    "+slotSelected.getText());
                     slotSelected = new Label();
                     slotSelected.setPadding(new Insets(0,0,0,8));
                     slotSelected.setMouseTransparent(true);

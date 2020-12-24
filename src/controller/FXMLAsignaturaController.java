@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Asignatura;
 
 
@@ -29,6 +30,7 @@ public class FXMLAsignaturaController implements Initializable {
     @FXML
     private Label errorLabel;
     
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         asignatura = new Asignatura();
@@ -46,7 +48,6 @@ public class FXMLAsignaturaController implements Initializable {
             FXMLCalendarioController.setCreatedAsignatura(null);
             ((Stage) cancelButton.getScene().getWindow()).close();
         });
-        
     }    
 
     void setDescription(String description) {
@@ -67,5 +68,4 @@ public class FXMLAsignaturaController implements Initializable {
             title.setText("Añadir asignatura");
         }
     }
-    
 }

@@ -38,8 +38,8 @@ public class DayPickerCell extends DateCell {
             
             for (int i = 0; i < days.size(); i++) {
                 ObservableList<String> sc = cells.get(i).getStyleClass();
-                if (!sc.contains(CSS_WEEK_SELECTED) && weekHover != null && weekHover.contains(days.get(i)) && !weekBase.contains(item)) {
-                    sc.add(CSS_WEEK_SELECTED);
+                if (weekHover != null && weekHover.contains(days.get(i)) && !weekBase.contains(item)) {
+                    if(!sc.contains(CSS_WEEK_SELECTED)) sc.add(CSS_WEEK_SELECTED);
                 } else {
                     sc.remove(CSS_WEEK_SELECTED);
                 }
