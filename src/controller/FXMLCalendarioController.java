@@ -16,9 +16,13 @@ import static application.TimeSlot.TOP;
 import application.TransparentPickerSkin;
 import application.Week;
 import static controller.FXMLAlumnoController.CREAR;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -169,15 +173,21 @@ public class FXMLCalendarioController implements Initializable {
     @FXML
     private GridPane dayGrid;
     
+    private String fileName = "resources/festivos.txt";
     private List<LocalDate> festivos;
-    File festivosFile = new File(getClass().getResource("festivos.txt").getFile());
+    InputStream festivosFile/* = getClass().getResourceAsStream(fileName)*/;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         bundle = rb;
         dayPickerStatic = dayPicker;
         dayPicker.setSkin(new TransparentPickerSkin(dayPicker));
-        accessDatabase();
+        try {
+            accessDatabase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         generateTestParameters();
         addDayLabels();
         createSidebarListener();
@@ -199,15 +209,15 @@ public class FXMLCalendarioController implements Initializable {
         tutorias.getAsignaturas().add(new Asignatura("TAL","Teoria de automatas y lenguajes formales"));
     }
     
-    public void accessDatabase() {
+    public void accessDatabase() throws FileNotFoundException, IOException {
         tutorias = AccesoBD.getInstance().getTutorias();
-        try {
-            festivos = Files.lines(festivosFile.toPath())
-                    .map(c->LocalDate.parse(c))
-                    .collect(Collectors.toList());
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLCalendarioController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        festivosFile = getClass().getClassLoader().getResourceAsStream(fileName);
+        
+        festivos = new BufferedReader(new InputStreamReader(festivosFile))
+            .lines()
+            .map(c->LocalDate.parse(c, DateTimeFormatter.ofPattern("dd/MM/uuuu")))
+            .collect(Collectors.toList());
     }
     
     private void addDayLabels() {
