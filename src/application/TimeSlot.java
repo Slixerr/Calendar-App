@@ -2,6 +2,7 @@ package application;
 
 import static application.CalendarioIPC.SLOT_LENGTH;
 import controller.FXMLCalendarioController;
+import static controller.FXMLCalendarioController.FESTIVO_PSEUDO_CLASS;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -32,6 +33,7 @@ public class TimeSlot extends Position{
     private final IntegerProperty stateProperty = new SimpleIntegerProperty();//should be enum I think
     private final BooleanProperty selectedProperty = new SimpleBooleanProperty(); 
     private final ObjectProperty<Tutoria> tutoriaProperty = new SimpleObjectProperty<>();
+    private final BooleanProperty festivoProperty = new SimpleBooleanProperty(); 
     
     public final BooleanProperty selectedProperty() {
         return selectedProperty;
@@ -75,6 +77,7 @@ public class TimeSlot extends Position{
 
     public TimeSlot(LocalDateTime start, Position gridPos, List<Tutoria> tutorias) {
         super(gridPos.col, gridPos.row);
+        festivoProperty.setValue(false);
         this.start = start;
         view = new Pane();
         view.getStyleClass().add("time-slot");
@@ -92,6 +95,11 @@ public class TimeSlot extends Position{
             view.pseudoClassStateChanged(FXMLCalendarioController.MIDDLE_PSEUDO_CLASS, state.intValue() == MIDDLE);
             view.pseudoClassStateChanged(FXMLCalendarioController.BOTTOM_PSEUDO_CLASS, state.intValue() == BOTTOM);
         });
+        
+        festivoProperty.addListener((a,b,c) -> {
+            view.pseudoClassStateChanged(FESTIVO_PSEUDO_CLASS, c);
+        });
+        view.disableProperty().bind(festivoProperty);
         
         instatiateTutoriaProperty(tutorias);
     }
@@ -126,6 +134,10 @@ public class TimeSlot extends Position{
                 setState(BOTTOM);
             }
         }
+    }
+    
+    public void isFestivo(boolean festivo) {
+        festivoProperty.set(festivo);
     }
     
     public boolean inHour(TimeSlot t) {

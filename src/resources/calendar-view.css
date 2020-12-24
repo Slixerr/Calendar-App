@@ -38,6 +38,10 @@
     -fx-background-insets: 0, 0 3 3 3;
 }
 
+.time-slot:festivo {
+    -fx-background-color: #e0e0e0;
+}
+
 .root{
   -fx-primary: #2f3a4c;
   -fx-light: 	#385b94;

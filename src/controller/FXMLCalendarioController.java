@@ -117,6 +117,7 @@ public class FXMLCalendarioController implements Initializable {
     public static final PseudoClass TOP_PSEUDO_CLASS = PseudoClass.getPseudoClass("topStack");
     public static final PseudoClass MIDDLE_PSEUDO_CLASS = PseudoClass.getPseudoClass("middleStack");
     public static final PseudoClass BOTTOM_PSEUDO_CLASS = PseudoClass.getPseudoClass("bottomStack");
+    public static final PseudoClass FESTIVO_PSEUDO_CLASS = PseudoClass.getPseudoClass("festivo");
     
     private int pressedCol = 0;
     private TimeSlot lastHovered = null;
@@ -441,7 +442,8 @@ public class FXMLCalendarioController implements Initializable {
         TimeSlot timeSlot = new TimeSlot(startTime, gridPos, weekTutorias);
         if (startTime.getMinute()%30 == 0) timeSlot.isTopLine();
         registerHandlers(timeSlot);
-        timeSlot.getView().setDisable(festivos.contains(startTime.toLocalDate()));
+        boolean isFestivo = festivos.contains(startTime.toLocalDate());
+        timeSlot.isFestivo(isFestivo);
         return timeSlot;
     }
 
