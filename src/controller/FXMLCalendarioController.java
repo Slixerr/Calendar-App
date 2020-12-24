@@ -286,9 +286,9 @@ public class FXMLCalendarioController implements Initializable {
         });
         añadirAsignaturaButton.setOnAction(a -> {
             asignaturasLV.getSelectionModel().clearSelection();
-            Asignatura as = createAsignatura("","",CREAR);
+            Asignatura as = createAsignatura(new Asignatura(),CREAR);
             boolean cont = tutorias.getAsignaturas().contains(as);
-            if(!cont && as != null) {tutorias.getAsignaturas().add(as);}
+            if(!cont) {tutorias.getAsignaturas().add(as);}
         });
     }
     
@@ -405,8 +405,7 @@ public class FXMLCalendarioController implements Initializable {
             l.setPadding(new Insets(0,0,0,8));
             LocalDateTime start = LocalDateTime.of(tutoria.getFecha(),tutoria.getInicio());
             LocalDateTime end = start.plus(tutoria.getDuracion());
-            l.setText(start.format(timeFormatter)+" - "+end.format(timeFormatter)+
-                    "  "+tutoria.getAsignatura().getCodigo());
+            l.setText(tutoria.getAsignatura().getCodigo()+"    "+start.format(timeFormatter)+" - "+end.format(timeFormatter));
             l.setMouseTransparent(true);
             
             int col = (int)(Period.between(now.getStartOfWeek(), tutoria.getFecha()).getDays());
@@ -726,7 +725,7 @@ public class FXMLCalendarioController implements Initializable {
         return createdAlumno;
     }
     
-    public static Asignatura createAsignatura(String description, String code, int type) {
+    public static Asignatura createAsignatura(Asignatura asig, int type) {
         FXMLLoader loader = new FXMLLoader(FXMLCalendarioController.class.getResource("/view/FXMLAsignatura.fxml"));
         Parent root = null;
         try {
@@ -740,12 +739,11 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
-        controller.setDescription(description);
-        controller.setCode(code);
+        controller.setAsignatura(asig);
         controller.setType(type);
         ventana2.showAndWait();
         
-        return createdAsignatura;
+        return asig;
     }
     
     public static void setTutoria(Tutoria tut) {

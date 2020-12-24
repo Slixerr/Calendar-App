@@ -3,7 +3,6 @@ Implementation:
 
 Bug fixes:
     - (FXMLCalendarioController) When Alumnos are added, the image display goes nuts
-    - (FXMLCalendarioController) When scrolling up description doesnt close
     - Cambiar alumnos o asignaturas update references to tutoriaList
 
 Changes and polish:

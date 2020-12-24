@@ -107,12 +107,9 @@ public class AsignaturaCell extends ListCell<Asignatura> {
                         .otherwise(0));
         ObservableList<Asignatura> asignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
         editar.setOnAction((ActionEvent event) -> {
-            Asignatura asigCreada = createAsignatura(asignatura.getDescripcion(), asignatura.getCodigo(), MODIFICAR);
-            if(asigCreada != null) {
-                int pos = asignaturas.indexOf(asignatura);
-                asignaturas.remove(asignatura);
-                asignaturas.add(pos, asigCreada);
-            }
+            createAsignatura(asignatura, MODIFICAR);
+            name.setText(asignatura.getDescripcion());
+            code.setText(asignatura.getCodigo());
             this.getListView().getSelectionModel().clearSelection();
         });
         eliminar.setOnAction((ActionEvent event) -> {
