@@ -793,9 +793,11 @@ public class FXMLCalendarioController implements Initializable {
 
     @FXML
     private void previousWeekMethod(ActionEvent event) {
+        dayPicker.setValue(dayPicker.getValue().minusDays(7));
     }
 
     @FXML
     private void nextWeekMethod(ActionEvent event) {
+        dayPicker.setValue(dayPicker.getValue().plusDays(7));
     }
 }
