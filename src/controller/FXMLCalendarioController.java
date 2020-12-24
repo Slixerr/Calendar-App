@@ -6,6 +6,7 @@ import application.CalendarioIPC;
 import static application.CalendarioIPC.SLOTS_FIRST;
 import static application.CalendarioIPC.SLOTS_LAST;
 import static application.CalendarioIPC.SLOT_LENGTH;
+import application.DayPickerCell;
 import application.Position;
 import application.TimeSlot;
 import static application.TimeSlot.BOTTOM;
@@ -13,6 +14,8 @@ import static application.TimeSlot.EMPTY;
 import static application.TimeSlot.MIDDLE;
 import static application.TimeSlot.TOP;
 import application.Week;
+import com.sun.javafx.scene.control.skin.DatePickerContent;
+import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import static controller.FXMLAlumnoController.CREAR;
 import static controller.FXMLAlumnoController.MODIFICAR;
 import java.io.IOException;
@@ -62,6 +65,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -89,7 +93,10 @@ import referencias.modelo.Tutorias;
 public class FXMLCalendarioController implements Initializable {
 
     @FXML
-    private DatePicker dayPicker;
+    public DatePicker dayPicker;
+    public static DatePicker dayPickerStatic; // A more correct solution would be to not create this through fxml
+    public static List<DayPickerCell> cells = new ArrayList<DayPickerCell>();
+    public static List<LocalDate> days = new ArrayList<LocalDate>();
     @FXML
     private Label subjectLabel;
     @FXML
@@ -172,6 +179,7 @@ public class FXMLCalendarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        dayPickerStatic = dayPicker;
         accessDatabase();
         generateTestParameters();
         addDayLabels();
@@ -330,6 +338,13 @@ public class FXMLCalendarioController implements Initializable {
 
     private void createDayListener() {
         dayPicker.setValue(LocalDate.MIN);
+        dayPicker.setDayCellFactory(c -> new DayPickerCell());
+        dayPicker.setOnHidden(c->{
+            System.out.println("CLEAR--------------------------------------------------------");
+            cells = new ArrayList<>();
+            days = new ArrayList<>();
+        });
+        
         dayPicker.valueProperty().addListener((a, b, c) -> {
             resetPastParameters();
             
@@ -353,11 +368,9 @@ public class FXMLCalendarioController implements Initializable {
     }
 
     private void findTutorias(Week now) {
-        weekTutorias = tutorias.getTutoriasConcertadas().stream().filter((Tutoria tutoria) -> {
-            LocalDate fecha = tutoria.getFecha();
-            return now.getStartOfWeek().isBefore(fecha) && now.getEndOfWeek().isAfter(fecha) ||
-                    now.getStartOfWeek().isEqual(fecha) || now.getEndOfWeek().isEqual(fecha);
-        }).collect(Collectors.toList());
+        weekTutorias = tutorias.getTutoriasConcertadas().stream()
+                .filter((Tutoria tutoria) -> now.contains(tutoria.getFecha()))
+                .collect(Collectors.toList());
     }
 
     private void updateTimeTable(Week now) {

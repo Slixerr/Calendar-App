@@ -126,3 +126,11 @@
     -fx-background-color: -fx-light2;
     -fx-border-width: 0;
 }
+
+.week-day {
+    -fx-background-color: #0096c9;
+}
+
+.week-selected {
+    -fx-background-color: green;
+}

@@ -1,3 +1,9 @@
+WORKFLOW:
+- Select week with datePicker
+- Implement next day/week arrows
+- FXML for datePicker
+
+
 Implementation:
     + (FXMLAsignaturaController) Asignatura creation (FXML+Controller)
     + (FXMLCalendarioController) Buttons for adding asignatura and alumno

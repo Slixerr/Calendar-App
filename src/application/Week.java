@@ -28,4 +28,9 @@ public class Week {
         return endOfWeek;
     }
     
+    public boolean contains(LocalDate fecha) {
+        return this.getStartOfWeek().isBefore(fecha) && this.getEndOfWeek().isAfter(fecha) ||
+                    this.getStartOfWeek().isEqual(fecha) || this.getEndOfWeek().isEqual(fecha);
+    }
+    
 }
