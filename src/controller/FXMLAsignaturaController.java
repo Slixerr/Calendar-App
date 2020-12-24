@@ -26,6 +26,8 @@ public class FXMLAsignaturaController implements Initializable {
     private Asignatura asignatura;
     @FXML
     private Label title;
+    @FXML
+    private Label errorLabel;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -33,8 +35,12 @@ public class FXMLAsignaturaController implements Initializable {
         asignatura.codigoProperty().bind(codigoBox.textProperty());
         asignatura.descripcionProperty().bind(nombreBox.textProperty());
         createButton.setOnAction(a -> {
-            FXMLCalendarioController.setCreatedAsignatura(asignatura);
-            ((Stage) createButton.getScene().getWindow()).close();
+            if (codigoBox.getText().isEmpty() && nombreBox.getText().isEmpty()) {
+                errorLabel.setText("Por favor, rellene todos los campos");
+            } else {
+                FXMLCalendarioController.setCreatedAsignatura(asignatura);
+                ((Stage) createButton.getScene().getWindow()).close();
+            }
         });
         cancelButton.setOnAction(a -> {
             FXMLCalendarioController.setCreatedAsignatura(null);

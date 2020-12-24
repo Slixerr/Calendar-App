@@ -43,6 +43,8 @@ public class FXMLAlumnoController implements Initializable {
     private ImageView headshotView;
     @FXML
     private Label title;
+    @FXML
+    private Label errorLabel;
     
 
     @Override
@@ -61,8 +63,12 @@ public class FXMLAlumnoController implements Initializable {
                         .otherwise(alumno.headshotProperty()));
 
         createButton.setOnAction(a -> {
-            FXMLCalendarioController.setCreatedAlumno(alumno);
-            stage.close();
+            if (nameBox.getText().isEmpty() && surnameBox.getText().isEmpty() && mailBox.getText().isEmpty()) {
+                errorLabel.setText("Por favor, rellene todos los campos");
+            } else {
+                FXMLCalendarioController.setCreatedAlumno(alumno);
+                stage.close();
+            }
         });
         cancelButton.setOnAction(a -> {
             FXMLCalendarioController.setCreatedAlumno(null);

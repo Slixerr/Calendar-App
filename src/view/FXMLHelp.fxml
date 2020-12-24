@@ -88,7 +88,7 @@
           </TitledPane>
             <TitledPane animated="false" text="Manejo listado asignaturas">
                <content>
-                  <HBox>
+                  <HBox spacing="10.0">
                      <children>
                         <ImageView fitHeight="189.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
                            <image>

@@ -70,6 +70,15 @@
       </VBox>
       <HBox alignment="CENTER_RIGHT" spacing="15.0">
          <children>
+            <HBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="errorLabel" textFill="RED">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <Button fx:id="cancelButton" mnemonicParsing="false" styleClass="button-transparent" text="Cancelar">
                <font>
                   <Font size="15.0" />

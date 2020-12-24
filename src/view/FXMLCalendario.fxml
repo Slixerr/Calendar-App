@@ -76,11 +76,11 @@
                   </VBox>
                </items>
             </SplitPane>
-            <SplitPane fx:id="sidePane" maxWidth="300.0" minWidth="200.0" prefWidth="300.0" styleClass="side-panel" HBox.hgrow="ALWAYS">
+            <SplitPane fx:id="sidePane" maxWidth="320.0" minWidth="200.0" prefWidth="320.0" styleClass="side-panel" HBox.hgrow="ALWAYS">
                <items>
                   <StackPane styleClass="side-panel">
                      <children>
-                        <VBox fx:id="asignaturasBox" spacing="20.0">
+                        <VBox fx:id="asignaturasBox" disable="true" spacing="20.0" visible="false">
                            <children>
                               <HBox maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
                                  <children>
@@ -112,11 +112,11 @@
                               <ListView fx:id="asignaturasLV" accessibleRole="BUTTON" styleClass="side-list" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox fx:id="alumnosBox" disable="true" spacing="20.0" visible="false">
+                        <VBox fx:id="alumnosBox" spacing="20.0">
                            <children>
                               <HBox VBox.vgrow="NEVER">
                                  <children>
-                                    <Label text="Alumnos">
+                                    <Label text="Alumnos" textFill="WHITE">
                                        <font>
                                           <Font size="22.0" />
                                        </font>
@@ -125,16 +125,16 @@
                                        <children>
                                           <Button fx:id="añadirAlumnoButton" mnemonicParsing="false" styleClass="button-transparent">
                                              <graphic>
-                                                <OctIconView glyphName="PLUS" size="22" />
+                                                <OctIconView fill="WHITE" glyphName="PLUS" size="22" />
                                              </graphic></Button>
                                        </children>
                                     </VBox>
                                  </children>
                                  <VBox.margin>
-                                    <Insets left="5.0" right="10.0" top="10.0" />
+                                    <Insets top="10.0" />
                                  </VBox.margin>
                               </HBox>
-                              <ListView fx:id="alumnosLV" prefHeight="633.0" VBox.vgrow="ALWAYS">
+                              <ListView fx:id="alumnosLV" prefHeight="633.0" styleClass="side-list" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin></ListView>
