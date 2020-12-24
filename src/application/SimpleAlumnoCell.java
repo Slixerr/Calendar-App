@@ -1,27 +1,104 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package application;
 
+import static controller.FXMLAlumnoController.MODIFICAR;
+import static controller.FXMLCalendarioController.createAlumno;
+import static de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon.DELETE;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
 
-/**
- *
- * @author silvi
- */
 public class SimpleAlumnoCell extends ListCell<Alumno>{
+    private final HBox pane;
+    private final Label name;
+    private final Button eliminar;
+    private static final PseudoClass BUTTON_PSEUDO_CLASS = PseudoClass.getPseudoClass("button-popup");
+    
+    //private final ColumnConstraints buttonCol;
+    
+    public SimpleAlumnoCell() {
+        super();
+        eliminar = new Button();
+        MaterialDesignIconView icon = new MaterialDesignIconView(DELETE);
+        icon.setSize("15");
+        eliminar.setGraphic(icon);
+        eliminar.pseudoClassStateChanged(BUTTON_PSEUDO_CLASS, true);
+        
+        setOnMouseEntered((MouseEvent event) -> {
+            getListView().getSelectionModel().select(getItem());
+        });
 
+        eliminar.setDisable(false);
+        eliminar.setPadding(new Insets(1,2,1,2));
+        
+        HBox hb = new HBox();
+        hb.setAlignment(Pos.CENTER_RIGHT);
+        HBox.setHgrow(hb, Priority.ALWAYS);
+        hb.getChildren().add(eliminar);
+        
+        name = new Label();
+        pane = new HBox();
+        pane.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(pane, Priority.ALWAYS);
+        pane.setSpacing(5);
+        //buttonCol = new ColumnConstraints();
+        pane.getChildren().add(name);
+        pane.getChildren().add(hb);
+        //pane.getColumnConstraints().addAll(new  ColumnConstraints(), buttonCol);
+        
+        //pane.setHgap(5);
+        
+        setText(null);
+        setGraphic(pane);
+    }
+    
     @Override
     protected void updateItem(Alumno item, boolean empty) {
-        super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
-        if(empty || item == null) {
-            setText("");
+        super.updateItem(item, empty);
+        
+        if (!empty && item != null) {
+            name.setText(item.getNombre() + " " + item.getApellidos());
+            bindButtons(item);
+            
+            setGraphic(pane);
+        } else {
+            //eliminar.disableProperty().unbind();
+            //buttonCol.percentWidthProperty().unbind();
+            setGraphic(null);
         }
-        else {
-            setText(item.getNombre() + " " + item.getApellidos());
-        }
+    }
+
+    private void bindButtons(Alumno alumno) {
+        /*eliminar.disableProperty().bind(Bindings.not(this.selectedProperty()));
+        eliminar.visibleProperty().bind(this.selectedProperty());
+        buttonCol.maxWidthProperty().bind(
+                Bindings.when(this.selectedProperty())
+                        .then(USE_COMPUTED_SIZE)
+                        .otherwise(0));*/
+        
+        eliminar.setOnAction((ActionEvent event) -> {
+            this.getListView().getSelectionModel().clearSelection();
+            this.getListView().getItems().remove(alumno);
+        });
     }
 }

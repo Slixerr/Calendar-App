@@ -29,6 +29,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
@@ -89,6 +90,10 @@ public class FXMLModificationController implements Initializable {
         comboStudents.setItems(filteredAlumnos);
         filteredAlumnosListeners();
         comboStudentsListeners();
+        
+        listLV.setOnMouseExited((MouseEvent event) -> {
+            listLV.getSelectionModel().clearSelection();
+        });
     }
 
     private void comboStudentsListeners() {

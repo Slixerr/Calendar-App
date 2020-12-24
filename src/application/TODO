@@ -4,7 +4,7 @@ Implementation:
     + (FXMLModificationController) finish
     + (FXMLCalendarioController) Help button popup
     + (FXMLCalendarioController) Redo datePicker
-    - (FXMLTutoria+Modification+SimpleAlumnoCell) Remove alumnos from list
+    + (FXMLTutoria+Modification+SimpleAlumnoCell) Remove alumnos from list
     + (FXMLCalendarioController) Anulacion/confirmacion button
     + (FXMLCalendarioController) Modify existing alumno/tutoria
     + (Alumno&Asignatura&Tutoria) Implement equals/comparteTo

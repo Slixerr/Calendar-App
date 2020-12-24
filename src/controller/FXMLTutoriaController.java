@@ -39,6 +39,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import referencias.accesoBD.AccesoBD;
@@ -99,6 +100,10 @@ public class FXMLTutoriaController implements Initializable {
         comboStudents.setItems(filteredAlumnos);
         filteredAlumnosListeners();
         comboStudentsListeners();
+        
+        listLV.setOnMouseExited((MouseEvent event) -> {
+            listLV.getSelectionModel().clearSelection();
+        });
     }
 
     private void comboStudentsListeners() {
