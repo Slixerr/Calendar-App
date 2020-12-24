@@ -63,7 +63,7 @@ public class FXMLAlumnoController implements Initializable {
                         .otherwise(alumno.headshotProperty()));
 
         createButton.setOnAction(a -> {
-            if (nameBox.getText().isEmpty() && surnameBox.getText().isEmpty() && mailBox.getText().isEmpty()) {
+            if (nameBox.getText().isEmpty() || surnameBox.getText().isEmpty() || mailBox.getText().isEmpty()) {
                 errorLabel.setText("Por favor, rellene todos los campos");
             } else {
                 FXMLCalendarioController.setCreatedAlumno(alumno);

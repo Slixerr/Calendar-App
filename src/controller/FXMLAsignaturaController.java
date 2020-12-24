@@ -37,7 +37,7 @@ public class FXMLAsignaturaController implements Initializable {
         asignatura.codigoProperty().bind(codigoBox.textProperty());
         asignatura.descripcionProperty().bind(nombreBox.textProperty());
         createButton.setOnAction(a -> {
-            if (codigoBox.getText().isEmpty() && nombreBox.getText().isEmpty()) {
+            if (codigoBox.getText().isEmpty() || nombreBox.getText().isEmpty()) {
                 errorLabel.setText("Por favor, rellene todos los campos");
             } else {
                 FXMLCalendarioController.setCreatedAsignatura(asignatura);
