@@ -30,7 +30,6 @@ public class FXMLAsignaturaController implements Initializable {
     @FXML
     private Label errorLabel;
     
-    private int color;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,8 +48,6 @@ public class FXMLAsignaturaController implements Initializable {
             FXMLCalendarioController.setCreatedAsignatura(null);
             ((Stage) cancelButton.getScene().getWindow()).close();
         });
-        setColor();
-        
     }    
 
     void setDescription(String description) {
@@ -72,11 +69,6 @@ public class FXMLAsignaturaController implements Initializable {
         }
     }
     
-    void setColor() {
-        int nAs = AccesoBD.getInstance().getTutorias().getAsignaturas().size()+1;
-        int logVal = (int)(Math.floor(Math.log(nAs)/Math.log(2)));
-        color = (int) ((255/(Math.pow(2,logVal+1))) * ((nAs-Math.pow(2, logVal)+1)*2 - 1));
-        System.out.println(color);
-    }
+
     
 }
