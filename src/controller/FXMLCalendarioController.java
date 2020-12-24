@@ -200,14 +200,10 @@ public class FXMLCalendarioController implements Initializable {
     }
     
     private void generateTestParameters() {
-        Alumno daniel = new Alumno("Daniel", "Santamarina Puertas", "danielsantamarinapuertas@gmail.com");
-        tutorias.getAlumnosTutorizados().add(daniel);
-        daniel.setHeadShot(new Image(getClass().getResourceAsStream("/resources/daniel.jpg")));
-        Alumno silviu = new Alumno("Silviu Valentin", "Manolescu", "silviu1200@gmail.com");
-        //silviu.setHeadShot();
-        tutorias.getAlumnosTutorizados().add(silviu);
-        tutorias.getAsignaturas().add(new Asignatura("IPC","Interfaces persona computador"));
-        tutorias.getAsignaturas().add(new Asignatura("TAL","Teoria de automatas y lenguajes formales"));
+        Asignatura TFM = new Asignatura("TFM","Trabajo Final de Máster");
+        Asignatura TFG = new Asignatura("TFG","Trabajo Final de Grado");
+        if(!tutorias.getAsignaturas().contains(TFM)) tutorias.getAsignaturas().add(TFM);
+        if(!tutorias.getAsignaturas().contains(TFG)) tutorias.getAsignaturas().add(TFG);
     }
     
     public void accessDatabase() throws FileNotFoundException, IOException {

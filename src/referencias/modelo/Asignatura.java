@@ -65,4 +65,13 @@ public class Asignatura {
     public int getColor() {
         return color;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Asignatura)) return false;
+        Asignatura as = (Asignatura)obj;
+        return as.getCodigo().equals(this.getCodigo()) && as.getDescripcion().equals(this.getDescripcion());
+    }
+    
+    
 }

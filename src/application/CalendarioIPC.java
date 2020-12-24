@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import referencias.accesoBD.AccesoBD;
 
 /**
  *
@@ -57,6 +58,8 @@ public class CalendarioIPC extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        AccesoBD.getInstance().salvar();
+        System.out.println("This is the end, hold your breath and count to ten");
     }
     
 }
