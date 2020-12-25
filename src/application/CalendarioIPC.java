@@ -24,7 +24,8 @@ public class CalendarioIPC extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
-        Locale locale = new Locale("es", "ES");//Locale.getDefault();
+        //utilizo esta en lugar de Locale.getDefault(); ya que mi ordenador está en inglés
+        Locale locale = new Locale("es", "ES");
         ResourceBundle bundle = ResourceBundle.getBundle("resources.labelText",locale);
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLCalendario.fxml"), bundle);
         

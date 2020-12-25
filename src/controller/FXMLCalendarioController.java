@@ -121,7 +121,7 @@ public class FXMLCalendarioController implements Initializable {
     
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
 
-    private List<List<TimeSlot>> timeSlots = new ArrayList<>(); //Para varias columnas List<List<TimeSlot>>
+    private List<List<TimeSlot>> timeSlots = new ArrayList<>();
 
     private ObjectProperty<LocalDateTime[]> bookingTime;//refactor to class
 
@@ -167,7 +167,7 @@ public class FXMLCalendarioController implements Initializable {
     
     private String fileName = "resources/festivos.txt";
     private List<LocalDate> festivos;
-    InputStream festivosFile/* = getClass().getResourceAsStream(fileName)*/;
+    InputStream festivosFile;
     
 
     @Override
@@ -177,9 +177,7 @@ public class FXMLCalendarioController implements Initializable {
         dayPicker.setSkin(new TransparentPickerSkin(dayPicker));
         try {
             accessDatabase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {}
         generateTestParameters();
         addDayLabels();
         createSidebarListener();
@@ -299,7 +297,7 @@ public class FXMLCalendarioController implements Initializable {
         subjectLabel.textProperty().bind(tut.getAsignatura().codigoProperty());
         studentsLabel.textProperty().set(tut.getAlumnos().stream().map(Alumno::toString).collect(Collectors.joining("\n")));
         stateBox.setValue(tut.getEstado());
-        name = (a,b,c)->{tut.setEstado(c);System.out.println(c);};
+        name = (a,b,c)->{tut.setEstado(c);};
         stateBox.valueProperty().addListener(name);
     }
     private ChangeListener<EstadoTutoria> name;

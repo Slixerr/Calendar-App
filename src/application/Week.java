@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package application;
 
 import java.time.LocalDate;
 
-/**
- *
- * @author danie
- */
 public class Week {
     LocalDate startOfWeek;
     LocalDate endOfWeek;
@@ -32,5 +23,4 @@ public class Week {
         return this.getStartOfWeek().isBefore(fecha) && this.getEndOfWeek().isAfter(fecha) ||
                     this.getStartOfWeek().isEqual(fecha) || this.getEndOfWeek().isEqual(fecha);
     }
-    
 }

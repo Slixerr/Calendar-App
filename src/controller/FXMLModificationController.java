@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import application.SimpleAlumnoCell;
@@ -34,11 +29,6 @@ import referencias.modelo.Alumno;
 import referencias.modelo.Asignatura;
 import referencias.modelo.Tutoria;
 
-/**
- * FXML Controller class
- *
- * @author silvi
- */
 public class FXMLModificationController implements Initializable {
 
     @FXML
@@ -48,13 +38,10 @@ public class FXMLModificationController implements Initializable {
     
     @FXML
     private Label timeLabel;
-    
-    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
-    
+        
     int lastFilteredAlumnosSize = 0;
         
-    private ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
-    private ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
+    private final ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
     private FilteredList<String> filteredAlumnos;
     
     @FXML
@@ -150,9 +137,8 @@ public class FXMLModificationController implements Initializable {
                 if (alumno == null) {
                     return;
                 }
-                List<Alumno> alumnos2 = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
-                if (!alumnos2.contains(alumno)) {
-                    alumnos2.add(alumno);
+                if (!listaAlumnos.contains(alumno)) {
+                    listaAlumnos.add(alumno);
                 }
             }
 
@@ -215,6 +201,4 @@ public class FXMLModificationController implements Initializable {
         description.bind(boxDescription.textProperty());
         alumnos.setAll(tutoria.getAlumnos());
     }
-
-
 }

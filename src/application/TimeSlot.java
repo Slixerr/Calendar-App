@@ -25,7 +25,7 @@ public class TimeSlot extends Position{
     private final LocalDateTime start;
     protected final Pane view;
     private boolean selectedBlocked = false;
-    private final IntegerProperty stateProperty = new SimpleIntegerProperty();//should be enum I think
+    private final IntegerProperty stateProperty = new SimpleIntegerProperty();//should be enum
     private final BooleanProperty selectedProperty = new SimpleBooleanProperty(); 
     private final ObjectProperty<Tutoria> tutoriaProperty = new SimpleObjectProperty<>();
     private final BooleanProperty festivoProperty = new SimpleBooleanProperty(); 
@@ -108,6 +108,7 @@ public class TimeSlot extends Position{
         return "#" + (format(value.getRed()) + format(value.getGreen()) + format(value.getBlue()) + format(value.getOpacity()))
                 .toUpperCase();
     }
+    // hasta aquí
     
     public final void instatiateTutoriaProperty(List<Tutoria> tutorias) {
         tutoriaProperty.set(tutorias.stream().filter((Tutoria tutoria) -> {

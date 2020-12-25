@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import application.SimpleAlumnoCell;
@@ -49,13 +44,13 @@ public class FXMLTutoriaController implements Initializable {
     @FXML
     private Label timeLabel;
     
-    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
     
     private ObservableList<Alumno> datos = null;
     int lastFilteredAlumnosSize = -1;
         
-    private ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
-    private ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
+    private final ObservableList<Alumno> listaAlumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
+    private final ObservableList<Asignatura> listaAsignaturas = AccesoBD.getInstance().getTutorias().getAsignaturas();
     private FilteredList<String> filteredAlumnos;
     
     @FXML
@@ -148,9 +143,8 @@ public class FXMLTutoriaController implements Initializable {
                 if (alumno == null) {
                     return;
                 }
-                List<Alumno> alumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
-                if (!alumnos.contains(alumno)) {
-                    alumnos.add(alumno);
+                if (!listaAlumnos.contains(alumno)) {
+                    listaAlumnos.add(alumno);
                 }
             }
 

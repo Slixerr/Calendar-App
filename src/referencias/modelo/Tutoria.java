@@ -5,20 +5,13 @@
  */
 package referencias.modelo;
 
-import referencias.modelo.Alumno;
 import java.time.Duration;
-import modelo.util.LocalDateAdapter;
+import referencias.modelo.util.LocalDateAdapter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -28,9 +21,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import modelo.util.DurationAdapter;
-import modelo.util.LocalDateTimeAdapter;
-import modelo.util.LocalTimeAdapter;
+import referencias.modelo.util.DurationAdapter;
+import referencias.modelo.util.LocalTimeAdapter;
 
 /**
  *
@@ -77,20 +69,20 @@ public class Tutoria {
     
     private final ObjectProperty<EstadoTutoria> estado = new SimpleObjectProperty<>();
 
-    private ObjectProperty<LocalDate> fecha = new SimpleObjectProperty<>();
+    private final ObjectProperty<LocalDate> fecha = new SimpleObjectProperty<>();
     
-    private ObjectProperty<LocalTime> inicio = new SimpleObjectProperty<>();
+    private final ObjectProperty<LocalTime> inicio = new SimpleObjectProperty<>();
 
     private final ObjectProperty<Duration> duracion = new SimpleObjectProperty();
 
-    private StringProperty anotaciones = new SimpleStringProperty();
+    private final StringProperty anotaciones = new SimpleStringProperty();
 
-    private ObjectProperty<Asignatura> asignatura = new SimpleObjectProperty<>();
+    private final ObjectProperty<Asignatura> asignatura = new SimpleObjectProperty<>();
 
     private final ObservableList<Alumno> alumnos = FXCollections.observableArrayList();
     
     public static ObjectProperty<Tutoria> nullValue() {
-        ObjectProperty<Tutoria> res = new SimpleObjectProperty<Tutoria>();
+        ObjectProperty<Tutoria> res = new SimpleObjectProperty<>();
         res.set(null);
         return res;
     }
