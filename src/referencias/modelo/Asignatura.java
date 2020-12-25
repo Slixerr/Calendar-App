@@ -41,14 +41,18 @@ public class Asignatura {
     public StringProperty descripcionProperty() {
         return descripcion;
     }
-
-    public Asignatura() {
-        setColor();
+    
+    public Asignatura () {
     }
+
+    public Asignatura(boolean calculateCol) {
+        calculateCol();
+    }
+    
     public Asignatura(String cod, String desc) {
         this.codigo.set(cod);
         this.descripcion.set(desc);
-        setColor();
+        calculateCol();
     }
 
     @Override
@@ -56,10 +60,14 @@ public class Asignatura {
         return descripcion.get();
     }
 
-    void setColor() {
+    void calculateCol() {
         int nAs = AccesoBD.getInstance().getTutorias().getAsignaturas().size()+1;
         int logVal = (int)(Math.floor(Math.log(nAs)/Math.log(2)));
         color = (int) ((255/(Math.pow(2,logVal+1))) * ((nAs-Math.pow(2, logVal)+1)*2 - 1));
+    }
+    
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public int getColor() {

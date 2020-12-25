@@ -77,7 +77,7 @@ public class FXMLAlumnoController implements Initializable {
                 alumno.setNombre(nombre.getValue());
                 alumno.setApellidos(apellidos.getValue());
                 alumno.setEmail(email.getValue());
-                alumno.setHeadshot(uri.toString());
+                alumno.setHeadshot((uri==null) ? null:uri.toString());
                 ((Stage) createButton.getScene().getWindow()).close();
             }
         });

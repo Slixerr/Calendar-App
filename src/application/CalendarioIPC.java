@@ -59,7 +59,6 @@ public class CalendarioIPC extends Application {
     public static void main(String[] args) {
         launch(args);
         AccesoBD.getInstance().salvar();
-        System.out.println("This is the end, hold your breath and count to ten");
     }
     
 }

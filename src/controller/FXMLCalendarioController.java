@@ -201,8 +201,8 @@ public class FXMLCalendarioController implements Initializable {
     
     private void generateTestParameters() {
         Asignatura TFM = new Asignatura("TFM","Trabajo Final de Máster");
-        Asignatura TFG = new Asignatura("TFG","Trabajo Final de Grado");
         if(!tutorias.getAsignaturas().contains(TFM)) tutorias.getAsignaturas().add(TFM);
+        Asignatura TFG = new Asignatura("TFG","Trabajo Final de Grado");
         if(!tutorias.getAsignaturas().contains(TFG)) tutorias.getAsignaturas().add(TFG);
     }
     
@@ -290,7 +290,7 @@ public class FXMLCalendarioController implements Initializable {
         });
         añadirAsignaturaButton.setOnAction(a -> {
             asignaturasLV.getSelectionModel().clearSelection();
-            Asignatura as = createAsignatura(new Asignatura(),CREAR);
+            Asignatura as = createAsignatura(new Asignatura(true),CREAR);
             boolean cont = tutorias.getAsignaturas().contains(as);
             if(!cont && as != null) {tutorias.getAsignaturas().add(as);}
         });
@@ -308,13 +308,15 @@ public class FXMLCalendarioController implements Initializable {
         subjectLabel.textProperty().bind(tut.getAsignatura().codigoProperty());
         studentsLabel.textProperty().set(tut.getAlumnos().stream().map(Alumno::toString).collect(Collectors.joining("\n")));
         stateBox.setValue(tut.getEstado());
-        tut.estadoProperty().bind(stateBox.valueProperty());
+        name = (a,b,c)->{tut.setEstado(c);System.out.println(c);};
+        stateBox.valueProperty().addListener(name);
     }
+    private ChangeListener<EstadoTutoria> name;
     
-    private void unbindDescription(Tutoria tut) {
+    private void unbindDescription() {
         descriptionLabel.textProperty().unbind();
         subjectLabel.textProperty().unbind();
-        tut.estadoProperty().unbind();
+        stateBox.valueProperty().removeListener(name);
     }
     
     private void moveDescriptionBox(Bounds bounds) {
@@ -499,6 +501,7 @@ public class FXMLCalendarioController implements Initializable {
     }
 
     private void activateDescription(TimeSlot timeSlot) {
+        if(name != null) stateBox.valueProperty().removeListener(name);
         Tutoria tutoria = timeSlot.getTutoria();
         bindDescriptionTo(tutoria);
         Week now = new Week(dayPicker.getValue());
@@ -587,7 +590,7 @@ public class FXMLCalendarioController implements Initializable {
                 }
                 lastHovered = null;
             } else {
-                unbindDescription(timeSlot.getTutoria());
+                //unbindDescription(timeSlot.getTutoria());
                 descriptionShowing.set(true);
                 outOfScreen = false;
                 setModifiedTutoria(timeSlot.getTutoria());
@@ -700,7 +703,7 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.initModality(Modality.APPLICATION_MODAL);
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
-        unbindDescription(getModifiedTutoria());
+        unbindDescription();
         controller.startVariables(getModifiedTutoria());
         ventana2.showAndWait();
         bindDescriptionTo(getModifiedTutoria());

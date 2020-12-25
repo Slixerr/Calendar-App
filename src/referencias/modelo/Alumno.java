@@ -65,14 +65,16 @@ public class Alumno {
     }
     
     public String getHeadshot() {
-        return imageAt.toURI().toString();
+        return (imageAt==null) ? null:imageAt.toURI().toString();
     }
     
     public void setHeadshot(String uri) {
-        imageAt = new File(URI.create(uri));
-        try {
-            headshot.set(new Image(uri));
-        } catch (Exception ignore) {}
+        if(uri != null) {
+            imageAt = new File(URI.create(uri));
+            try {
+                headshot.set(new Image(uri));
+            } catch (Exception ignore) {}
+        }
     }
 
     public Image headshotImage() {
