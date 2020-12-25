@@ -7,7 +7,6 @@ import static controller.FXMLAlumnoController.CREAR;
 import java.net.URL;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
@@ -18,8 +17,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -91,7 +88,7 @@ public class FXMLTutoriaController implements Initializable {
             listLV.getSelectionModel().clearSelection();
         });
         comboStudents.getEditor().focusedProperty().addListener((a,b,c) -> {
-            if(c) comboStudents.show();
+            if(c && comboStudents.getValue() == null) comboStudents.show();
             
         });
     }

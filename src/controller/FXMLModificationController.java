@@ -3,8 +3,6 @@ package controller;
 import application.SimpleAlumnoCell;
 import static controller.FXMLAlumnoController.CREAR;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
@@ -26,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
-import referencias.modelo.Asignatura;
 import referencias.modelo.Tutoria;
 
 public class FXMLModificationController implements Initializable {
@@ -80,7 +77,7 @@ public class FXMLModificationController implements Initializable {
             listLV.getSelectionModel().clearSelection();
         });
         comboStudents.getEditor().focusedProperty().addListener((a,b,c) -> {
-            if(c) comboStudents.show();
+            if(c && comboStudents.getValue() == null) comboStudents.show();
             
         });
     }
