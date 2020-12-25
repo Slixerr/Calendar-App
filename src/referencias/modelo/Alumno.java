@@ -5,11 +5,19 @@
  */
 package referencias.modelo;
 
+import java.io.File;
+import java.net.URI;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -20,7 +28,13 @@ public class Alumno {
     private final StringProperty nombre = new SimpleStringProperty();
     private final StringProperty apellidos = new SimpleStringProperty();
     private final StringProperty email = new SimpleStringProperty();
-    private final ObjectProperty<Image> headshot = new SimpleObjectProperty<>();
+    
+    private File imageAt;
+    private final ObjectProperty<Image> headshot;
+    
+    public void setfileOfHS(File file) {
+        imageAt = file;
+    }
 
     public String getNombre() {
         return nombre.get();
@@ -49,12 +63,23 @@ public class Alumno {
     public ObjectProperty headshotProperty() {
         return headshot;
     }
+    
+    public String getHeadshot() {
+        return imageAt.toURI().toString();
+    }
+    
+    public void setHeadshot(String uri) {
+        imageAt = new File(URI.create(uri));
+        try {
+            headshot.set(new Image(uri));
+        } catch (Exception ignore) {}
+    }
 
-    public Image getHeadShot() {
+    public Image headshotImage() {
         return headshot.get();
     }
 
-    public void setHeadShot(Image img) {
+    public void headshotImageTo(Image img) {
         headshot.set(img);
     }
 
@@ -71,9 +96,11 @@ public class Alumno {
     }
 
     public Alumno() {
+        headshot = new SimpleObjectProperty<>();
     }
     
     public Alumno(String nom, String apell, String email) {
+        headshot = new SimpleObjectProperty<>();
         this.nombre.set(nom);
         this.apellidos.set(apell);
         this.email.set(email);

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -17,9 +18,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import referencias.modelo.Alumno;
 
-
+@XmlTransient
 public class FXMLAlumnoController implements Initializable {
     
     public static final int CREAR = 0, MODIFICAR = 1;
@@ -51,7 +54,7 @@ public class FXMLAlumnoController implements Initializable {
     private final StringProperty apellidos = new SimpleStringProperty();
     private final StringProperty email = new SimpleStringProperty();
     private final ObjectProperty<Image> headshot = new SimpleObjectProperty<>();
-    
+    private URI uri;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,7 +77,7 @@ public class FXMLAlumnoController implements Initializable {
                 alumno.setNombre(nombre.getValue());
                 alumno.setApellidos(apellidos.getValue());
                 alumno.setEmail(email.getValue());
-                alumno.setHeadShot(headshot.getValue());
+                alumno.setHeadshot(uri.toString());
                 ((Stage) createButton.getScene().getWindow()).close();
             }
         });
@@ -92,6 +95,7 @@ public class FXMLAlumnoController implements Initializable {
             File file = fc.showOpenDialog(stage);
             if (file != null) {
                 try {
+                    uri = file.toURI();
                     headshot.set(new Image(file.toURI().toString()));
                 } catch (Exception ignore) {}
             }
@@ -113,7 +117,7 @@ public class FXMLAlumnoController implements Initializable {
         nameBox.setText(al.getNombre());
         surnameBox.setText(al.getApellidos());
         mailBox.setText(al.getEmail());
-        headshot.set(al.getHeadShot());
+        headshot.set(al.headshotImage());
         alumno = al;
     }
 }

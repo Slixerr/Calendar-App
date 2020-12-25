@@ -88,7 +88,7 @@ public class AlumnoCell extends ListCell<Alumno>{
         super.updateItem(item, empty);
         
         if (!empty && item != null) {
-            Image img = (item.getHeadShot() != null) ? item.getHeadShot():defaultHS;
+            Image img = (item.headshotImage() != null) ? item.headshotImage():defaultHS;
             headshot.setImage(img);
             name.setText(item.getNombre() + " " + item.getApellidos());
             mail.setText(item.getEmail());
@@ -118,7 +118,7 @@ public class AlumnoCell extends ListCell<Alumno>{
         editar.setOnAction((ActionEvent event) -> {
             createAlumno(alumno, MODIFICAR);
             
-            Image img = (alumno.getHeadShot() != null) ? alumno.getHeadShot():defaultHS;
+            Image img = (alumno.headshotImage() != null) ? alumno.headshotImage():defaultHS;
             headshot.setImage(img);
             name.setText(alumno.getNombre() + " " + alumno.getApellidos());
             mail.setText(alumno.getEmail());
