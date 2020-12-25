@@ -32,6 +32,7 @@ public class CalendarioIPC extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        stage.setTitle("Tutorias");
         stage.setMinHeight(700);
         stage.setMinWidth(900);
         stage.show();
