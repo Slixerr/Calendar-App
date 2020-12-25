@@ -21,8 +21,6 @@ public class SimpleAlumnoCell extends ListCell<Alumno>{
     private final Button eliminar;
     private static final PseudoClass BUTTON_PSEUDO_CLASS = PseudoClass.getPseudoClass("button-popup");
     
-    //private final ColumnConstraints buttonCol;
-    
     public SimpleAlumnoCell() {
         super();
         eliminar = new Button();
@@ -49,12 +47,8 @@ public class SimpleAlumnoCell extends ListCell<Alumno>{
         pane.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(pane, Priority.ALWAYS);
         pane.setSpacing(5);
-        //buttonCol = new ColumnConstraints();
         pane.getChildren().add(name);
         pane.getChildren().add(hb);
-        //pane.getColumnConstraints().addAll(new  ColumnConstraints(), buttonCol);
-        
-        //pane.setHgap(5);
         
         setText(null);
         setGraphic(pane);
@@ -70,20 +64,11 @@ public class SimpleAlumnoCell extends ListCell<Alumno>{
             
             setGraphic(pane);
         } else {
-            //eliminar.disableProperty().unbind();
-            //buttonCol.percentWidthProperty().unbind();
             setGraphic(null);
         }
     }
 
     private void bindButtons(Alumno alumno) {
-        /*eliminar.disableProperty().bind(Bindings.not(this.selectedProperty()));
-        eliminar.visibleProperty().bind(this.selectedProperty());
-        buttonCol.maxWidthProperty().bind(
-                Bindings.when(this.selectedProperty())
-                        .then(USE_COMPUTED_SIZE)
-                        .otherwise(0));*/
-        
         eliminar.setOnAction((ActionEvent event) -> {
             this.getListView().getSelectionModel().clearSelection();
             this.getListView().getItems().remove(alumno);

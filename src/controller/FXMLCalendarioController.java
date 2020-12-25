@@ -17,17 +17,11 @@ import application.TransparentPickerSkin;
 import application.Week;
 import static controller.FXMLAlumnoController.CREAR;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,8 +30,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -65,7 +57,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -613,7 +604,7 @@ public class FXMLCalendarioController implements Initializable {
     
     With the 1hour restriction on tutorías this method is pretty much obsolete,
     as it is practically impossible for someone to make a jump without hitting
-    the borders. It took me 4 hours to code and debug this :(
+    the borders.
     
     Regardless, I hold confort in the notion that if the time limit of 1 hour
     were to be extended or removed, this method would be of use to the program.

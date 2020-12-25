@@ -1,21 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package application;
 
 import controller.FXMLCalendarioController;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,10 +12,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import referencias.accesoBD.AccesoBD;
 
-/**
- *
- * @author silvi
- */
 public class CalendarioIPC extends Application {
 
     public static final LocalTime SLOTS_LAST = LocalTime.of(19, 50);

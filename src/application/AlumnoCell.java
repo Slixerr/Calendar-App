@@ -77,7 +77,6 @@ public class AlumnoCell extends ListCell<Alumno>{
         pane.getColumnConstraints().addAll(new  ColumnConstraints(), buttonCol);
         
         pane.setHgap(5);
-        //pane.setGridLinesVisible(true);
         
         setText(null);
         setGraphic(pane);

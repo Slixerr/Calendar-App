@@ -5,14 +5,9 @@ import static controller.FXMLCalendarioController.cells;
 import static controller.FXMLCalendarioController.days;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.collections.ObservableList;
-import javafx.css.PseudoClass;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
 import javafx.scene.input.MouseEvent;
 
 public class DayPickerCell extends DateCell {
