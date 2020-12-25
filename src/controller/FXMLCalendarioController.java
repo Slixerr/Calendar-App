@@ -713,6 +713,7 @@ public class FXMLCalendarioController implements Initializable {
         ventana2.initStyle(StageStyle.UNDECORATED);
         ventana2.setScene(currScene);
         controller.setAlumno(al);
+        controller.setType(tipo);
         ventana2.showAndWait();
 
         return createdAlumno;

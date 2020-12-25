@@ -109,11 +109,12 @@ public class AlumnoCell extends ListCell<Alumno>{
         eliminar.visibleProperty().bind(this.selectedProperty());
         editar.disableProperty().bind(Bindings.not(this.selectedProperty()));
         editar.visibleProperty().bind(this.selectedProperty());
+        
         buttonCol.maxWidthProperty().bind(
                 Bindings.when(this.selectedProperty())
                         .then(USE_COMPUTED_SIZE)
                         .otherwise(0));
-        ObservableList<Alumno> alumnos = AccesoBD.getInstance().getTutorias().getAlumnosTutorizados();
+        
         editar.setOnAction((ActionEvent event) -> {
             createAlumno(alumno, MODIFICAR);
             
@@ -123,6 +124,7 @@ public class AlumnoCell extends ListCell<Alumno>{
             mail.setText(alumno.getEmail());
             this.getListView().getSelectionModel().clearSelection();
         });
+        
         eliminar.setOnAction((ActionEvent event) -> {
             AccesoBD.getInstance().getTutorias().getAlumnosTutorizados().remove(alumno);
             this.getListView().getSelectionModel().clearSelection();

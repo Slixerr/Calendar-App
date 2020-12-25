@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Asignatura;
 
 
@@ -44,6 +45,8 @@ public class FXMLAsignaturaController implements Initializable {
             if (codigoBox.getText().isEmpty() || nombreBox.getText().isEmpty()) {
                 errorLabel.setText("Por favor, rellene todos los campos");
             } else {
+                AccesoBD.getInstance().getTutorias().fixReferenceTo(asignatura);
+                
                 FXMLCalendarioController.setCreatedAsignatura(asignatura);
                 asignatura.setCodigo(codigo.getValue());
                 asignatura.setDescripcion(descripcion.getValue());

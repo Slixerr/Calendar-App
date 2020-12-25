@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,7 +30,6 @@ import referencias.modelo.util.LocalTimeAdapter;
  * @author DSIC_jsoler
  */
 public class Tutoria {
-
     @XmlType(name = "EstadoTutoria")
     @XmlEnum
     public static enum EstadoTutoria {
@@ -170,4 +170,13 @@ public class Tutoria {
     public Tutoria() {
     }
     
+    public void replace(Alumno al) {
+        for(int i = 0; i < alumnos.size();i++) {
+            if (alumnos.get(i).equals(al)) {
+                alumnos.remove(i);
+                alumnos.add(i, al);
+                return;
+            }
+        }
+    }
 }

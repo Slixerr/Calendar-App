@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.xml.bind.annotation.XmlTransient;
+import referencias.accesoBD.AccesoBD;
 import referencias.modelo.Alumno;
 
 @XmlTransient
@@ -72,6 +73,8 @@ public class FXMLAlumnoController implements Initializable {
             if (nameBox.getText().isEmpty() || surnameBox.getText().isEmpty() || mailBox.getText().isEmpty()) {
                 errorLabel.setText("Por favor, rellene todos los campos");
             } else {
+                AccesoBD.getInstance().getTutorias().fixReferenceTo(alumno);
+                
                 FXMLCalendarioController.setCreatedAlumno(alumno);
                 alumno.setNombre(nombre.getValue());
                 alumno.setApellidos(apellidos.getValue());

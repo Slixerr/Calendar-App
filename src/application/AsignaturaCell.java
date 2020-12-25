@@ -114,6 +114,7 @@ public class AsignaturaCell extends ListCell<Asignatura> {
         });
         eliminar.setOnAction((ActionEvent event) -> {
             asignaturas.remove(asignatura);
+            AccesoBD.getInstance().getTutorias().fixInstancesOf(asignatura);
             this.getListView().getSelectionModel().clearSelection();
         });
     }

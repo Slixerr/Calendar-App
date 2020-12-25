@@ -39,5 +39,21 @@ public class Tutorias {
 
     public Tutorias() {
     }
+
+    public void fixReferenceTo(Alumno alumno) {
+        tutoriasConcertadas.stream()
+                .filter(tut -> tut.getAlumnos().contains(alumno))
+                .forEach(tut -> tut.replace(alumno));
+    }
+
+    public void fixReferenceTo(Asignatura asignatura) {
+        tutoriasConcertadas.stream()
+                .filter(tut -> tut.getAsignatura().equals(asignatura))
+                .forEach(tut -> tut.setAsignatura(asignatura));
+    }
+
+    public void fixInstancesOf(Asignatura asignatura) {
+        tutoriasConcertadas.removeIf(tut->tut.getAsignatura().equals(asignatura));
+    }
     
 }
