@@ -70,7 +70,8 @@ public class FXMLAlumnoController implements Initializable {
                         .otherwise(headshot));
 
         createButton.setOnAction(a -> {
-            if (nameBox.getText().isEmpty() || surnameBox.getText().isEmpty() || mailBox.getText().isEmpty()) {
+            if (nameBox.getText() == null || surnameBox.getText() == null || mailBox.getText() == null ||
+                    nameBox.getText().isEmpty() || surnameBox.getText().isEmpty() || mailBox.getText().isEmpty()) {
                 errorLabel.setText("Por favor, rellene todos los campos");
             } else {
                 AccesoBD.getInstance().getTutorias().fixReferenceTo(alumno);

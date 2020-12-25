@@ -42,7 +42,8 @@ public class FXMLAsignaturaController implements Initializable {
         descripcion.bind(nombreBox.textProperty());
         
         createButton.setOnAction(a -> {
-            if (codigoBox.getText().isEmpty() || nombreBox.getText().isEmpty()) {
+            if (codigoBox.getText() == null || nombreBox.getText() == null ||
+                    codigoBox.getText().isEmpty() || nombreBox.getText().isEmpty()) {
                 errorLabel.setText("Por favor, rellene todos los campos");
             } else {
                 AccesoBD.getInstance().getTutorias().fixReferenceTo(asignatura);
